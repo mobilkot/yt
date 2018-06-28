@@ -1,0 +1,26 @@
+{"releases": [
+{
+"status": "Accepted", 
+"thumb": "https://img.discogs.com/YhbKrHbbpr7lxUnpJwQxPih3AiQ=/fit-in/150x150/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-2753834-1299514208.jpeg.jpg", 
+"format": "CDr, Promo", 
+"title": "Untitled", 
+"label": "Domino", 
+"role": "Main", 
+"year": 2004, 
+"resource_url": "https://api.discogs.com/releases/2753834", 
+"artist": "Arctic Monkeys", 
+"type": "release", 
+"id": 2753834}, 
+{
+"status": "Accepted", 
+"thumb": "/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-3668472-1339600626-2015.jpeg.jpg", 
+"format": "DVDr", 
+"title": "Untitled Session", 
+"label": "Domino", "role": 
+"Main", "year": 2004, 
+"resource_url": "https://api.discogs.com/releases/3668472", 
+"artist": "Arctic Monkeys", 
+"type": "release", 
+"id": 3668472},
+
+]}
