@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Title</title>
+    <meta charset="windows-1251">
+
+
+</head>
+<body>
+<link rel="stylesheet" href="base.css"/>
+
+
+<div class="search_alt">
+    <label for="regions_call">Custom templates</label>
+    <div class="b-region-search__formwrap">
+        <select class="form-control" name="choices-single-custom-templates" id="regions_call" placeholder="This is a placeholder">
+            <optgroup label="Национальный роуминг" id="Национальный роуминг">
+                <option value="Крым" disabled>Крым и Севастополь</option>
+            </optgroup>
+        </select>
+
+    </div>
+    <div class="b-region-search__suggest-list-wrap"><span class="b-region-search__sample-key">Например:</span>
+        <ul class="b-region-search__suggest-list">
+            <li class="b-region-search__suggest-item"><a style="text-decoration: none;" class="b-region-search__suggest-link" onclick="example_region('Магадан')">Магадан</a></li>
+            <li class="b-region-search__suggest-item"><a style="text-decoration: none;" class="b-region-search__suggest-link" onclick="example_region('Спб')">Санкт-Петербург</a></li>
+            <li class="b-region-search__suggest-item"><a style="text-decoration: none;" class="b-region-search__suggest-link" onclick="example_region('Самара')">Самарская область</a></li>
+        </ul>
+    </div>
+
+
+    <div class="b-region-operators-table i-bem">
+        <ul id="regionTable" class="b-region-info" style="font-size: 14px;">
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="d-table">
+
+    <div class="d-tr">
+        <div class="d-td no-p">
+            <div class="d-table">
+                <div class="d-tr">
+                    <div class="d-td">
+                            <textarea readonly class="b_summary_tarif_text" id="b_tafir_summary_input" placeholder="Пока ничего не выбрано :( "></textarea>
+                    </div>
+                </div>
+                <div class="d-tr">
+                    <div class="d-td">
+                        <textarea readonly class="b_summary_tarif_text" id="b_tafir_summary_input1" placeholder="  "></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-td no-p" style="visibility:hidden">
+
+            <div class="divTableCell" >
+                <tr> <td nowrap><input id="app-all" class="input_app-all" type="checkbox" name="select_apps_all" value="0" onchange="checkApps(this)">  <label for="app-all" class="layout-buttons">Все БМП		</label>   </td></tr>
+                <tr> <td><input id="app-vk" class="input_app-vk" type="checkbox" name="select_apps" value="1" onchange="checkApps(this)">  <label for="app-vk" class="layout-buttons">VK			</label>   </td></tr>
+                <tr> <td><input id="app-ok" class="input_app-ok" type="checkbox" name="select_apps" value="2" onchange="checkApps(this)">  <label for="app-ok" class="layout-buttons">OK			</label>   </td></tr>
+                <tr> <td><input id="app-fb" class="input_app-fb" type="checkbox" name="select_apps" value="3" onchange="checkApps(this)">  <label for="app-fb" class="layout-buttons">Facebook		</label>   </td></tr>
+                <tr> <td><input id="app-ig" class="input_app-ig" type="checkbox" name="select_apps" value="4" onchange="checkApps(this)">  <label for="app-ig" class="layout-buttons">Instagram		</label>   </td></tr>
+                <tr> <td><input id="app-tw" class="input_app-tw" type="checkbox" name="select_apps" value="5" onchange="checkApps(this)">  <label for="app-tw" class="layout-buttons">Twitter		</label>   </td></tr>
+                <tr> <td><input id="app-sk" class="input_app-sk" type="checkbox" name="select_apps" value="6" onchange="checkApps(this)">  <label for="app-sk" class="layout-buttons">Skype			</label>   </td></tr>
+                <tr> <td><input id="app-vi" class="input_app-vi" type="checkbox" name="select_apps" value="7" onchange="checkApps(this)">  <label for="app-vi" class="layout-buttons">Viber			</label>   </td></tr>
+                <tr> <td><input id="app-wh" class="input_app-wh" type="checkbox" name="select_apps" value="8" onchange="checkApps(this)">  <label for="app-wh" class="layout-buttons">Whatsapp		</label>   </td></tr>
+                <tr> <td><input id="app-yt" class="input_app-yt" type="checkbox" name="select_apps" value="9" onchange="checkApps(this)">  <label for="app-yt" class="layout-buttons">Youtube		</label>   </td></tr>
+            </div>
+            <div  id="tminute0" class="divTableCell"  >
+            </div>
+            <div id="tgbite0" class="divTableCell" >
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<fieldset class="switch">
+    <input type="radio" checked name="switch-1" id="switch-radio-off-1" class="switch-radio switch-radio-off">
+    <label for="switch-radio-off-1" class="switch-label switch-label-off">
+        Выкл.
+        <span class="switch-slider"></span>
+    </label>
+    <input type="radio" name="switch-1" id="switch-radio-on-1" class="switch-radio switch-radio-on">
+    <label for="switch-radio-on-1" class="switch-label switch-label-on">
+        Вкл.
+        <span class="switch-slider"></span>
+    </label>
+</fieldset>
+<fieldset class="switch">
+    <input type="radio" name="switch-2" id="switch-radio-off-2" class="switch-radio switch-radio-off">
+    <label for="switch-radio-off-2" class="switch-label switch-label-off">
+        Выкл.
+        <span class="switch-slider"></span>
+    </label>
+    <input type="radio" checked name="switch-2" id="switch-radio-on-2" class="switch-radio switch-radio-on">
+    <label for="switch-radio-on-2" class="switch-label switch-label-on">
+        Вкл.
+        <span class="switch-slider"></span>
+    </label>
+</fieldset>
+
+
+
+
+<div onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"
+     style="background-color:#D94A38;width:90px;height:20px;padding:40px;">
+    Click Me</div>
+
+
+<script type="text/javascript" src="base1.js"></script>
+<script type="text/javascript" src="searchbox.js"></script>
+</body>
+</html>
