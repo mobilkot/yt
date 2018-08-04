@@ -93,6 +93,7 @@
       "screenname": "[Ph] Безлим",
       "status": "closed",
       "dateclose": "17.01.2017",
+      "enabled": true,
       "data": [
         { "id": 2042925 , "info": "", "type": "UNLIM", "mins":[[100,240],[400,390],[600,580],[900,770],[2000,1050]]},
         { "id": 2042931 , "info": "", "type": "UNLIM", "mins":[[300,360],[400,390],[500,450],[900,770],[1200,950]]},
@@ -186,8 +187,9 @@
     {
       "name": "plaphone",
       "screenname": "[Ph] Plaphone",
-      "dateclose": "17.01.2017",
+      "dateclose": "-",
       "status": "open",
+      "enabled": true,
       "data": [
         { "id": 2042925, "type": "PLAPHONE", "mins": [["0", "0"],["100", "50"],["200", "70"],["300", "100"],["400", "130"],["500", "160"],["700", "230"],["1000", "330"],["2000", "450"]], "gbites": [["2", "150"],["7", "180"],["15", "200"],["30", "350"]] , "social": "20", "messenger": "10", "youtube": "75","start_date":"12.07.18","active":"true"},
         { "id": 2042931, "type": "PLAPHONE", "mins": [["0", "0"],["100", "50"],["200", "70"],["300", "90"],["400", "110"],["500", "130"],["700", "170"],["1000", "220"],["2000", "320"]], "gbites": [["2", "250"],["7", "275"],["15", "325"],["30", "400"]] , "social": "20", "messenger": "10", "youtube": "75","start_date":"12.07.18","active":"true"},
@@ -271,6 +273,37 @@
         { "id": 2048417, "type": "PLAPHONE", "mins": [["0", "0"],["200", "50"],["300", "75"],["400", "100"],["500", "125"],["800", "200"],["1000", "250"],["2000", "350"]], "gbites": [["1", "180"],["5", "200"],["15", "250"],["30", "300"]] , "social": "20", "messenger": "10", "youtube": "60","start_date":"12.07.18","active":"true"}
 
       ]
+    },
+    {
+      "name": "tabt",
+      "screenname": "[T] Tab-T",
+      "dateclose": "-",
+      "status": "open",
+      "enabled": false, 
+    },
+     {
+      "name": "tunlim",
+      "screenname": "[T] Безлимитные",
+      "dateclose": "-",
+      "status": "open",
+      "enabled": false,
+      
+    },
+     {
+      "name": "roaming",
+      "screenname": "[R] Роуминг",
+      "dateclose": "-",
+      "status": "open",
+      "enabled": false,
+      
+    },
+     {
+      "name": "outvoice",
+      "screenname": "[МН] Международные вызовы",
+      "dateclose": "-",
+      "status": "open",
+      "enabled": false,
+      
     }
   ]
 }
