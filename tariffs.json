@@ -93,7 +93,7 @@
       "screenname": "[Ph] Безлим",
       "status": "closed",
       "dateclose": "17.01.2017",
-      "disabled": false,
+      "disabled": true,
       "data": [
         { "id": 2042925 , "info": "", "type": "UNLIM", "mins":[[100,240],[400,390],[600,580],[900,770],[2000,1050]]},
         { "id": 2042931 , "info": "", "type": "UNLIM", "mins":[[300,360],[400,390],[500,450],[900,770],[1200,950]]},
