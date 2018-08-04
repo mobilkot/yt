@@ -283,7 +283,7 @@
     },
      {
       "name": "tunlim",
-      "screenname": "[T] Безлимитные",
+      "screenname": "[T] Безлим",
       "dateclose": "-",
       "status": "open",
      "disabled": true
@@ -299,7 +299,7 @@
     },
      {
       "name": "outvoice",
-      "screenname": "[МН] Международные вызовы",
+      "screenname": "[МН] связь",
       "dateclose": "-",
       "status": "open",
       "disabled": true
