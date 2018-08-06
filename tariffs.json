@@ -280,9 +280,7 @@
       "dateclose": "-",
       "status": "open",
       "disabled": false,
-       "data": [
-         { "id": 3048297, "type": "TAB-T", "mins": [["0", "0"],["500", "250"]], "gbites": [["7", "550"],["15", "600"],["30", "650"]] , "social": "20", "messenger": "10", "youtube": "60","start_date":"30.07.18","active":"true"},
-       { "id": 2048093, "type": "TAB-T", "mins": [["0", "0"],["500", "250"]], "gbites": [["7", "400"],["15", "450"],["30", "590"]] , "social": "20", "messenger": "10", "youtube": "60","start_date":"30.07.18","active":"true"},
+       "data": [ 
 { "id": 2048297, "type": "TAB-T", "mins": [["0", "0"],["500", "250"]], "gbites": [["7", "350"],["15", "400"],["30", "500"]] , "social": "20", "messenger": "10", "youtube": "60","start_date":"30.07.18","active":"true"},
 { "id": 2048417, "type": "TAB-T", "mins": [["0", "0"],["500", "150"]], "gbites": [["7", "250"],["15", "300"],["30", "400"]] , "social": "20", "messenger": "10", "youtube": "60","start_date":"30.07.18","active":"true"},
 { "id": 2042973, "type": "TAB-T", "mins": [["0", "0"],["500", "150"]], "gbites": [["7", "300"],["15", "350"],["30", "400"]] , "social": "20", "messenger": "10", "youtube": "60","start_date":"30.07.18","active":"true"},
