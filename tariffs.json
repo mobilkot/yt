@@ -369,9 +369,9 @@
       "screenname": "[T] Безлим",
       "dateclose": "-",
       "status": "open",
-     "disabled": true
-      "data":
-       [{"id": 2042925, "type": "UNLIM", "tariffs": [ {"sreenname": "Текущие", "name": "current", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "open", "mins": [["100", "240"],["400", "390"],["600", "580"],["900", "770"],["2000", "1050"]] } ] },
+     "disabled": true,
+      "data": [
+    {"id": 2042925, "type": "UNLIM", "tariffs": [ {"sreenname": "Текущие", "name": "current", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "open", "mins": [["100", "240"],["400", "390"],["600", "580"],["900", "770"],["2000", "1050"]] } ] },
 {"id": 2042931, "type": "UNLIM", "tariffs": [ {"sreenname": "Текущие", "name": "current", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "open", "mins": [["300", "360"],["400", "390"],["500", "450"],["900", "770"],["1200", "950"]] } ,{"sreenname": "Архивные", "name": "archived", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "archived", "mins": [["100", "240"],["200", "340"]] } ] },
 {"id": 2042937, "type": "UNLIM", "tariffs": [ {"sreenname": "Текущие", "name": "current", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "open", "mins": [["250", "320"],["400", "440"],["600", "580"],["1000", "770"],["1500", "950"]] } ,{"sreenname": "До изменений", "name": "edit1505", "opendate": "", "lastupdate": "15.05.18", "closeddate": "43235", "status": "closed", "mins": [["200", "290"],["400", "440"],["600", "580"],["1000", "770"],["1500", "950"]] } ,{"sreenname": "Архивные", "name": "archived", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "archived", "mins": [["150", "270"],["300", "390"]] } ,{"sreenname": "Архивные до изменений", "name": "arch1505", "opendate": "", "lastupdate": "15.05.18", "closeddate": "43235", "status": "closed", "mins": [["100", "240"]] } ] },
 {"id": 2042943, "type": "UNLIM", "tariffs": [ {"sreenname": "Текущие", "name": "current", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "open", "mins": [["100", "240"],["200", "340"],["400", "390"],["900", "590"],["1500", "990"],["2000", "1290"]] } ,{"sreenname": "До изменений", "name": "edit1505", "opendate": "", "lastupdate": "21.12.17", "closeddate": "43235", "status": "closed", "mins": [["100", "240"],["400", "390"],["900", "590"],["1500", "990"],["2000", "1290"]] } ] },
