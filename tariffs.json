@@ -93,7 +93,7 @@
       "screenname": "[Ph] Безлим",
       "status": "closed",
       "dateclose": "17.01.2017",
-      "disabled": true,
+      "disabled": false,
       "data": [
     {"id": 2042925, "type": "UNLIM", "tariffs": [ {"sreenname": "Текущие", "name": "current", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "open", "mins": [["100", "240"],["400", "390"],["600", "580"],["900", "770"],["2000", "1050"]] } ] },
 {"id": 2042931, "type": "UNLIM", "tariffs": [ {"sreenname": "Текущие", "name": "current", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "open", "mins": [["300", "360"],["400", "390"],["500", "450"],["900", "770"],["1200", "950"]] } ,{"sreenname": "Архивные", "name": "archived", "opendate": "", "lastupdate": "15.05.18", "closeddate": "", "status": "archived", "mins": [["100", "240"],["200", "340"]] } ] },
