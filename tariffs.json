@@ -467,7 +467,7 @@
     },
     {
       "name": "closedregions",
-      "screenname": "Регионы с ограничением",
+      "screenname": "Северные территории",
       "dateclose": "-",
       "status": "open",
       "disabled": true
