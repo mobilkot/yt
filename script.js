@@ -12,6 +12,11 @@ function doLoadUnlim(subject, callback) {
     }, 100 );
 
 }
+//    doLoadUnlim('math', loadUnlimInbox);
+function loadUnlimInbox(){
+
+
+}
 
 
 
@@ -71,6 +76,7 @@ function loadJSOND() {
 function importJsond(jsondatas) {
     jsondata= jsondatas;
     customTemplates.disable();
+    //TODO: евент на первый поиск
     customTemplatess.passedElement.addEventListener('change', function(e) {
         if (e.detail.value !== '') {
             customTemplates.enable();
@@ -78,6 +84,7 @@ function importJsond(jsondatas) {
             customTemplates.disable();
         }
         loadRegions(e.detail.value, jsondata);
+        VisibleClearBody("clear");
     });
 
     customTemplatess.clearStore();
@@ -117,7 +124,7 @@ var regions = jsondata.elements;
 
                         if (jsondata.regions[key].id === data[i].id) {
                             var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
-                            choices1212.push({ //regioncity
+                            choices1212.push({
                                 value: data[i].id.toString(),
                                 label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
                                 disabled: false,
@@ -129,7 +136,7 @@ var regions = jsondata.elements;
 
                 }
             });
-
+//TODO: log
             console.log(regions);
 
             customTemplates.clearStore();
@@ -152,44 +159,12 @@ var regions = jsondata.elements;
 }
 
 
-function loadUnlimInbox(){
-
-    for(id in tarifUnlim) {
-        choicesUnlim.push({
-            "value": tarifUnlim[id].region + " " + tarifUnlim[id].type,
-            "label": tarifUnlim[id].region  ,
-            "disabled": false,
-        });
-    }
-
-    customTemplates.setChoices([  {  value: 'Безлимитные', label: 'Безлимитные',  id: 'Безлимитные', disabled: false, choices: choicesUnlim, },
-    ], 'value', 'label', 0);
-}
-
 
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    //очистка перед выбором.
-    document.getElementById("tapps").style.visibility = "hidden";
-    document.getElementById("tminute0").innerHTML = "";
-    document.getElementById("tgbite0").innerHTML = "";
 
-
-    customTemplatess = new Choices(document.getElementById('regions_called'), {
-        searchFields: ['customProperties.description'],
-        placeholderValue: 'This is a placeholder set in the config',
-        placeholder: true,
-        searchEnabled: false,
-
-    });
-    loadJSOND();
-
-
-
-
-    /////////////////////////////
-
+    VisibleClearBody("clear");
     customTemplates = new Choices(document.getElementById('regions_call'), {
         searchFields: ['customProperties.description'],
         placeholderValue: 'This is a placeholder set in the config',
@@ -232,14 +207,17 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     });
 
-    doLoadUnlim('math', loadUnlimInbox);
+    customTemplatess = new Choices(document.getElementById('regions_called'), {
+        searchFields: ['customProperties.description'],
+        placeholderValue: 'This is a placeholder set in the config',
+        placeholder: true,
+        searchEnabled: false,
 
+    });
+    loadJSOND();
 
     customTemplates.passedElement.addEventListener('change', function(e) {
         document.getElementById('regions_callname2').innerText =e.detail.value;
-//jsondata.elements[0].name
-//jsondata.regions[key].id
-
 
 
         //if (e.detail.value === 'London') {
@@ -247,22 +225,55 @@ document.addEventListener('DOMContentLoaded', function() {
         //} else {
         //    tubeStations.innerText = `  ${e.detail.value}   ${e.choices}`;
         //document.getElementById('choices-single-groups').placeholder = 'no London ${e.detail.value}' + 'You just added "' + e.detail.value + '"';
-        var gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');        //Все итемы в трафике
-        var mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');
-        var appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');
-        gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
-        mchecks.forEach(function(item, i, arr) {  if (mchecks[i].checked) mchecks[i].checked = false; });
-        appitems.forEach(function(item, i, arr) {  if (appitems[i].checked) appitems[i].checked = false; });
-
-
-        document.getElementById("b_tafir_summary_input1").innerHTML = "";
-        document.getElementById("b_tafir_summary_input").innerHTML = "";
-
         startInclude_MN();
     });
 
 });
 
+//TODO: Очистка тела, обнуление
+//что оставить lego,unlim,tunlim,clear
+function VisibleClearBody(type) {
+    var gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');
+    var mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');
+    var appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');
+    switch (type) {
+        case "clear":
+
+            document.getElementById("tapps").style.visibility = "hidden";
+            document.getElementById("legoyota").style.visibility = "hidden";
+            document.getElementById("unlimsyota").style.visibility = "hidden";
+            document.getElementById("tminute0").innerHTML = "";
+            document.getElementById("tgbite0").innerHTML = "";
+            gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
+            mchecks.forEach(function(item, i, arr) {  if (mchecks[i].checked) mchecks[i].checked = false; });
+            appitems.forEach(function(item, i, arr) {  if (appitems[i].checked) appitems[i].checked = false; });
+
+            break;
+        case "lego":case "plaphone":case "tabt":
+            VisibleClearBody("clear");
+            document.getElementById("b_tafir_summary_input1").innerHTML = "";
+            document.getElementById("b_tafir_summary_input").innerHTML = "";
+            document.getElementById("tapps").style.visibility = "visible";
+            document.getElementById("legoyota").style.visibility = "visible";
+            document.getElementById("tapps").style.visibility = "visible";
+            document.getElementById("tminute0").style.visibility = "visible";
+            document.getElementById("tgbite0").style.visibility = "visible";
+
+            break;
+        case "unlims":
+            VisibleClearBody("clear");
+            document.getElementById("unlimsyota").style.visibility = "visible";
+
+            break;
+        case "tunlim":
+            VisibleClearBody("clear");
+            break;
+        default:
+            //alert( 'Я таких значений не знаю' );
+    }
+
+
+}
 
 {
     function addOnWheel(elem, handler) {
@@ -325,6 +336,46 @@ var cur_mCount, cur_mPrice, cur_gCount, cur_gPrice; //Выбранные мин�
 
 var outputSummary = document.getElementById("b_tafir_summary_input");  // элемент, куда отдается итоговый текст о тарифе
 
+function VoiceTariffs() {
+    var textInHome = document.getElementById("id-Тарифы[Тест]-Вдомашнемрегионе").nextElementSibling;
+    var textOutHome = document.getElementById("id-Тарифы[Тест]-Внедомашнегорегиона").nextElementSibling;
+    textInHome.innerHTML = "";
+    var node = document.createElement('p');
+
+    gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');        //Выбрано среди трафика
+    mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');        //Выбрано среди минут
+
+
+    var price1 = "0";
+
+    var texthtml = "";
+    if (mcheck[0] !== undefined && gcheck[0] !== undefined) {
+        var regions = jsondata.regions;
+        regions.forEach(function(item, i, arr) {
+            if (regions[i].id === cur_region_teriff.id) {
+
+                texthtml += `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 85.5649%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
+
+                 if (cur_mCount === "0") {
+                     texthtml =+  `<tr><td class="confluenceTd">SMS: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> 
+                    <tr><td class="confluenceTd">Стоимость минуты сверх пакета: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr>
+                    <tr><td class="confluenceTd">Вызовы на номера других операторов в домашнем регионе за минуту: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `
+                 }
+
+
+                texthtml +=   `</tbody></table></div>`;
+
+
+
+            }
+        });
+    }
+
+    node.innerHTML = texthtml;
+    textInHome.appendChild(node);
+
+}
+
 
 //функция вывода данных в первое окно при выделении опций (plaphone)
 function summaryOutput() {
@@ -336,8 +387,11 @@ function summaryOutput() {
     var  mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');
     var  appcheck = document.querySelectorAll('input[type="checkbox"][name="select_apps"]:checked');
     var  smscheck = document.querySelectorAll('input[type="checkbox"][name="select_sms"]:checked');
-    var  appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]');        //галочка "все"
+    var  appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]'); 		//галочка "все"
     if (appcheck.length===0)  selected_items = [];
+
+    VoiceTariffs();
+
     var hardToVmode = document.getElementById("switch-radio-on-2").checked;
 
 
@@ -421,8 +475,8 @@ function summaryOutput() {
         else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `только безлимитные SMS на всех операторов РФ. `; }
         else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota без интернета.`; }
         else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также безлимитные SMS без интернета.`; }
-        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `только ${unlimpapps} без дополнительного трафика.`; }
-        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `безлимитный доступ к ${unlimpapps} без дополнительного трафика, а также безлимитные SMS.`; }
+        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, без дополнительного трафика.`; }
+        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${unlimpapps}, без дополнительного трафика, а также безлимитные SMS.`; }
         else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, а также ${unlimpapps} без трафика.`; }
         else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, безлимитные SMS, а также ${unlimpapps} без трафика.`; }
         else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
@@ -474,7 +528,7 @@ function summaryOutput2(apps, cminut, cgbites) {
             text += unlimApps[item-1].name + ", ";
         });
     } else if( apps.length > 0 && cgbites === "0")  {
-        text += ", зато будут безлимитные ";
+        text += ", при этом будут безлимитные ";
         apps.forEach(function(item, i, arr) {
             text += unlimApps[item-1].name + ", ";
         });
@@ -492,16 +546,16 @@ function checkApps(node) {
 
 
     // Название, группа, базовая стоимость, альт.название
-    // [name: "ВК",          group: "social",      price: "20",      altname: "-"]
+    // [name: "ВК", 			group: "social", 		price: "20", 		altname: "-"]
     appcheck = document.querySelectorAll('input[type="checkbox"][name="select_apps"]:checked');      //Выбрано среди приложений
-    appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');               //Все итемы приложжений
-    appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]');     //галочка "все"
+    appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');        		//Все итемы приложжений
+    appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]'); 		//галочка "все"
 
     ////////////// Обработчик чекбокса (все\по отдельности)
     if (node.value > appall.value) {
         selected_items = [];
         appall.checked = (appcheck.length === appitems.length) && (!appall.checked);
-        appcheck.forEach(function(item, i, arr) {     if (arr[i].value!==0) selected_items[i] = arr[i].value;       });
+        appcheck.forEach(function(item, i, arr) {		if (arr[i].value!==0) selected_items[i] = arr[i].value; 		});
 
     }  else  {
         appitems.forEach(function(item, i, arr) {
@@ -560,6 +614,171 @@ function example_region(stran){
 
 }
 
+function addRow(id, region, mins, gbites, sms, snPrice, mePrice, youtube){
+
+
+    //TODO: Установка бирок для БМП
+    var apchecks11 = document.querySelectorAll('div[class="b2c-voice-collect__app-price"]');
+    apchecks11.forEach(function(item, ids, arr) {
+        var dataname = apchecks11[ids];
+        if (dataname.getAttribute('data-name') === "app-media") {
+            apchecks11[ids].innerHTML = youtube + "&#8381;";
+        } else if (dataname.getAttribute('data-name')  === "app-messenger") {
+            apchecks11[ids].innerHTML = mePrice + "&#8381;";
+        } else if (dataname.getAttribute('data-name') === "app-social") {
+            apchecks11[ids].innerHTML = snPrice + "&#8381;";
+        } else if (dataname.getAttribute('data-name') === "app-sms") {
+            apchecks11[ids].innerHTML = sms + "&#8381;";
+        }
+    });
+
+    /// Сохранение цен приложений выбранной области в массив \\ переписать получше бы
+    unlimApps.forEach(function(item, app, arr) {
+        switch (unlimApps[app].group){
+            case "messenger": unlimApps[app].price = mePrice; break;
+            case "social": unlimApps[app].price = snPrice; break;
+            case "youtube": unlimApps[app].price = youtube; break;
+            case "sms": unlimApps[app].price = sms; break;
+            case "deleted": /*unlimApps[app].price = unlimApps[app].price;*/ break;
+            default: break;
+
+        }
+
+    });
+
+
+
+    var elem = document.getElementById("tminute0");
+    while (elem.firstChild) { if (elem.firstChild) elem.removeChild(elem.firstChild);  };
+
+    //TODO: Перестать использовать таблицы, черт
+    var tr1 = document.createElement('tr');
+    tr1.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты минут:  </label></td>';
+    elem.appendChild(tr1);
+
+    mins.forEach(function(item,i,arr){
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td id="tdminute_' + i + '" nowrap><input value="' + i + '" id="iminute_'+ i + '"class="input_radio_minute" name="radio_minute" type="radio" onchange="checkType(this)"><label for="iminute_' + i + '" class="layout-buttons_gb"> ' +  item[0] + ' минут за ' + item[1] + ' рублей  </label></td>';
+        elem.appendChild(tr);
+    });
+    //TODO: Без понятия
+
+    var elem1 = document.getElementById("tgbite0");
+    while (elem1.firstChild) { if (elem1.firstChild) elem1.removeChild(elem1.firstChild);  };
+
+    var tr2 = document.createElement('tr');
+    tr2.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты трафика:  </label></td>';
+    elem1.appendChild(tr2);
+
+    gbites.forEach(function(item,i,arr){
+        var tr2 = document.createElement('tr');
+        tr2.innerHTML = '<td id="tdgbite_' + i + '" nowrap><input value="' + i + '" id="igbite_'+ i + '"class="input_radio_gbite" name="radio_trafic" type="radio" onchange="checkType(this)"><label for="igbite_' + i + '" class="layout-buttons_gb">' +  item[0] + ' ГБ за ' + item[1] + ' рублей' + '</label></td>';
+        elem1.appendChild(tr2);
+    });
+
+
+
+
+
+
+
+}
+
+var currentUnlimTariff;
+function addRowUnlimPhone( ){
+
+
+    var tariffs = currentUnlimTariff.tariffs;
+    var tableTariffs = document.getElementById("unlimstafiffs");
+    tableTariffs.innerHTML = "";
+    var sumCurrentTarriff  = "";
+    var txt = "";
+
+
+    var showAll = document.getElementById("switch-radio-unlim-on-2").checked;
+
+    if (!showAll) {
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            txt += "<div class=\"d-td-tariff-head\">";
+
+            if (tariffs[x].status === "open" || tariffs[x].status === "archived") {
+                txt += tariffs[x].sreenname;
+            }
+            if (tariffs[x].status === "closed") {
+                txt +=  tariffs[x].sreenname + " " + tariffs[x].lastupdate;
+            }
+            txt += '</div>';
+        }
+        txt += '</div>';
+
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            txt += "<div class=\"d-td-tariff-head\">";
+
+            if ( tariffs[x].status === "open" && tariffs[x].name === "current")  {
+                txt +=  "";
+            }
+            if (  tariffs[x].status === "archived") {
+                txt += "Для изменения условий доступны только текущие";
+            }
+            if (tariffs[x].status === "open" && tariffs[x].name !== "current") {
+                txt +=  "Введен " + tariffs[x].lastupdate ;
+            }
+            if (tariffs[x].status === "closed") {
+                txt +=  "Закрыт для выбора ";
+            }
+            txt += '</div>';
+        }
+        txt += '</div>';
+
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            var textCurrentTarriff = "";
+            var infoCurrentTarriff = "";
+            var mins = tariffs[x].mins;
+            mins.forEach(function(itemr,ir,arrr){
+                if (mins[ir][0] === "FREEM")
+                {
+                    textCurrentTarriff +=  `60 минут и 500 МБ за 0 рублей \n`;
+                } else  textCurrentTarriff +=  `${mins[ir][0]} минут за ${mins[ir][1]} рублей \n`;
+            });
+
+            txt += "<div class=\"d-td-tariff\">" + textCurrentTarriff + "</div> ";
+        }
+        txt += '</div>';
+        tableTariffs.innerHTML = txt;
+    }
+    else {
+
+
+
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            if (tariffs[x].name === "current") {
+                var textCurrentTarriff = "";
+                var infoCurrentTarriff = "";
+                var mins = tariffs[x].mins;
+                mins.forEach(function (itemr, ir, arrr) {
+                    if (mins[ir][0] === "FREEM") {
+                        textCurrentTarriff += `60 минут и 500 МБ за 0 рублей \n`;
+                    } else textCurrentTarriff += `${mins[ir][0]} минут за ${mins[ir][1]} рублей \n`;
+                });
+
+                txt += "<div class=\"d-td-tariff\">" + textCurrentTarriff + "</div> ";
+
+            txt += '</div>';
+            tableTariffs.innerHTML = txt;
+            }
+        }
+    }
+
+
+
+
+
+
+}
 
 
 //Функция заполнения при выборе региона
@@ -574,91 +793,20 @@ function startInclude_MN() {
     }
 
 
-    function addRow(id, region, mins, gbites, sms, snPrice, mePrice, youtube){
-
-
-        //TODO: Установка бирок для БМП
-        var apchecks11 = document.querySelectorAll('div[class="b2c-voice-collect__app-price"]');
-        apchecks11.forEach(function(item, ids, arr) {
-            var dataname = apchecks11[ids];
-            if (dataname.getAttribute('data-name') === "app-media") {
-                apchecks11[ids].innerHTML = youtube + "&#8381;";
-            } else if (dataname.getAttribute('data-name')  === "app-messenger") {
-                apchecks11[ids].innerHTML = mePrice + "&#8381;";
-            } else if (dataname.getAttribute('data-name') === "app-social") {
-                apchecks11[ids].innerHTML = snPrice + "&#8381;";
-            } else if (dataname.getAttribute('data-name') === "app-sms") {
-                apchecks11[ids].innerHTML = sms + "&#8381;";
-            }
-        });
-
-        /// Сохранение цен приложений выбранной области в массив \\ переписать получше бы
-       unlimApps.forEach(function(item, app, arr) {
-                    switch (unlimApps[app].group){
-                        case "messenger": unlimApps[app].price = mePrice; break;
-                        case "social": unlimApps[app].price = snPrice; break;
-                        case "youtube": unlimApps[app].price = youtube; break;
-                        case "sms": unlimApps[app].price = sms; break;
-                        case "deleted": /*unlimApps[app].price = unlimApps[app].price;*/ break;
-                        default: break;
-
-                    }
-
-                });
-
-
-
-        var elem = document.getElementById("tminute0");
-        while (elem.firstChild) { if (elem.firstChild) elem.removeChild(elem.firstChild);  };
-
-        //TODO: Перестать использовать таблицы, черт
-        var tr1 = document.createElement('tr');
-        tr1.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты минут:  </label></td>';
-        elem.appendChild(tr1);
-
-        mins.forEach(function(item,i,arr){
-            var tr = document.createElement('tr');
-            tr.innerHTML = '<td id="tdminute_' + i + '" nowrap><input value="' + i + '" id="iminute_'+ i + '"class="input_radio_minute" name="radio_minute" type="radio" onchange="checkType(this)"><label for="iminute_' + i + '" class="layout-buttons_gb"> ' +  item[0] + ' минут за ' + item[1] + ' рублей  </label></td>';
-            elem.appendChild(tr);
-        });
-        //TODO: Без понятия
-
-        var elem1 = document.getElementById("tgbite0");
-        while (elem1.firstChild) { if (elem1.firstChild) elem1.removeChild(elem1.firstChild);  };
-
-        var tr2 = document.createElement('tr');
-        tr2.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты трафика:  </label></td>';
-        elem1.appendChild(tr2);
-
-        gbites.forEach(function(item,i,arr){
-            var tr2 = document.createElement('tr');
-            tr2.innerHTML = '<td id="tdgbite_' + i + '" nowrap><input value="' + i + '" id="igbite_'+ i + '"class="input_radio_gbite" name="radio_trafic" type="radio" onchange="checkType(this)"><label for="igbite_' + i + '" class="layout-buttons_gb">' +  item[0] + ' ГБ за ' + item[1] + ' рублей' + '</label></td>';
-            elem1.appendChild(tr2);
-        });
-
-
-
-
-
-
-
-    }
 
     //var url = "http://yandex.ru/yandsearch?text=wwww&lr=187"; // юрл в котором происходит поиск
     //var regV = /yandex\.ru/gi;     // шаблон
     //var result = url.match(regV);  // поиск шаблона в юрл тру или фолс
 
-    if(input_MN.value.length > 0)  {
+    if(input_MN.value.length > 0)	{
 ///////////////////////////////////////////////////////////////
 
+        VisibleClearBody(customTemplatess.getValue(true));
         var regions = jsondata.elements;
-        if (customTemplatess.getValue(true) === "plaphone" || customTemplatess.getValue(true) === "tabt") {
-            document.getElementById("tapps").style.visibility = "visible";
+        if (customTemplatess.getValue(true) === "plaphone" || customTemplatess.getValue(true) === "tabt" ) {
             regions.forEach(function (item, i, arr) {
                 if (regions[i].name === customTemplatess.getValue(true)) {
-
                     var data = regions[i].data;
-
                     data.forEach(function (item, i, arr) {
                         {
                             //TODO: Корректно подгрузить стоимость SMS
@@ -669,7 +817,34 @@ function startInclude_MN() {
                                 cur_region_teriff = data[i];
 
                             }
+                        }
+                    });
 
+
+                }
+            });
+        }
+
+        if (customTemplatess.getValue(true) === "unlims" ) {
+
+            regions.forEach(function (item, i, arr) {
+                if (regions[i].name === customTemplatess.getValue(true)) {
+
+                    var data = regions[i].data;
+
+                    data.forEach(function (item, i, arr) {
+                        {
+
+                            if (data[i].id.toString() === customTemplates.getValue(true)) {
+                                console.log("Выбран " + customTemplates.getValue(true));
+                                currentUnlimTariff = data[i];
+                                addRowUnlimPhone();
+
+                            }
+                        }
+                    });
+                }
+            });
                             /* for (var key in jsondata.regions) {
 
                                  if (jsondata.regions[key].id === data[i].id) {
@@ -684,25 +859,16 @@ function startInclude_MN() {
                              }*/
 
 
-                        }
-                    });
 
 
-                }
-            });
+
+
         }
-
 
     }
 
 
 }
-
-
-
-// Названия приложений
-// Добоавить сюда множественные\единиченые, фразу для выбора одного
-
 
 var phrasesInet =[
 // Название, группа, базовая стоимость, альт.название
@@ -716,17 +882,17 @@ var phrasesInet =[
 
 var unlimApps=[
 // Название, группа, базовая стоимость, альт.название
-    {ids: 1,name: "ВК",             group: "social",      price: 20,        altname: "-"},
-    {ids: 2,name: "Одноклассники",     group: "social",      price: 20,        altname: "Одноклассникам"},
-    {ids: 3,name: "Facebook",        group: "social",      price: 20,        altname: "-"},
-    {ids: 4,name: "Instagram",        group: "social",      price: 20,        altname: "-"},
-    {ids: 5,name: "Twitter",         group: "social",      price: 10,        altname: "-"},
-    {ids: 6,name: "Skype",           group: "messenger",    price: 10,        altname: "-"},
-    {ids: 7,name: "Viber",           group: "messenger",    price: 10,        altname: "-"},
-    {ids: 8,name: "Whatsapp",        group: "messenger",    price: 10,        altname: "-"},
-    {ids: 9,name: "Youtube",         group: "youtube",     price: 60,        altname: "-"},
-    {ids: 10,name: "Безлимитные SMS",  group: "sms",         price: 50,        altname: "-"},
-    {ids: 11,name: "Telegram",           group: "deleted",      price: 0,     altname: "-"}
+    {ids: 1,name: "ВК", 				group: "social", 		price: 20, 		altname: "-"},
+    {ids: 2,name: "Одноклассники", 	group: "social", 		price: 20, 		altname: "Одноклассникам"},
+    {ids: 3,name: "Facebook", 			group: "social", 		price: 20, 		altname: "-"},
+    {ids: 4,name: "Instagram", 		group: "social", 		price: 20, 		altname: "-"},
+    {ids: 5,name: "Twitter", 			group: "social", 		price: 10, 		altname: "-"},
+    {ids: 6,name: "Skype", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 7,name: "Viber", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 8,name: "Whatsapp", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 9,name: "Youtube", 			group: "youtube", 		price: 60, 		altname: "-"},
+    {ids: 10,name: "Безлимитные SMS", 	group: "sms", 		    price: 50, 		altname: "-"},
+    {ids: 11,name: "Telegram", 			group: "deleted", 	    price: 0, 		altname: "-"}
 ];
 
 
@@ -739,9 +905,6 @@ document.onreadystatechange = function() {
         //fn();
     }
 };
-
-
-
 
 
 
