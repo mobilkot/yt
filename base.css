@@ -95,16 +95,16 @@
 *{
     box-sizing: border-box;
 }
-.d-table{
+.d-table-1488{
     display: table;
     font-size: 11px;
     border-collapse: collapse;
 }
-.d-tr{
+.d-tr1488{
     display: table-row;
 
 }
-.d-td{
+.d-td1488{
     display: table-cell;
     text-align: center;
     border: none;
@@ -112,7 +112,7 @@
     vertical-align: middle;
 
 }
-.d-td:not(.no-p){
+.d-td1488:not(.no-p){
     padding: 0px;
 }
 
@@ -207,11 +207,11 @@ color: #fff; //белый
 #unlimsyota {
 
     position: absolute;
-    top: -200px;
+    top: 80px;
     left: 10px;
 }
 #legoyota {
-position: relative;
+    position: relative;
     top: -40px;
 }
 
