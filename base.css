@@ -15,6 +15,7 @@
     position:absolute;
     visibility:hidden;
 }
+
 .switch-label,
 .switch-slider {
     position:absolute;
@@ -96,11 +97,12 @@
 }
 .d-table{
     display: table;
-     height: 100px;
+    font-size: 11px;
     border-collapse: collapse;
 }
 .d-tr{
     display: table-row;
+
 }
 .d-td{
     display: table-cell;
@@ -108,12 +110,46 @@
     border: none;
     border: 1px solid #ccc;
     vertical-align: middle;
+
 }
 .d-td:not(.no-p){
     padding: 0px;
-} 
- 
+}
 
+
+
+.d-td-tariff{
+    display: table-cell;
+    text-align: left;
+    border: none;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    padding: 8px 4px;
+
+    margin: 0px 0px;
+
+
+    width: 170px;
+    height: 160px;
+    font-family: DinDisplay,sans-serif;
+    color: #205081;
+
+
+    -webkit-user-modify: read-write-plaintext-only;
+}
+.d-td-tariff-head{
+    display: table-cell;
+    text-align: left;
+    border: none;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    padding: 4px 4px;
+    margin: 0px 0px;
+    font-family: DinDisplay,sans-serif;
+    color: #205081;
+    background-color: rgba(0, 164, 255, 0.3);
+    -webkit-user-modify: read-write-plaintext-only;
+}
 
 .input_radio_minute, .input_radio_gbite, .input_app-vk, .input_app-all, .input_app-ok, .input_app-fb, .input_app-ig, .input_app-tw,
 .input_app-sk, .input_app-vi, .input_app-wh, .input_app-yt,.input_app-sm,.input_app-tg   { position: absolute; visibility: hidden; }
@@ -163,15 +199,27 @@ color: #fff; //белый
 }
 #vari4:checked + label span{
     content: 'другой текст';
-} 
+}
 .search_alt {
     margin-top: 20px;
+    position: relative;
 }
+#unlimsyota {
+
+    position: absolute;
+    top: 80px;
+    left: 10px;
+}
+#legoyota {
+position: relative;
+    top: -40px;
+}
+
 .b-region-search__formwrap {
     position: relative;
     border: 1px solid #F3F3F3;
     width: 520px;
-    right: -220px;
+    left: 245px;
     border-top-color: #D8D8D8;
     font-size: 12px;
     padding: 0 0px 0 0px;
@@ -183,10 +231,10 @@ color: #fff; //белый
 }
 
 .b-type-search__formwrap {
-    position: relative;
+    position: absolute;
     border: 1px solid #F3F3F3;
-    width: 220px;
-    top: 62px;
+    width: 240px;
+
     border-top-color: #D8D8D8;
     font-size: 12px;
     padding: 0 0px 0 0px;
@@ -200,7 +248,6 @@ color: #fff; //белый
     overflow: hidden;
 
 }
-
 
 
 
@@ -225,7 +272,7 @@ color: #fff; //белый
     font-weight: bold;
     text-align: center;
 }
- 
+
 input {
     outline:none;
 }
@@ -265,8 +312,6 @@ table {
     line-height: 18px;
     color: #2c302e;
 }
-
-
 .b-region-search__suggest-list-wrap {
     font-family: DinDisplay,Arial,ArialRuble,sans-serif;
     margin: 10px 4px 20px;
@@ -323,8 +368,6 @@ table {
 }
 
 
-
-
 .b2c-voice-collect__app-price{
     margin:auto;
     background: #4a76a8;
@@ -343,3 +386,4 @@ table {
     transform:translatey(-50%) rotate(-0deg);
     box-shadow: 0 3px 8px 0 rgba(0, 0, 0, .2), 0 0 0 1px rgba(0, 0, 0, .08);
 }
+
