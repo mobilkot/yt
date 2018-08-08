@@ -240,8 +240,9 @@ function VisibleClearBody(type) {
         case "clear":
 
             document.getElementById("tapps").style.visibility = "hidden";
-            document.getElementById("legoyota").style.visibility = "hidden";
-            document.getElementById("unlimsyota").style.visibility = "hidden";
+            document.getElementById("legoyota").style.display = "none";
+            document.getElementById("unlimsyota").style.display = "none";
+
             document.getElementById("tminute0").innerHTML = "";
             document.getElementById("tgbite0").innerHTML = "";
             gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
@@ -251,18 +252,23 @@ function VisibleClearBody(type) {
             break;
         case "lego":case "plaphone":case "tabt":
             VisibleClearBody("clear");
+            var checkTov = document.getElementById("switch-radio-on-2");
+            checkTov.checked = false;
             document.getElementById("b_tafir_summary_input1").innerHTML = "";
             document.getElementById("b_tafir_summary_input").innerHTML = "";
             document.getElementById("tapps").style.visibility = "visible";
-            document.getElementById("legoyota").style.visibility = "visible";
+        document.getElementById("legoyota").style.display = "block";
             document.getElementById("tapps").style.visibility = "visible";
             document.getElementById("tminute0").style.visibility = "visible";
             document.getElementById("tgbite0").style.visibility = "visible";
+        //document.getElementById("legoyota").style.overflow = "visible";
 
             break;
         case "unlims":
             VisibleClearBody("clear");
-            document.getElementById("unlimsyota").style.visibility = "visible";
+            document.getElementById("unlimsyota").style.display = "block";
+
+
 
             break;
         case "tunlim":
