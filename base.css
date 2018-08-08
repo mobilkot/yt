@@ -205,10 +205,8 @@ color: #fff; //белый
     position: relative;
 }
 #unlimsyota {
-
-    position: absolute;
-    top: 160px;
-    left: 10px;
+    position: relative;
+    top: -300px;
 }
 #legoyota {
     position: relative;
