@@ -95,16 +95,16 @@
 *{
     box-sizing: border-box;
 }
-.d-table-1488{
+.d-table{
     display: table;
     font-size: 11px;
     border-collapse: collapse;
 }
-.d-tr1488{
+.d-tr{
     display: table-row;
 
 }
-.d-td1488{
+.d-td{
     display: table-cell;
     text-align: center;
     border: none;
@@ -112,7 +112,7 @@
     vertical-align: middle;
 
 }
-.d-td1488:not(.no-p){
+.d-td:not(.no-p){
     padding: 0px;
 }
 
