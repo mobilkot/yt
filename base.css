@@ -1,914 +1,387 @@
-var customTemplates;
-var customTemplatess;
-var choicesUnlim= [];
-//loadRegions();
-var tarifUnlim = [];
-
-function doLoadUnlim(subject, callback) {
-    //gorodogr1 = loadCitiesClosed();//loadUnlimClosed();
-    setTimeout( function(){
-
-        callback();
-    }, 100 );
-
+/* Switch */
+.switch,
+.switch-label,
+.switch-slider {
+    width:25px;
+    height:15px;
 }
-//    doLoadUnlim('math', loadUnlimInbox);
-function loadUnlimInbox(){
-
-
+.switch {
+    position:relative;
+    display:inline-block;
+    padding:0;
+    border:none;
+}
+.switch-radio {
+    position:absolute;
+    visibility:hidden;
 }
 
-
-
-function tableToJSON(table) { //адаптировать под разное количество столбцов
-
-
-
-    var search = ["\\<strong>?(.*?)\\</strong>", "\\<br>","\\</p>" ,"\\<p>" ,"\\[futurama]?(.*?)\\[/futurama]"];
-    var replaceTo = ['$1', '\n', '\n', '', '<span style="font-family: \'Futurama\', sans-serif">$1</span>'];
-
-    var tables = [];
-    var cells = table.querySelectorAll("td");
-    var count = 0;
-    for (var i = 0; i < cells.length; i+=3) {
-        var name = cells[i].firstChild.data +  "\n";//.split("-");
-
-        var info1 = "";
-        var info11 = cells[i + 1].innerHTML;
-        for (t = 0; t < search.length; t++) {
-            info11 = info11.replace(new RegExp(search[t], 'g'), replaceTo[t]);
-        }
-        info1 = info11;
-        var info2 = "";
-        var info21 = cells[i + 2].innerHTML;
-        for (var t = 0; t < search.length; t++) {
-            info21 = info21.replace(new RegExp(search[t], 'g'), replaceTo[t]);
-        }
-        info2 = info21;
-        tables[count] = { id: count, type: "Unlim", region: name, packets: info1, base: info2 ,};
-
-
-        ++count;
-    }
-    return tables;
+.switch-label,
+.switch-slider {
+    position:absolute;
+    top:0;
 }
-
-
-
-var jsondata;
-function loadJSOND() {
-
-    var reqw = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( 'Microsoft.XMLHTTP' );
-    reqw.open( 'GET', 'https://raw.githubusercontent.com/mobilkot/yt/master/tariffs.json', true );
-    reqw.responseType = 'json';
-    reqw.onreadystatechange = function () {
-
-        if ( reqw.readyState == 4 ) {
-            if ( reqw.status == 200 ) {
-                 importJsond(reqw.response);
-
-            }
-        }
-    };
-    reqw.send( null );
+.switch-label {
+    left:0;
+    text-indent:-9999px;
 }
-
-function importJsond(jsondatas) {
-    jsondata= jsondatas;
-    customTemplates.disable();
-    //TODO: евент на первый поиск
-    customTemplatess.passedElement.addEventListener('change', function(e) {
-        if (e.detail.value !== '') {
-            customTemplates.enable();
-        } else {
-            customTemplates.disable();
-        }
-        loadRegions(e.detail.value, jsondata);
-        VisibleClearBody("clear");
-    });
-
-    customTemplatess.clearStore();
-    choices222= [];
-    var elements = jsondata.elements;
-    elements.forEach(function(item, i, arr) {
-        {
-                    choices222.push({
-                        value: elements[i].name,
-                        label: elements[i].screenname ,
-                        disabled: elements[i].disabled,
-                    });
-
-
-        }});
-
-    customTemplatess.setChoices( choices222, 'value', 'label', 0);
+.switch-slider {
+    z-index:2;
+    width:25px;
+    border-radius:230px;
+    box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.1) inset,
+            0 0 1px rgba(0, 0, 0, 0.5) inset,
+            0 1px 1px 1px rgba(0, 0, 0, 0.3) inset,
+            0 1px 0 rgba(0, 0, 0, 0.07) inset;
+    -webkit-transition:width 0.2s linear;
+    -moz-transition:width 0.2s linear;
+    -o-transition:width 0.2s linear;
+    transition:width 0.2s linear;
 }
-
-
-function loadRegions(tarif, jsondata) {
-    document.getElementById('regions_callname').innerText =tarif;
-
-
-
-    choices1212= [];
-
-var regions = jsondata.elements;
-    regions.forEach(function(item, i, arr) {
-        if (regions[i].name === tarif) {
-
-            var data = regions[i].data;
-
-            data.forEach(function (item, i, arr) {
-                {
-                    for (var key in jsondata.regions) {
-
-                        if (jsondata.regions[key].id === data[i].id) {
-                            var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
-                            choices1212.push({
-                                value: data[i].id.toString(),
-                                label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
-                                disabled: false,
-                                customProperties: {description: jsondata.regions[key].altname}
-                            });
-                        }
-                    }
-
-
-                }
-            });
-//TODO: log
-            console.log(regions);
-
-            customTemplates.clearStore();
-            customTemplates.setChoices([
-                {
-                    value: regions[i].data[0].type,
-                    label: regions[i].data[0].type,
-                    id: regions[i].data[0].type,
-                    disabled: false,
-                    choices: choices1212,
-
-                },  ]  , 'value', 'label', 0);
-        }
-    });
-
-
-
-
-
+.switch-slider:after {
+    position:absolute;
+    top:2px;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#E5E5E5;
+    background:-webkit-linear-gradient(#D0D0D0, #FDFDFD);
+    background:-moz-linear-gradient(#D0D0D0, #FDFDFD);
+    background:-o-linear-gradient(#D0D0D0, #FDFDFD);
+    background:linear-gradient(#D0D0D0, #FDFDFD);
+    box-shadow:
+            0 0 1px 1px #FFF inset,
+            0 0 1px 1px rgba(0, 0, 0, 0.6);
+    content:'';
 }
-
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-
-
-    VisibleClearBody("clear");
-    customTemplates = new Choices(document.getElementById('regions_call'), {
-        searchFields: ['customProperties.description'],
-        placeholderValue: 'This is a placeholder set in the config',
-        searchPlaceholderValue: 'Наверное, это поле поиска..',
-        placeholder: true,
-        callbackOnCreateTemplates: function(strToEl) {
-            var classNames = this.config.classNames;
-            var itemSelectText = this.config.itemSelectText;
-            return {
-                item: function(data) {
-                    return strToEl('\
-                <div\
-                  class="'+ String(classNames.item) + ' ' + String(data.highlighted ? classNames.highlightedState : classNames.itemSelectable) + '"\
-                  data-item\
-                  data-id="'+ String(data.id) + '"\
-                  data-value="'+ String(data.value) + '"\
-                  '+ String(data.active ? 'aria-selected="true"' : '') + '\
-                  '+ String(data.disabled ? 'aria-disabled="true"' : '') + '\
-                  >\
-                  <span style="margin-right:1px;"></span> ' /*+ ' [<b>'  + String(data.groupId) + '</b>] ' */+ String(data.label) + ' ' + '\
-                </div>\
-              ');
-                },
-                choice: function(data) {
-                    return strToEl('\
-                <div\
-                  class="'+ String(classNames.item) + ' ' + String(classNames.itemChoice) + ' ' + String(data.disabled ? classNames.itemDisabled : classNames.itemSelectable) + '"\
-                  data-select-text="'+ String(itemSelectText) + '"\
-                  data-choice \
-                  '+ String(data.disabled ? 'data-choice-disabled aria-disabled="true"' : 'data-choice-selectable') + '\
-                  data-id="'+ String(data.id) + '"\
-                  data-value="'+ String(data.value) + '"\
-                  '+ String(data.groupId > 0 ? 'role="treeitem"' : 'role="option"') + '\
-                  >\
-                  <span style="margin-right:1px;"></span> ' /*+ ' [<b>'  + String(data.groupId) + '</b>] ' */+ String(data.label) + ' ' + '\
-                </div>\
-              ');
-                },
-            };
-        },
-    });
-
-    customTemplatess = new Choices(document.getElementById('regions_called'), {
-        searchFields: ['customProperties.description'],
-        placeholderValue: 'This is a placeholder set in the config',
-        placeholder: true,
-        searchEnabled: false,
-
-    });
-    loadJSOND();
-
-    customTemplates.passedElement.addEventListener('change', function(e) {
-        document.getElementById('regions_callname2').innerText =e.detail.value;
-
-
-        //if (e.detail.value === 'London') {
-        //    tubeStations.innerText = "London";
-        //} else {
-        //    tubeStations.innerText = `  ${e.detail.value}   ${e.choices}`;
-        //document.getElementById('choices-single-groups').placeholder = 'no London ${e.detail.value}' + 'You just added "' + e.detail.value + '"';
-        startInclude_MN();
-    });
-
-});
-
-//TODO: Очистка тела, обнуление
-//что оставить lego,unlim,tunlim,clear
-function VisibleClearBody(type) {
-    var gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');
-    var mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');
-    var appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');
-    switch (type) {
-        case "clear":
-
-            document.getElementById("tapps").style.visibility = "hidden";
-            document.getElementById("legoyota").style.display = "none";
-            document.getElementById("unlimsyota").style.display = "none";
-
-            document.getElementById("tminute0").innerHTML = "";
-            document.getElementById("tgbite0").innerHTML = "";
-            gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
-            mchecks.forEach(function(item, i, arr) {  if (mchecks[i].checked) mchecks[i].checked = false; });
-            appitems.forEach(function(item, i, arr) {  if (appitems[i].checked) appitems[i].checked = false; });
-
-            break;
-        case "lego":case "plaphone":case "tabt":
-            VisibleClearBody("clear");
-            document.getElementById("b_tafir_summary_input1").innerHTML = "";
-            document.getElementById("b_tafir_summary_input").innerHTML = "";
-            document.getElementById("tapps").style.visibility = "visible";
-        document.getElementById("legoyota").style.display = "block";
-            document.getElementById("tapps").style.visibility = "visible";
-            document.getElementById("tminute0").style.visibility = "visible";
-            document.getElementById("tgbite0").style.visibility = "visible";
-        //document.getElementById("legoyota").style.overflow = "visible";
-
-            break;
-        case "unlims":
-            VisibleClearBody("clear");
-            document.getElementById("unlimsyota").style.display = "block"; 
-
-
-
-            break;
-        case "tunlim":
-            VisibleClearBody("clear");
-            break;
-        default:
-            //alert( 'Я таких значений не знаю' );
-    }
-
-
+.switch-label-on .switch-slider {
+    left:0;
+    background:#369AEE  100% 12px no-repeat;
 }
-
-{
-    function addOnWheel(elem, handler) {
-        if (elem.addEventListener) {
-            if ('onwheel' in document) {
-                // IE9+, FF17+
-                elem.addEventListener("wheel", handler);
-            }
-        }
-    }
-
-    var scale = 1;
-    var info = document.getElementById("b_tafir_summary_input");//
-    addOnWheel(info, function(e) {
-        var delta = e.deltaY || e.detail || e.wheelDelta;
-
-
-        if (delta=== 100) {
-            document.getElementById("switch-radio-on-2").checked = true;
-        } else if (delta === -100) {
-            document.getElementById("switch-radio-off-2").checked = true;
-        }
-        summaryOutput();
-        /*info.innerHTML = +info.innerHTML + delta;*/
-
-        e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-    });
-
-    function mOver(obj) {
-        //obj.innerHTML = "Thank You"
-    }
-
-    function mOut(obj) {
-        //obj.innerHTML = "Mouse Over Me"
-    }
-
-    function mDown(obj) {
-        obj.style.backgroundColor = "#6da8e6";//"#1ec5e5";
-        //obj.innerHTML = "Release Me";
-    }
-
-    function mUp(obj) {
-        obj.style.backgroundColor = "#f0f7ff";//"#D94A38";
-        //obj.innerHTML = "Thank You";
-    }
-
-
+.switch-label-on .switch-slider:after {
+    right:1px;
+}
+.switch-label-off .switch-slider {
+    right:0;
+    background:#FFF 86px 14px no-repeat;
+} /*url(images/on.svg) background:#FFF url(images/off.svg) 86  */
+.switch-label-off .switch-slider:after {
+    left:1px;
+}
+.switch-label:active .switch-slider:after {
+    background:#D5D5D5;
+    background:-webkit-linear-gradient(#C8C8C8, #E4E4E4);
+    background:-moz-linear-gradient(#C8C8C8, #E4E4E4);
+    background:-o-linear-gradient(#C8C8C8, #E4E4E4);
+    background:linear-gradient(#C8C8C8, #E4E4E4);
+}
+.switch-radio:checked + .switch-label .switch-slider {
+    z-index:1;
+    width:10px;
+}
+.switch-radio:checked + .switch-label .switch-slider:after {
+    visibility:hidden;
 }
 
 
 
 
 
-let log = document.getElementById('spans');
+.divTableCell { border: 0px solid #999999;  padding: 0px 0px; display: table-cell; }
 
 
 
-var selected_items = []; //id чекнутых бмп
-var cur_mCount, cur_mPrice, cur_gCount, cur_gPrice; //Выбранные минуты,цена,трафик,цена
-
-var outputSummary = document.getElementById("b_tafir_summary_input");  // элемент, куда отдается итоговый текст о тарифе
-
-function VoiceTariffs() {
-    var textInHome = document.getElementById("id-Тарифы[Тест]-Вдомашнемрегионе").nextElementSibling;
-    var textOutHome = document.getElementById("id-Тарифы[Тест]-Внедомашнегорегиона").nextElementSibling;
-    textInHome.innerHTML = "";
-    var node = document.createElement('p');
-
-    gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');        //Выбрано среди трафика
-    mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');        //Выбрано среди минут
-
-
-    var price1 = "0";
-
-    var texthtml = "";
-    if (mcheck[0] !== undefined && gcheck[0] !== undefined) {
-        var regions = jsondata.regions;
-        regions.forEach(function(item, i, arr) {
-            if (regions[i].id === cur_region_teriff.id) {
-
-                texthtml += `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 85.5649%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
-
-                 if (cur_mCount === "0") {
-                     texthtml =+  `<tr><td class="confluenceTd">SMS: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> 
-                    <tr><td class="confluenceTd">Стоимость минуты сверх пакета: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr>
-                    <tr><td class="confluenceTd">Вызовы на номера других операторов в домашнем регионе за минуту: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `
-                 }
-
-
-                texthtml +=   `</tbody></table></div>`;
-
-
-
-            }
-        });
-    }
-
-    node.innerHTML = texthtml;
-    textInHome.appendChild(node);
+*{
+    box-sizing: border-box;
+}
+.d-table{
+    display: table;
+    font-size: 11px;
+    border-collapse: collapse;
+}
+.d-tr{
+    display: table-row;
 
 }
-
-
-//функция вывода данных в первое окно при выделении опций (plaphone)
-function summaryOutput() {
-    const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    var text, text1 = "";
-    var cur_sum_app = [];
-    var cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice));
-    var  gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');
-    var  mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');
-    var  appcheck = document.querySelectorAll('input[type="checkbox"][name="select_apps"]:checked');
-    var  smscheck = document.querySelectorAll('input[type="checkbox"][name="select_sms"]:checked');
-    var  appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]'); 		//галочка "все"
-    if (appcheck.length===0)  selected_items = [];
-
-    VoiceTariffs();
-
-    var hardToVmode = document.getElementById("switch-radio-on-2").checked;
-
-
-
-
-    if (hardToVmode) {
-        text = " Выбран пакет:\n  " + cur_mCount + " минут за " + cur_mPrice + " рублей\n + " + cur_gCount + " ГБ за " + cur_gPrice + " рублей";
-        if (smscheck.length === 1) {
-            text += "\n + " + unlimApps[10 - 1].name + ". ";
-        }
-
-        if (selected_items.length > 0) {
-            selected_items.forEach(function (item, i, arr) {
-                if (unlimApps[item - 1].ids !== 10) {
-                    text1 += unlimApps[item - 1].name + ", ";
-
-                }
-                cur_sum_app[i] = Number(unlimApps[item - 1].price);
-                cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice) + Number(cur_sum_app.reduce(reducer)));
-            });
-            text += "\nА также безлимитные " + text1 + ".";
-
-
-        } else {
-            text += ". ";
-        }
-        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
-        text += "\nОбщая стоимость " + cur_sum + " рублей ";
-    } else if (!hardToVmode)
-    {
-
-        text = "";
-
-
-        var unlimpapps = "";
-        var selitems = [];
-
-        if (selected_items.length > 0) {
-            selected_items.forEach(function (item, i, arr) {
-                if (unlimApps[item - 1].ids !== 10) {  if (unlimApps[item - 1].name === "Одноклассники") {selitems.push(unlimApps[item - 1].altname);} else {selitems.push(unlimApps[item - 1].name);}  }
-                cur_sum_app[i] = Number(unlimApps[item - 1].price);
-                //TODO: Обработка списка приложений, безлимитный\ые (ок), "и" при 3 и более элементах, объединить все в один при выборе всего
-            });
-
-            cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice) + Number(cur_sum_app.reduce(reducer)));
-
-
-            selitems.forEach(function(item, i, arr) {
-                if (selitems.length === 1) {
-
-
-                    switch (selitems[i]) {
-                        case "ВК":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы всегда была возможность покекать с мемосиков";
-                        break; case "Одноклассникам":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для общения с родителями";
-                        break; case "Youtube":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для просмотра любимых видосиков без забот о трафике";
-                        break; case "Instagram":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы всегда была возможность поделиться красивыми фотками с подписчиками";
-                        break; case "Twitter":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы продолжить выражать свои мысли в 280 символах";
-                        break; case "Skype":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для того, чтобы сделать из него файлообменник";
-                        break; case "Viber": case "Whatsapp":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для того, чтобы быть всегда на связи";
-                        break; case "Facebook":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы был, вдруг пригодится";
-                        break; default:   unlimpapps = "безлимитный доступ к " + selitems[i];
-                    }
-
-                } else if (selitems.length > 1){
-                    if (i === 0) unlimpapps = "безлимитный доступ к " + selitems[i];
-                    else if (i !== 0 && i !== selitems.length - 1) unlimpapps += ", " + selitems[i];
-                    else if (i !== 0 && i === selitems.length - 1) unlimpapps += " и " + selitems[i];
-                }
-            });
-        }
-        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
-        var gbsclon = declOfNum(cur_gCount, ['гигабайт', 'гигабайта', 'гигабайт']);
-
-        text = `За ${cur_sum} рублей у Вас будет ${text}`;
-
-
-//TODO: Шаблонизатор Tov Hard
-        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
-
-        if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text = `Подключи хоть что-нибудь, ну.. `; }
-        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `только безлимитные SMS на всех операторов РФ. `; }
-        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota без интернета.`; }
-        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также безлимитные SMS без интернета.`; }
-        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, без дополнительного трафика.`; }
-        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${unlimpapps}, без дополнительного трафика, а также безлимитные SMS.`; }
-        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, а также ${unlimpapps} без трафика.`; }
-        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, безлимитные SMS, а также ${unlimpapps} без трафика.`; }
-        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
-        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом, а также безлимитные SMS.`; }
-        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, а также ${cur_gCount} ${gbsclon} трафика для остальных целей`; }
-        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 1) { text += `безлимитные SMS, ${unlimpapps}, а также ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
-        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также ${unlimpapps}, ну и ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
-        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, безлимитные SMS, ${unlimpapps}, ну и ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
-        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota и ${cur_gCount} ${gbsclon} трафика для пользования интернетом`; }
-        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, безлимитные SMS и ${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
-
-
-
-
-
-
-    }
-    if ( (gcheck.length + mcheck.length)  === 2 )  {
-        document.getElementById("b_tafir_summary_input").innerHTML = text;
-        summaryOutput2(selected_items, cur_mCount ,cur_gCount);
-    } else {
-
-    }
+.d-td{
+    display: table-cell;
+    text-align: center;
+    border: none;
+    border: 1px solid #ccc;
+    vertical-align: middle;
 
 }
-
-
-//склоенние в зависимости от числа
-function declOfNum(number, titles) {
-    cases = [2, 0, 1, 1, 1, 2];
-    return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
-}
-
-//функция вывода данных во второе окно при выделении опций (plaphone)
-function summaryOutput2(apps, cminut, cgbites) {
-
-    var text = "";
-
-
-    if (cgbites === "0") { text += phrasesInet[4].phrase; }
-    else if (cgbites <= 7) {  text += phrasesInet[0].phrase;  }
-    else if (cgbites <= 15) { text += phrasesInet[1].phrase; }
-    else if (cgbites <= 30) { text += phrasesInet[2].phrase; }
-    else if (cgbites > 30) { text += phrasesInet[3].phrase; }
-
-    if( apps.length > 0 && cgbites !== "0") {
-        text += ", включая безлимитный доступ к ";
-        apps.forEach(function(item, i, arr) {
-            text += unlimApps[item-1].name + ", ";
-        });
-    } else if( apps.length > 0 && cgbites === "0")  {
-        text += ", при этом будут безлимитные ";
-        apps.forEach(function(item, i, arr) {
-            text += unlimApps[item-1].name + ", ";
-        });
-    }
-
-    document.getElementById("b_tafir_summary_input1").innerHTML = text;
-}
-
-
-//Функция на обновление переменных по выбанным приложениям (plaphone)
-var text, appitems, appcheck, appall;
-function checkApps(node) {
-    var text, appitems, appcheck, appall;
-
-
-
-    // Название, группа, базовая стоимость, альт.название
-    // [name: "ВК", 			group: "social", 		price: "20", 		altname: "-"]
-    appcheck = document.querySelectorAll('input[type="checkbox"][name="select_apps"]:checked');      //Выбрано среди приложений
-    appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');        		//Все итемы приложжений
-    appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]'); 		//галочка "все"
-
-    ////////////// Обработчик чекбокса (все\по отдельности)
-    if (node.value > appall.value) {
-        selected_items = [];
-        appall.checked = (appcheck.length === appitems.length) && (!appall.checked);
-        appcheck.forEach(function(item, i, arr) {		if (arr[i].value!==0) selected_items[i] = arr[i].value; 		});
-
-    }  else  {
-        appitems.forEach(function(item, i, arr) {
-            appitems[i].checked = !!(appall.checked);
-            if ( appall.checked ) {
-                  selected_items[i] = arr[i].value;
-                }
-                    else { selected_items = [];
-                }
-
-        });
-    }
-      summaryOutput();
-    //Передача выбранных пунктов в обработчик для вывода (чекнутые в selected_items)
-
-}
-
-
-//Функция на обновление переменных по выбранному тарифу (plaphone)
-function checkType(node) {
-    var  mcheck, gcheck, gchecks, mchecks;
-    gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');        //Выбрано среди трафика
-    mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');        //Выбрано среди минут
-    gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');        //Все итемы в трафике
-    mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');        //Все итемы в минутах
-    //cur_mCount = eval(eval("(function () { return \'current_mCount\' })()") + mcheck[0].value);
-    //jsondata.elements[0].name
-
-
-                        if (mcheck[0] !== undefined && gcheck[0] !== undefined) {
-
-                            cur_mCount = cur_region_teriff.mins[mcheck[0].value][0];
-                            cur_mPrice = cur_region_teriff.mins[mcheck[0].value][1];
-                            cur_gCount = cur_region_teriff.gbites[gcheck[0].value][0];
-                            cur_gPrice = cur_region_teriff.gbites[gcheck[0].value][1];
-
-                        }
-
-
-    summaryOutput();
+.d-td:not(.no-p){
+    padding: 0px;
 }
 
 
 
+.d-td-tariff{
+    display: table-cell;
+    text-align: left;
+    border: none;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    padding: 8px 4px;
+
+    margin: 0px 0px;
 
 
+    width: 170px;
+    height: 160px;
+    font-family: DinDisplay,sans-serif;
+    color: #205081;
 
 
-
-
-//Функция ввода из поля "например"
-var input_MN = document.getElementById('regions_call');
-function example_region(stran){
-    input_MN.value = stran;
-    startInclude_MN();
-
+    -webkit-user-modify: read-write-plaintext-only;
+}
+.d-td-tariff-head{
+    display: table-cell;
+    text-align: left;
+    border: none;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    padding: 4px 4px;
+    margin: 0px 0px;
+    font-family: DinDisplay,sans-serif;
+    color: #205081;
+    background-color: rgba(0, 164, 255, 0.3);
+    -webkit-user-modify: read-write-plaintext-only;
 }
 
-function addRow(id, region, mins, gbites, sms, snPrice, mePrice, youtube){
+.input_radio_minute, .input_radio_gbite, .input_app-vk, .input_app-all, .input_app-ok, .input_app-fb, .input_app-ig, .input_app-tw,
+.input_app-sk, .input_app-vi, .input_app-wh, .input_app-yt,.input_app-sm,.input_app-tg   { position: absolute; visibility: hidden; }
+.layout-buttons {
+    display: block;
+    height: 27px;
+    margin: 0px;
+    cursor: pointer;
+    /*border-radius: 15px;*/
+}
+.layout-buttons_gb {
+    display: block;
+    /*width: 150px;*/
+    height: 27px;
+    margin: 0px;
+    padding: 6px 2px;
+    border: 0px solid black;
+    font-size: 0.7em;
+    cursor: pointer;
+    font-family:Arial;
+    text-align: center;
+    font-weight: bold;
+    box-sizing: border-box;
+    border: none;
+    /*border-radius: 15px;*/
+}
+.input_app-vk + label .activated { visibility: hidden;   }   .input_app-vk:checked + label .activated {visibility: visible; }
+.input_app-ig + label .activated { visibility: hidden;   }   .input_app-ig:checked + label .activated {visibility: visible; }
+.input_app-fb + label .activated { visibility: hidden;   }   .input_app-fb:checked + label .activated {visibility: visible; }
+.input_app-ok + label .activated { visibility: hidden;   }   .input_app-ok:checked + label .activated {visibility: visible; }
+.input_app-tw + label .activated { visibility: hidden;   }   .input_app-tw:checked + label .activated {visibility: visible; }
+.input_app-vi + label .activated { visibility: hidden;   }   .input_app-vi:checked + label .activated {visibility: visible; }
+.input_app-wh + label .activated { visibility: hidden;   }   .input_app-wh:checked + label .activated {visibility: visible; }
+.input_app-sk + label .activated { visibility: hidden;   }   .input_app-sk:checked + label .activated {visibility: visible; }
+.input_app-tg + label .activated { visibility: hidden;   }   .input_app-tg:checked + label .activated {visibility: visible; }
+.input_app-yt + label .activated { visibility: hidden;   }   .input_app-yt:checked + label .activated {visibility: visible; }
+.input_app-sm + label .activated { visibility: hidden;   }   .input_app-sm:checked + label .activated {visibility: visible; }
+
+.input_radio_minute + label { color: #00729e; background: #e8edff; width: 180px; height: 25px;} .input_radio_minute:checked + label {opacity: 0.7;color: #fff; background: #04adef;text-shadow: 1px 1px 1px #000; }
+.input_radio_gbite + label { color: #00729e; background: #e8edff;width: 150px; height: 25px;} .input_radio_gbite:checked + label {opacity: 0.7;color: #fff; background: #04adef;text-shadow: 1px 1px 1px #000; }
 
 
-    //TODO: Установка бирок для БМП
-    var apchecks11 = document.querySelectorAll('div[class="b2c-voice-collect__app-price"]');
-    apchecks11.forEach(function(item, ids, arr) {
-        var dataname = apchecks11[ids];
-        if (dataname.getAttribute('data-name') === "app-media") {
-            apchecks11[ids].innerHTML = youtube + "&#8381;";
-        } else if (dataname.getAttribute('data-name')  === "app-messenger") {
-            apchecks11[ids].innerHTML = mePrice + "&#8381;";
-        } else if (dataname.getAttribute('data-name') === "app-social") {
-            apchecks11[ids].innerHTML = snPrice + "&#8381;";
-        } else if (dataname.getAttribute('data-name') === "app-sms") {
-            apchecks11[ids].innerHTML = sms + "&#8381;";
-        }
-    });
-
-    /// Сохранение цен приложений выбранной области в массив \\ переписать получше бы
-    unlimApps.forEach(function(item, app, arr) {
-        switch (unlimApps[app].group){
-            case "messenger": unlimApps[app].price = mePrice; break;
-            case "social": unlimApps[app].price = snPrice; break;
-            case "youtube": unlimApps[app].price = youtube; break;
-            case "sms": unlimApps[app].price = sms; break;
-            case "deleted": /*unlimApps[app].price = unlimApps[app].price;*/ break;
-            default: break;
-
-        }
-
-    });
-
-
-
-    var elem = document.getElementById("tminute0");
-    while (elem.firstChild) { if (elem.firstChild) elem.removeChild(elem.firstChild);  };
-
-    //TODO: Перестать использовать таблицы, черт
-    var tr1 = document.createElement('tr');
-    tr1.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты минут:  </label></td>';
-    elem.appendChild(tr1);
-
-    mins.forEach(function(item,i,arr){
-        var tr = document.createElement('tr');
-        tr.innerHTML = '<td id="tdminute_' + i + '" nowrap><input value="' + i + '" id="iminute_'+ i + '"class="input_radio_minute" name="radio_minute" type="radio" onchange="checkType(this)"><label for="iminute_' + i + '" class="layout-buttons_gb"> ' +  item[0] + ' минут за ' + item[1] + ' рублей  </label></td>';
-        elem.appendChild(tr);
-    });
-    //TODO: Без понятия
-
-    var elem1 = document.getElementById("tgbite0");
-    while (elem1.firstChild) { if (elem1.firstChild) elem1.removeChild(elem1.firstChild);  };
-
-    var tr2 = document.createElement('tr');
-    tr2.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты трафика:  </label></td>';
-    elem1.appendChild(tr2);
-
-    gbites.forEach(function(item,i,arr){
-        var tr2 = document.createElement('tr');
-        tr2.innerHTML = '<td id="tdgbite_' + i + '" nowrap><input value="' + i + '" id="igbite_'+ i + '"class="input_radio_gbite" name="radio_trafic" type="radio" onchange="checkType(this)"><label for="igbite_' + i + '" class="layout-buttons_gb">' +  item[0] + ' ГБ за ' + item[1] + ' рублей' + '</label></td>';
-        elem1.appendChild(tr2);
-    });
-
-
-
-
-
-
-
+input[type="checkbox"]:checked + label {
+//background: #e83737; //красный
+color: #fff; //белый
+//border-color: #e83737; //красный
+}
+#vari4:checked + label span{
+    content: 'другой текст';
+}
+.search_alt {
+    margin-top: 20px;
+    position: relative;
+}
+.unlimsyota {
+    position: relative;
+    /*top: -300px;*/
+}
+.legoyota {
+    position: relative;
+    /*top: -40px;*/
 }
 
-var currentUnlimTariff;
-function addRowUnlimPhone( ){
+.b-region-search__formwrap {
+    position: relative;
+    border: 1px solid #F3F3F3;
+    width: 520px;
+    left: 245px;
+    border-top-color: #D8D8D8;
+    font-size: 12px;
+    padding: 0 0px 0 0px;
+    background: #FBFBFB;
+    box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -webkit-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -moz-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -o-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+}
 
+.b-type-search__formwrap {
+    position: absolute;
+    border: 1px solid #F3F3F3;
+    width: 240px;
 
-    var tariffs = currentUnlimTariff.tariffs;
-    var tableTariffs = document.getElementById("unlimstafiffs");
-    tableTariffs.innerHTML = "";
-    var sumCurrentTarriff  = "";
-    var txt = "";
-
-
-    var showAll = document.getElementById("switch-radio-unlim-on-2").checked;
-
-    if (!showAll) {
-        txt += '<div class="d-tr">';
-        for (x in tariffs) {
-            txt += "<div class=\"d-td-tariff-head\">";
-
-            if (tariffs[x].status === "open" || tariffs[x].status === "archived") {
-                txt += tariffs[x].sreenname;
-            }
-            if (tariffs[x].status === "closed") {
-                txt +=  tariffs[x].sreenname + " " + tariffs[x].lastupdate;
-            }
-            txt += '</div>';
-        }
-        txt += '</div>';
-
-        txt += '<div class="d-tr">';
-        for (x in tariffs) {
-            txt += "<div class=\"d-td-tariff-head\">";
-
-            if ( tariffs[x].status === "open" && tariffs[x].name === "current")  {
-                txt +=  "";
-            }
-            if (  tariffs[x].status === "archived") {
-                txt += "Для изменения условий доступны только текущие";
-            }
-            if (tariffs[x].status === "open" && tariffs[x].name !== "current") {
-                txt +=  "Введен " + tariffs[x].lastupdate ;
-            }
-            if (tariffs[x].status === "closed") {
-                txt +=  "Закрыт для выбора ";
-            }
-            txt += '</div>';
-        }
-        txt += '</div>';
-
-        txt += '<div class="d-tr">';
-        for (x in tariffs) {
-            var textCurrentTarriff = "";
-            var infoCurrentTarriff = "";
-            var mins = tariffs[x].mins;
-            mins.forEach(function(itemr,ir,arrr){
-                if (mins[ir][0] === "FREEM")
-                {
-                    textCurrentTarriff +=  `60 минут и 500 МБ за 0 рублей \n`;
-                } else  textCurrentTarriff +=  `${mins[ir][0]} минут за ${mins[ir][1]} рублей \n`;
-            });
-
-            txt += "<div class=\"d-td-tariff\">" + textCurrentTarriff + "</div> ";
-        }
-        txt += '</div>';
-        tableTariffs.innerHTML = txt;
-    }
-    else {
-
-
-
-        txt += '<div class="d-tr">';
-        for (x in tariffs) {
-            if (tariffs[x].name === "current") {
-                var textCurrentTarriff = "";
-                var infoCurrentTarriff = "";
-                var mins = tariffs[x].mins;
-                mins.forEach(function (itemr, ir, arrr) {
-                    if (mins[ir][0] === "FREEM") {
-                        textCurrentTarriff += `60 минут и 500 МБ за 0 рублей \n`;
-                    } else textCurrentTarriff += `${mins[ir][0]} минут за ${mins[ir][1]} рублей \n`;
-                });
-
-                txt += "<div class=\"d-td-tariff\">" + textCurrentTarriff + "</div> ";
-
-            txt += '</div>';
-            tableTariffs.innerHTML = txt;
-            }
-        }
-    }
-
-
-
-
-
+    border-top-color: #D8D8D8;
+    font-size: 12px;
+    padding: 0 0px 0 0px;
+    background: #FBFBFB;
+    box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -webkit-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -moz-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -o-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+}
+.b_summary_tarif_form {
+    overflow: hidden;
 
 }
 
 
-//Функция заполнения при выборе региона
-var cur_region_teriff = {};
-function startInclude_MN() {
+
+.b_summary_tarif_text {
+
+    padding: 8px 4px;
+
+    margin: 0px 0px;
+    position: relative;
+    top: 0px;
+    right: 0px;
+    width: 280px;
+    height: 120px;
+    resize:none;
+    font-family: DinDisplay,sans-serif;
+    color: #205081;
+    font-size: 11px;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-focus-ring-color: rgba(0,0,0,0);
+
+    -webkit-user-modify: read-write-plaintext-only;
+    font-weight: bold;
+    text-align: center;
+}
+
+input {
+    outline:none;
+}
+.b-region-info {
+    font-size: 11px;
+    line-height: 1.1;
+    border-collapse: inherit;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: gray;
+}
+.b-region-info {
+    font-size: 11px;
+    line-height: 1.1;
+    border-collapse: inherit;
+}
+.b-region-info th {
+    line-height: 16px;
+}
+.b-region-info th {
+    border-bottom: 2px solid #D9D9D9;
+    padding: 0 15px 10px 0;
+    font-size: 14px;
+    line-height: 25px;
+    color: #9b9b9c;
+    text-align: left;
+}
+.b-region-info td {
+    padding: 18px 15px 18px 0;
+    border-bottom: 1px solid #D9D9D9;
+    font-size: 14px;
+    line-height: 18px;
+    color: #2c302e;
+}
+.b-region-search__suggest-list-wrap {
+    font-family: DinDisplay,Arial,ArialRuble,sans-serif;
+    margin: 10px 4px 20px;
+    font-size: 12px;
+}
+.b-region-search__sample-key {
+    color: #999;
+    padding-right: 0px;
+}
+.b-region-search__suggest-list {
+    list-style: none;
+    padding: 0;
+    display: inline;
+}
+.b-region-search__suggest-item {
+    font-family: DinDisplay,Arial,ArialRuble,sans-serif;
+    text-decoration: none;
+    list-style: none;
+    display: inline;
+    padding: 0;
+    color: #008cfc;
+    padding-right: 3px;
+}
+.b-region-search__suggest-link {
+    cursor: pointer;
+}
+/*Стили для поисковой строки*/
+.choices{position:relative;margin-bottom:24px;font-size:16px}.choices:focus{outline:none}.choices:last-child{margin-bottom:0}.choices.is-disabled .choices__inner,.choices.is-disabled .choices__input{background-color:#eaeaea;cursor:not-allowed;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.choices.is-disabled .choices__item{cursor:not-allowed}.choices[data-type*=select-one]{cursor:pointer}.choices[data-type*=select-one] .choices__inner{padding-bottom:7.5px}.choices[data-type*=select-one] .choices__input{display:block;width:100%;padding:10px;border-bottom:1px solid #ddd;background-color:#fff;margin:0}.choices[data-type*=select-one] .choices__button{background-image:url(../../icons/cross-inverse.svg);padding:0;background-size:8px;position:absolute;top:50%;right:0;margin-top:-10px;margin-right:25px;height:20px;width:20px;border-radius:10em;opacity:.5}.choices[data-type*=select-one] .choices__button:focus,.choices[data-type*=select-one] .choices__button:hover{opacity:1}.choices[data-type*=select-one] .choices__button:focus{box-shadow:0 0 0 2px #00bcd4}.choices[data-type*=select-one]:after{content:"";height:0;width:0;border-style:solid;border-color:#333 transparent transparent transparent;border-width:5px;position:absolute;right:11.5px;top:50%;margin-top:-2.5px;pointer-events:none}.choices[data-type*=select-one].is-open:after{border-color:transparent transparent #333 transparent;margin-top:-7.5px}.choices[data-type*=select-one][dir=rtl]:after{left:11.5px;right:auto}.choices[data-type*=select-one][dir=rtl] .choices__button{right:auto;left:0;margin-left:25px;margin-right:0}.choices[data-type*=select-multiple] .choices__inner,.choices[data-type*=text] .choices__inner{cursor:text}.choices[data-type*=select-multiple] .choices__button,.choices[data-type*=text] .choices__button{position:relative;display:inline-block;margin:0 -4px 0 8px;padding-left:16px;border-left:1px solid #008fa1;background-image:url(../../icons/cross.svg);background-size:8px;width:8px;line-height:1;opacity:.75}.choices[data-type*=select-multiple] .choices__button:focus,.choices[data-type*=select-multiple] .choices__button:hover,.choices[data-type*=text] .choices__button:focus,.choices[data-type*=text] .choices__button:hover{opacity:1}.choices__inner{display:inline-block;vertical-align:top;width:100%;background-color:#f9f9f9;padding:7.5px 7.5px 3.75px;border:1px solid #ddd;border-radius:2.5px;font-size:14px;min-height:44px;overflow:hidden}.is-focused .choices__inner,.is-open .choices__inner{border-color:#b7b7b7}.is-open .choices__inner{border-radius:2.5px 2.5px 0 0}.is-flipped.is-open .choices__inner{border-radius:0 0 2.5px 2.5px}.choices__list{margin:0;padding-left:0;list-style:none}.choices__list--single{display:inline-block;padding:4px 16px 4px 4px;width:100%}[dir=rtl] .choices__list--single{padding-right:4px;padding-left:16px}.choices__list--single .choices__item{width:100%}.choices__list--multiple{display:inline}.choices__list--multiple .choices__item{display:inline-block;vertical-align:middle;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:500;margin-right:3.75px;margin-bottom:3.75px;background-color:#00bcd4;border:1px solid #00a5bb;color:#fff;word-break:break-all}.choices__list--multiple .choices__item[data-deletable]{padding-right:5px}[dir=rtl] .choices__list--multiple .choices__item{margin-right:0;margin-left:3.75px}.choices__list--multiple .choices__item.is-highlighted{background-color:#00a5bb;border:1px solid #008fa1}.is-disabled .choices__list--multiple .choices__item{background-color:#aaa;border:1px solid #919191}.choices__list--dropdown{display:none;z-index:1;position:absolute;width:100%;background-color:#fff;border:1px solid #ddd;top:100%;margin-top:-1px;border-bottom-left-radius:2.5px;border-bottom-right-radius:2.5px;overflow:hidden;word-break:break-all}.choices__list--dropdown.is-active{display:block}.is-open .choices__list--dropdown{border-color:#b7b7b7}.is-flipped .choices__list--dropdown{top:auto;bottom:100%;margin-top:0;margin-bottom:-1px;border-radius:.25rem .25rem 0 0}.choices__list--dropdown .choices__list{position:relative;max-height:300px;overflow:auto;-webkit-overflow-scrolling:touch;will-change:scroll-position}.choices__list--dropdown .choices__item{position:relative;padding:10px;font-size:14px}[dir=rtl] .choices__list--dropdown .choices__item{text-align:right}@media (min-width:640px){.choices__list--dropdown .choices__item--selectable{padding-right:100px}.choices__list--dropdown .choices__item--selectable:after{content:attr(data-select-text);font-size:12px;opacity:0;position:absolute;right:10px;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}[dir=rtl] .choices__list--dropdown .choices__item--selectable{text-align:right;padding-left:100px;padding-right:10px}[dir=rtl] .choices__list--dropdown .choices__item--selectable:after{right:auto;left:10px}}.choices__list--dropdown .choices__item--selectable.is-highlighted{background-color:#f2f2f2}.choices__list--dropdown .choices__item--selectable.is-highlighted:after{opacity:.5}.choices__item{cursor:default}.choices__item--selectable{cursor:pointer}.choices__item--disabled{cursor:not-allowed;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;opacity:.5}.choices__heading{font-weight:600;font-size:12px;padding:10px;border-bottom:1px solid #f7f7f7;color:gray}.choices__button{text-indent:-9999px;-webkit-appearance:none;-moz-appearance:none;appearance:none;border:0;background-color:transparent;background-repeat:no-repeat;background-position:center;cursor:pointer}.choices__button:focus{outline:none}.choices__input{display:inline-block;vertical-align:baseline;background-color:#f9f9f9;font-size:14px;margin-bottom:5px;border:0;border-radius:0;max-width:100%;padding:4px 0 4px 2px}.choices__input:focus{outline:0}[dir=rtl] .choices__input{padding-right:2px;padding-left:0}.choices__placeholder{opacity:.5}
 
 
 
-    function addRowUnlim(id, region, packets, base) {
-        document.getElementById("b_tafir_summary_input").innerHTML = packets;
-        document.getElementById("b_tafir_summary_input1").innerHTML = base;
-    }
-
-
-
-    //var url = "http://yandex.ru/yandsearch?text=wwww&lr=187"; // юрл в котором происходит поиск
-    //var regV = /yandex\.ru/gi;     // шаблон
-    //var result = url.match(regV);  // поиск шаблона в юрл тру или фолс
-
-    if(input_MN.value.length > 0)	{
-///////////////////////////////////////////////////////////////
-
-        VisibleClearBody(customTemplatess.getValue(true));
-        var regions = jsondata.elements;
-        if (customTemplatess.getValue(true) === "plaphone" || customTemplatess.getValue(true) === "tabt" ) {
-            regions.forEach(function (item, i, arr) {
-                if (regions[i].name === customTemplatess.getValue(true)) {
-                    var data = regions[i].data;
-                    data.forEach(function (item, i, arr) {
-                        {
-                            //TODO: Корректно подгрузить стоимость SMS
-                            if (data[i].id.toString() === customTemplates.getValue(true)) {
-                                console.log("Выбран " + customTemplates.getValue(true));
-                                addRow('regionTable', data[i].id, data[i].mins, data[i].gbites, "50", data[i].social,
-                                    data[i].messenger, data[i].youtube);
-                                cur_region_teriff = data[i];
-
-                            }
-                        }
-                    });
-
-
-                }
-            });
-        }
-
-        if (customTemplatess.getValue(true) === "unlims" ) {
-
-            regions.forEach(function (item, i, arr) {
-                if (regions[i].name === customTemplatess.getValue(true)) {
-
-                    var data = regions[i].data;
-
-                    data.forEach(function (item, i, arr) {
-                        {
-
-                            if (data[i].id.toString() === customTemplates.getValue(true)) {
-                                console.log("Выбран " + customTemplates.getValue(true));
-                                currentUnlimTariff = data[i];
-                                addRowUnlimPhone();
-
-                            }
-                        }
-                    });
-                }
-            });
-                            /* for (var key in jsondata.regions) {
-
-                                 if (jsondata.regions[key].id === data[i].id) {
-                                     var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
-                                     choices1212.push({ //regioncity
-                                         value: data[i].id.toString(),
-                                         label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
-                                         disabled: false,
-                                         customProperties: {description: jsondata.regions[key].altname}
-                                     });
-                                 }
-                             }*/
 
 
 
 
 
 
-        }
 
-    }
+.b2c-voice-collect__app_tg circle {
+    fill: #888888;
 
+}
+.b2c-voice-collect__app-price_tg svg {
+    margin:auto;
+    background: #888888;
+    position:relative;
+    top: -40px;
+    left: 2px;
+    padding: 1px 4px;
+    border-radius: 5px;
+    width: 30px;
+    margin-left:-4px;
 
 }
 
-var phrasesInet =[
-// Название, группа, базовая стоимость, альт.название
-    {id: 0, phrase: " Этого хватит для минимального использования интернета, он практически не используется (нужен редко/иногда/только для поиска информации)"},
-    {id: 1, phrase: " Этого достаточно для умеренного использования интернета (web-серфинг, чтение новостей, иногда видео/аудио, скачивание/обновление приложений)"},
-    {id: 2, phrase: " Это  вариант для активного использования интернета (видео/аудио, скачивание/обновление приложений, web-серфинг)"},
-    {id: 3, phrase: " Этого должно (но это не точно) хватить для очень активного использования интернета (просмотр фильмов/трансляций/стримов, скачивание тяжелых приложений, обновление системы)"},
-    {id: 4, phrase: " Этого хватит, чтобы безвылазно сидеть на сайте Yota и в мобильном приложении "},
-];
 
+.b2c-voice-collect__app-price{
+    margin:auto;
+    background: #4a76a8;
+    font-family:  Yota Sans,sans-serif;
+    color: #ffffff;
+    font-size: 11px;
 
-var unlimApps=[
-// Название, группа, базовая стоимость, альт.название
-    {ids: 1,name: "ВК", 				group: "social", 		price: 20, 		altname: "-"},
-    {ids: 2,name: "Одноклассники", 	group: "social", 		price: 20, 		altname: "Одноклассникам"},
-    {ids: 3,name: "Facebook", 			group: "social", 		price: 20, 		altname: "-"},
-    {ids: 4,name: "Instagram", 		group: "social", 		price: 20, 		altname: "-"},
-    {ids: 5,name: "Twitter", 			group: "social", 		price: 10, 		altname: "-"},
-    {ids: 6,name: "Skype", 			group: "messenger", 	price: 10, 		altname: "-"},
-    {ids: 7,name: "Viber", 			group: "messenger", 	price: 10, 		altname: "-"},
-    {ids: 8,name: "Whatsapp", 			group: "messenger", 	price: 10, 		altname: "-"},
-    {ids: 9,name: "Youtube", 			group: "youtube", 		price: 60, 		altname: "-"},
-    {ids: 10,name: "Безлимитные SMS", 	group: "sms", 		    price: 50, 		altname: "-"},
-    {ids: 11,name: "Telegram", 			group: "deleted", 	    price: 0, 		altname: "-"}
-];
-
-
-
-
-
-
-document.onreadystatechange = function() {
-    if (document.readyState === 'complete') {
-        //fn();
-    }
-};
-
-
+    position:relative;
+    top: -38px;
+    /*top: -36px;*/
+    left: 6px;
+    padding: 1px 0px;
+    border-radius: 5px;
+    width: 32px;
+    margin-left:-4px;
+    transform:translatey(-50%) rotate(-0deg);
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, .2), 0 0 0 1px rgba(0, 0, 0, .08);
+}
 
