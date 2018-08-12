@@ -362,7 +362,7 @@
       "screenname": "[T] Безлим",
       "dateclose": "-",
       "status": "open",
-     "disabled": true,
+     "disabled": false,
        "data": 
        [
        {"id":"2048093", "type": "TUNLIM", "day":"50","mounth":"590","year":"4500","myear":"375","procentas":"-36%"} , 
@@ -457,11 +457,11 @@
       
     },
      {
-      "name": "outvoice",
+      "name": "intervoice",
       "screenname": "[МН] связь",
       "dateclose": "-",
       "status": "open",
-      "disabled": true
+      "disabled": false
       
     },
     {
