@@ -57,7 +57,8 @@ function tableToJSON(table) { //адаптировать под разное к�
 var jsondata;
 var jsondataroaming;
 function loadJSOND() {
-
+//https://raw.githubusercontent.com/
+    //https://raw.githack.com/
     var reqw1 = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( 'Microsoft.XMLHTTP' );
     reqw1.open( 'GET', 'https://raw.githubusercontent.com/mobilkot/yt/master/roaming.json', true );
     reqw1.responseType = 'json';
@@ -337,6 +338,8 @@ function VisibleClearBody(type) {
             document.getElementById("b_tafir_summary_input").innerHTML = "";
             document.getElementById("tminute0").innerHTML = "";
             document.getElementById("tgbite0").innerHTML = "";
+            document.getElementById("id-Тарифы[Тест]-СтоимостьвызововиSMS").nextElementSibling.innerHTML = "Выбери тариф и регион";
+            document.getElementById("id-Тарифы[Тест]-Дополнительныеуслуги").nextElementSibling.innerHTML = "Выбери тариф и регион";
             gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
             mchecks.forEach(function(item, i, arr) {  if (mchecks[i].checked) mchecks[i].checked = false; });
             appitems.forEach(function(item, i, arr) {  if (appitems[i].checked) appitems[i].checked = false; });
@@ -448,11 +451,11 @@ var outputSummary = document.getElementById("b_tafir_summary_input");  // эле
 
 //TODO Отображение условий в домашнем регионе и нет
 function VoiceTariffs() {
-    var textInHome = document.getElementById("id-Тарифы[Тест]-Вдомашнемрегионе").nextElementSibling;
-    var textOutHome = document.getElementById("id-Тарифы[Тест]-Внедомашнегорегиона").nextElementSibling;
-    textInHome.innerHTML = "";
+    var textVoiceSMS = document.getElementById("id-Тарифы[Тест]-СтоимостьвызововиSMS").nextElementSibling;
+    var textUslugi = document.getElementById("id-Тарифы[Тест]-Дополнительныеуслуги").nextElementSibling;
+    textVoiceSMS.innerHTML = ""; textUslugi.innerHTML = "";
     var node = document.createElement('p');
-
+    var node2 = document.createElement('p');
     gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');        //Выбрано среди трафика
     mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');        //Выбрано среди минут
 
@@ -460,22 +463,38 @@ function VoiceTariffs() {
     var price1 = "0";
 
     var texthtml = "";
+    var texthtml2 = "";
     if (mcheck[0] !== undefined && gcheck[0] !== undefined) {
         var regions = jsondata.regions;
         regions.forEach(function(item, i, arr) {
             if (regions[i].id === cur_region_teriff.id) {
 
-                texthtml = `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 85.5649%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
-
+                texthtml = `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 60%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
+                texthtml2 = texthtml;
                  if (cur_mCount === "0") {
-                     texthtml +=  `<tr><td class="confluenceTd">SMS: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> 
-                    <tr><td class="confluenceTd">Стоимость минуты сверх пакета: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr>
-                    <tr><td class="confluenceTd">Вызовы на номера других операторов в домашнем регионе за минуту: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `
+                     texthtml +=  `
+                    <tr><td class="confluenceTd">Исходящие в домашний регион на других операторов: </td><td class="confluenceTd">${regions[i].pag_voice_inbound} руб./мин.</td></tr>
+                    <tr><td class="confluenceTd">Исходящие в другой регион на других операторов: </td><td class="confluenceTd">${regions[i].pag_voice} руб./мин.</td></tr>
+                    <tr><td class="confluenceTd">Вызовы на Yota по РФ: </td><td class="confluenceTd">${regions[i].pag_voice_inbound} руб./шт.</td></tr> 
+                    <tr><td class="confluenceTd">Входящие вызовы (в домашнем регионе): </td><td class="confluenceTd"> Бесплатные </td></tr>
+                    <tr><td class="confluenceTd">Входящие вызовы (вне домашнего региона): </td><td class="confluenceTd">${regions[i].pag_voice} руб./мин.</td></tr>
+                    <tr><td class="confluenceTd">Исходящие SMS сообщения по РФ (без опции): </td><td class="confluenceTd">${regions[i].pag_sms} руб./шт.</td></tr>
+                    <tr><td class="confluenceTd" colspan="2">При подключении «дополнительных 100 минут» звонки Yota-Yota становятся бесплатными и не расходуют пакет минут, вся тарификация - как при активном пакете </td> `;
+                 } else {
+                     texthtml +=  `
+                    <tr><td class="confluenceTd">Стоимость минуты сверх пакета на всех операторов РФ: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr> 
+                    <tr><td class="confluenceTd">Вызовы на Yota по РФ: </td><td class="confluenceTd"> Не тарифицируются </td></tr> 
+                    <tr><td class="confluenceTd">Входящие вызовы: </td><td class="confluenceTd"> Бесплатные </td></tr>
+                    <tr><td class="confluenceTd">Исходящие SMS сообщения по РФ (без опции): </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `;
                  }
 
-
+                texthtml2 +=  `
+                    <tr><td class="confluenceTd">Дополнительный пакет 100 минут: </td><td class="confluenceTd">${regions[i].voice_add_100} руб.</td></tr> 
+                    <tr><td class="confluenceTd">Дополнительный пакет 5 Гб: </td><td class="confluenceTd"> ${regions[i].gb_add_5} руб.</td></tr> 
+                    <tr><td class="confluenceTd">Пакет SMS: </td><td class="confluenceTd"> ${regions[i].sms_base} руб. </td></tr>`;
+//
                 texthtml +=   `</tbody></table></div>`;
-
+                texthtml2 +=   `</tbody></table></div>`;
 
 
             }
@@ -483,7 +502,10 @@ function VoiceTariffs() {
     }
 
     node.innerHTML = texthtml;
-    textInHome.appendChild(node);
+    textVoiceSMS.appendChild(node);
+    node2.innerHTML = texthtml2;
+    textUslugi.appendChild(node2);
+
 
 }
 
@@ -937,7 +959,12 @@ function addRowRoaming(el) {
 
             }
         });
-
+        if (provs.length === 0) {
+            document.getElementById("label_providers").style.visibility = "hidden";
+        }
+        else {
+            document.getElementById("label_providers").style.visibility = "visible";
+        }
 
         document.getElementById("tab_roaming").checked = true;
 
