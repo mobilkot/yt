@@ -359,7 +359,7 @@
     },
      {
       "name": "tunlim",
-      "screenname": "[T] Безлим",
+      "screenname": "[T] Unlimited",
       "dateclose": "-",
       "status": "open",
      "disabled": false,
@@ -449,7 +449,7 @@
     },
      {
       "name": "roaming",
-      "screenname": "[R] Роуминг",
+      "screenname": "[R] Rouming",
       "dateclose": "-",
       "status": "open",
      "disabled": false
@@ -457,7 +457,7 @@
     },
      {
       "name": "intervoice",
-      "screenname": "[МН] связь",
+      "screenname": "[IN] Звонки м.н.",
       "dateclose": "-",
       "status": "open",
       "disabled": false
