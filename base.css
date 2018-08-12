@@ -393,7 +393,7 @@ table {
 }
 
 
-
+.legoyota, .unlimsyota, .roamingyota, .interyota, .tunlimyota{display: none; }
 /* Базовый контейнер табов */
 .tabs {
     min-width: 320px;
