@@ -1,8 +1,259 @@
 var customTemplates;
+var customTemplatess;
+var choicesUnlim= [];
+//loadRegions();
+var tarifUnlim = [];
+
+function doLoad(subject, callback) {
+    //gorodogr1 = loadCitiesClosed();//loadUnlimClosed();
+    setTimeout( function(){
+
+        callback(subject);
+    }, 10 );
+
+}
+//    doLoad('math', loadUnlimInbox);
+function loadUnlimInbox(){
+
+
+}
+
+
+
+function tableToJSON(table) { //адаптировать под разное количество столбцов
+
+
+
+    var search = ["\\<strong>?(.*?)\\</strong>", "\\<br>","\\</p>" ,"\\<p>" ,"\\[futurama]?(.*?)\\[/futurama]"];
+    var replaceTo = ['$1', '\n', '\n', '', '<span style="font-family: \'Futurama\', sans-serif">$1</span>'];
+
+    var tables = [];
+    var cells = table.querySelectorAll("td");
+    var count = 0;
+    for (var i = 0; i < cells.length; i+=3) {
+        var name = cells[i].firstChild.data +  "\n";//.split("-");
+
+        var info1 = "";
+        var info11 = cells[i + 1].innerHTML;
+        for (t = 0; t < search.length; t++) {
+            info11 = info11.replace(new RegExp(search[t], 'g'), replaceTo[t]);
+        }
+        info1 = info11;
+        var info2 = "";
+        var info21 = cells[i + 2].innerHTML;
+        for (var t = 0; t < search.length; t++) {
+            info21 = info21.replace(new RegExp(search[t], 'g'), replaceTo[t]);
+        }
+        info2 = info21;
+        tables[count] = { id: count, type: "Unlim", region: name, packets: info1, base: info2 ,};
+
+
+        ++count;
+    }
+    return tables;
+}
+
+
+var jsondata;
+var jsondataroaming;
+function loadJSOND() {
+
+    var reqw1 = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( 'Microsoft.XMLHTTP' );
+    reqw1.open( 'GET', 'https://raw.githubusercontent.com/mobilkot/yt/master/roaming.json', true );
+    reqw1.responseType = 'json';
+    reqw1.onreadystatechange = function () {
+
+        if ( reqw1.readyState == 4 ) {
+            if ( reqw1.status == 200 ) {
+                jsondataroaming = reqw1.response;
+
+            }
+        }
+    };
+    reqw1.send( null );
+
+    var reqw = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( 'Microsoft.XMLHTTP' );
+    reqw.open( 'GET', 'https://raw.githubusercontent.com/mobilkot/yt/master/tariffs.json', true );
+    reqw.responseType = 'json';
+    reqw.onreadystatechange = function () {
+
+        if ( reqw.readyState == 4 ) {
+            if ( reqw.status == 200 ) {
+                 importJsond(reqw.response);
+
+            }
+        }
+    };
+    reqw.send( null );
+
+}
+
+
+function importJsond(jsondatas) {
+    jsondata= jsondatas;
+    customTemplates.disable();
+    //TODO: евент на первый поиск
+    customTemplatess.passedElement.addEventListener('change', function(e) {
+        if (e.detail.value !== '') {
+            customTemplates.enable();
+        } else {
+            customTemplates.disable();
+        }
+        loadRegions(e.detail.value, jsondata);
+        VisibleClearBody("clear");
+    });
+
+
+    customTemplatess.clearStore();
+    choices222= [];
+    var elements = jsondata.elements;
+
+
+    elements.forEach(function(item, i, arr) {
+        {
+
+
+                    choices222.push({
+                        value: elements[i].name,
+                        label: elements[i].screenname ,
+                        disabled: elements[i].disabled,
+                    });
+
+
+        }});
+
+    customTemplatess.setChoices( choices222, 'value', 'label', 0);
+}
+
+//TODO здесь прогрузка роуминга
+function loadRegions(tarif, jsondata) {
+    document.getElementById('regions_callname').innerText =tarif;
+
+    //jsondataroaming
+
+
+    choices1212= [];
+    //TODO Удалить если выделять роуминг отдельно
+    if (tarif === "intervoice") {
+
+        var intervoice = jsondataroaming.intervoice;
+        intervoice.forEach(function(item, i, arr) {
+//jsondataroaming.providers //providers_lte
+
+            choices1212.push({
+                value: intervoice[i].id.toString(),
+                label: intervoice[i].name + " (" + intervoice[i].zone + ")",
+                disabled: false,
+                customProperties: {description: intervoice[i].name + " (" + intervoice[i].zone + ")"}
+            });
+
+
+
+
+
+            customTemplates.clearStore();
+            customTemplates.setChoices([
+                {
+                    value: "roaming",
+                    label: "Roaming",
+                    id: "roaming",
+                    disabled: false,
+                    choices: choices1212,
+
+                },  ]  , 'value', 'label', 0);
+
+        });
+    }
+    if (tarif === "roaming") {
+
+    var counties = jsondataroaming.countries;
+    counties.forEach(function(item, i, arr) {
+//jsondataroaming.providers //providers_lte
+
+                        choices1212.push({
+                            value: counties[i].id.toString(),
+                            label: counties[i].name,
+                            disabled: false,
+                            customProperties: {description: counties[i].name}
+                        });
+
+
+
+
+
+        customTemplates.clearStore();
+        customTemplates.setChoices([
+            {
+                value: "roaming",
+                label: "Roaming",
+                id: "roaming",
+                disabled: false,
+                choices: choices1212,
+
+            },  ]  , 'value', 'label', 0);
+
+        });
+    }
+
+    if (tarif === "unlims" ||tarif === "tabt" || tarif === "plaphone" || tarif === "tunlim" ) {
+        var regions = jsondata.elements;
+        regions.forEach(function (item, i, arr) {
+            if (regions[i].name === tarif) {
+
+                var data = regions[i].data;
+
+                data.forEach(function (item, i, arr) {
+                    {
+                        for (var key in jsondata.regions) {
+
+                            if (jsondata.regions[key].id === data[i].id) {
+                                var info = "";
+                                if (data[i].info !== undefined) {
+                                    info = data[i].info
+                                }
+                                choices1212.push({
+                                    value: data[i].id.toString(),
+                                    label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
+                                    disabled: false,
+                                    customProperties: {description: jsondata.regions[key].altname}
+                                });
+                            }
+                        }
+
+
+                    }
+                });
+//TODO: log
+                console.log(choices1212);
+
+                customTemplates.clearStore();
+                customTemplates.setChoices([
+                    {
+                        value: regions[i].data[0].type,
+                        label: regions[i].data[0].type,
+                        id: regions[i].data[0].type,
+                        disabled: false,
+                        choices: choices1212,
+
+                    },], 'value', 'label', 0);
+            }
+        });
+    }
+
+
+
+
+}
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
 
+
+    VisibleClearBody("clear");
     customTemplates = new Choices(document.getElementById('regions_call'), {
-        searchFields: ['label', 'value', 'customProperties.description'],
+        searchFields: ['customProperties.description'],
         placeholderValue: 'This is a placeholder set in the config',
         searchPlaceholderValue: 'Наверное, это поле поиска..',
         placeholder: true,
@@ -20,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   '+ String(data.active ? 'aria-selected="true"' : '') + '\
                   '+ String(data.disabled ? 'aria-disabled="true"' : '') + '\
                   >\
-                  <span style="margin-right:10px;"> >> </span> ' + '  [ <b>'  + String(data.groupId) + '</b> ]  ' + String(data.label) + ' ' + '\
+                  <span style="margin-right:1px;"></span> ' /*+ ' [<b>'  + String(data.groupId) + '</b>] ' */+ String(data.label) + ' ' + '\
                 </div>\
               ');
                 },
@@ -35,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   data-value="'+ String(data.value) + '"\
                   '+ String(data.groupId > 0 ? 'role="treeitem"' : 'role="option"') + '\
                   >\
-                  <span style="margin-right:10px;"> >> </span> ' + '  [ <b>'  + String(data.groupId) + '</b> ]  ' + String(data.label) + ' ' + '\
+                  <span style="margin-right:1px;"></span> ' /*+ ' [<b>'  + String(data.groupId) + '</b>] ' */+ String(data.label) + ' ' + '\
                 </div>\
               ');
                 },
@@ -43,102 +294,149 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     });
 
-    choices1212= [];
+    customTemplatess = new Choices(document.getElementById('regions_called'), {
+        searchFields: ['customProperties.description'],
+        placeholderValue: 'This is a placeholder set in the config',
+        placeholder: true,
+        searchEnabled: false,
 
-    regiones.forEach(function(item, i, arr) {
-        {
-            choices1212.push({
-                value: regiones[i].region,
-                label: regiones[i].region,
-                disabled: false,
-                customProperties: {description: regiones[i].altname}
-            });
-        }});
-    customTemplates.setChoices([
-        {
-            value: 'Plaphone',
-            label: 'Plaphone',
-            id: 'Plaphone',
-            disabled: false,
-            choices: choices1212,
-
-        },
-
-    ], 'value', 'label', 0);
+    });
+    loadJSOND();
 
     customTemplates.passedElement.addEventListener('change', function(e) {
+        document.getElementById('regions_callname2').innerText =e.detail.value;
+
+
         //if (e.detail.value === 'London') {
         //    tubeStations.innerText = "London";
         //} else {
         //    tubeStations.innerText = `  ${e.detail.value}   ${e.choices}`;
         //document.getElementById('choices-single-groups').placeholder = 'no London ${e.detail.value}' + 'You just added "' + e.detail.value + '"';
-        //}
-
-
-
-
-        //if(!!appitems) { appitems.forEach(function(item, i, arr) {  if (appitems[i].checked) appitems[i].checked = false; }); }
-        //else { appitems= document.querySelectorAll('input[type="checkbox"][name="select_apps"]'); }      //Выбрано среди приложений }
-
-        var gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');        //Все итемы в трафике
-        var mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');
-        var appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');
-        gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
-        mchecks.forEach(function(item, i, arr) {  if (mchecks[i].checked) mchecks[i].checked = false; });
-        appitems.forEach(function(item, i, arr) {  if (appitems[i].checked) appitems[i].checked = false; });
-
-
-        document.getElementById("b_tafir_summary_input1").innerHTML = "";
-        document.getElementById("b_tafir_summary_input").innerHTML = "";
-
         startInclude_MN();
     });
 
 });
 
+//TODO: Очистка тела, обнуление
+//что оставить lego,unlim,tunlim,clear
+function VisibleClearBody(type) {
+    var gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');
+    var mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');
+    var appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');
+    switch (type) {
+        case "clear":
+            document.getElementById("switch-radio-off-2").checked = false;
+            document.getElementById("switch-radio-on-2").checked = false;
+            document.getElementById("tapps").style.visibility = "hidden";
+            document.getElementById("legoyota").style.display = "none";
+            document.getElementById("unlimsyota").style.display = "none";
+            document.getElementById("roamingyota").style.display = "none";
+            document.getElementById("interyota").style.display = "none";
+            document.getElementById("tunlimyota").style.display = "none";
+            document.getElementById("b_tafir_summary_input1").innerHTML = "";
+            document.getElementById("b_tafir_summary_input").innerHTML = "";
+            document.getElementById("tminute0").innerHTML = "";
+            document.getElementById("tgbite0").innerHTML = "";
+            gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
+            mchecks.forEach(function(item, i, arr) {  if (mchecks[i].checked) mchecks[i].checked = false; });
+            appitems.forEach(function(item, i, arr) {  if (appitems[i].checked) appitems[i].checked = false; });
+
+            break;
+        case "lego":case "plaphone":case "tabt":
+            VisibleClearBody("clear");
+
+            document.getElementById("tapps").style.visibility = "visible";
+            document.getElementById("legoyota").style.display = "block";
+            document.getElementById("tapps").style.visibility = "visible";
+            document.getElementById("tminute0").style.visibility = "visible";
+            document.getElementById("tgbite0").style.visibility = "visible";
+
+            break;
+        case "unlims":
+            VisibleClearBody("clear");
+            document.getElementById("unlimsyota").style.display = "block";
 
 
 
-function mOver(obj) {
-    obj.innerHTML = "Thank You"
+            break;
+        case "tunlim":
+            VisibleClearBody("clear");
+            document.getElementById("tunlimyota").style.display = "block";
+            break;
+        case "roaming":
+            VisibleClearBody("clear");
+            document.getElementById("roamingyota").style.display = "block";
+
+
+
+            break;
+        case "intervoice":
+            VisibleClearBody("clear");
+            document.getElementById("interyota").style.display = "block";
+
+
+
+            break;
+        default:
+            //alert( 'Я таких значений не знаю' );
+    }
+
+
 }
 
-function mOut(obj) {
-    obj.innerHTML = "Mouse Over Me"
+{
+    function addOnWheel(elem, handler) {
+        if (elem.addEventListener) {
+            if ('onwheel' in document) {
+                // IE9+, FF17+
+                elem.addEventListener("wheel", handler);
+            }
+        }
+    }
+
+    var scale = 1;
+    var info = document.getElementById("b_tafir_summary_input");//
+    addOnWheel(info, function(e) {
+        var delta = e.deltaY || e.detail || e.wheelDelta;
+
+
+        if (delta=== 100) {
+            document.getElementById("switch-radio-on-2").checked = true;
+        } else if (delta === -100) {
+            document.getElementById("switch-radio-off-2").checked = true;
+        }
+        summaryOutput();
+        /*info.innerHTML = +info.innerHTML + delta;*/
+
+        e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+    });
+
+    function mOver(obj) {
+        //obj.innerHTML = "Thank You"
+    }
+
+    function mOut(obj) {
+        //obj.innerHTML = "Mouse Over Me"
+    }
+
+    function mDown(obj) {
+        obj.style.backgroundColor = "#6da8e6";//"#1ec5e5";
+        //obj.innerHTML = "Release Me";
+    }
+
+    function mUp(obj) {
+        obj.style.backgroundColor = "#f0f7ff";//"#D94A38";
+        //obj.innerHTML = "Thank You";
+    }
+
+
 }
-function mDown(obj) {
-    obj.style.backgroundColor = "#1ec5e5";
-    obj.innerHTML = "Release Me";
-}
-
-function mUp(obj) {
-    obj.style.backgroundColor="#D94A38";
-    obj.innerHTML="Thank You";
-}
-
-
-
 
 
 
 
 
 let log = document.getElementById('spans');
-
-//let radios = document.querySelectorAll('input[type="radio"][name=' + questionsName[0] + ']');
-let radios = document.querySelectorAll('input[type="checkbox"]');
-
-//
-//var value = radios.length>0? radios[0].value: null;
-
-//document.getElementsByClassName('b-region-search__suggest-lin1k').addEventListener('click', function(){
-    //document.getElementById('spans').innerHTML = "dd";
-//    document.getElementById("test1234").innerText +="Пока ничего не выбраноsss :( ";
-//});
-//document.getElementsByClassName('b-region-search__suggest-link').addEventListener('click', function(){
-    //document.getElementById('spans').innerHTML = "dd";
-//    document.getElementById("b_tafir_summary_input").innerText ="Пока ничего не выбраноsss :( ";
-//});
 
 
 
@@ -147,6 +445,50 @@ var cur_mCount, cur_mPrice, cur_gCount, cur_gPrice; //Выбранные мин�
 
 var outputSummary = document.getElementById("b_tafir_summary_input");  // элемент, куда отдается итоговый текст о тарифе
 
+
+//TODO Отображение условий в домашнем регионе и нет
+function VoiceTariffs() {
+    var textInHome = document.getElementById("id-Тарифы[Тест]-Вдомашнемрегионе").nextElementSibling;
+    var textOutHome = document.getElementById("id-Тарифы[Тест]-Внедомашнегорегиона").nextElementSibling;
+    textInHome.innerHTML = "";
+    var node = document.createElement('p');
+
+    gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');        //Выбрано среди трафика
+    mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');        //Выбрано среди минут
+
+
+    var price1 = "0";
+
+    var texthtml = "";
+    if (mcheck[0] !== undefined && gcheck[0] !== undefined) {
+        var regions = jsondata.regions;
+        regions.forEach(function(item, i, arr) {
+            if (regions[i].id === cur_region_teriff.id) {
+
+                texthtml = `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 85.5649%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
+
+                 if (cur_mCount === "0") {
+                     texthtml +=  `<tr><td class="confluenceTd">SMS: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> 
+                    <tr><td class="confluenceTd">Стоимость минуты сверх пакета: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr>
+                    <tr><td class="confluenceTd">Вызовы на номера других операторов в домашнем регионе за минуту: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `
+                 }
+
+
+                texthtml +=   `</tbody></table></div>`;
+
+
+
+            }
+        });
+    }
+
+    node.innerHTML = texthtml;
+    textInHome.appendChild(node);
+
+}
+
+
+//функция вывода данных в первое окно при выделении опций (plaphone)
 function summaryOutput() {
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
     var text, text1 = "";
@@ -155,31 +497,114 @@ function summaryOutput() {
     var  gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');
     var  mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');
     var  appcheck = document.querySelectorAll('input[type="checkbox"][name="select_apps"]:checked');
+    var  smscheck = document.querySelectorAll('input[type="checkbox"][name="select_sms"]:checked');
     var  appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]'); 		//галочка "все"
     if (appcheck.length===0)  selected_items = [];
 
+    VoiceTariffs();
+
+    var hardToVmode = document.getElementById("switch-radio-on-2").checked;
 
 
 
 
-    text = " Выбран пакет " +  cur_mCount + " минут за " + cur_mPrice + " рублей и " +  cur_gCount + " ГБ за " + cur_gPrice + " рублей";
-    if( selected_items.length > 0) {
+    if (hardToVmode) {
+        text = " Выбран пакет:\n  " + cur_mCount + " минут за " + cur_mPrice + " рублей\n + " + cur_gCount + " ГБ за " + cur_gPrice + " рублей";
+        if (smscheck.length === 1) {
+            text += "\n + " + unlimApps[10 - 1].name + ". ";
+        }
 
-        selected_items.forEach(function(item, i, arr) {
-            text1 += unlimApps[item-1].name + ", ";
-            cur_sum_app[i] = Number( unlimApps[item-1].price );
+        if (selected_items.length > 0) {
+            selected_items.forEach(function (item, i, arr) {
+                if (unlimApps[item - 1].ids !== 10) {
+                    text1 += unlimApps[item - 1].name + ", ";
 
-            //////////////////////////////////////////////// Обработка списка приложений, безлимитный\ые (ок), "и" при 3 и более элементах, объединить все в один при выборе всего
+                }
+                cur_sum_app[i] = Number(unlimApps[item - 1].price);
+                cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice) + Number(cur_sum_app.reduce(reducer)));
+            });
+            text += "\nА также безлимитные " + text1 + ".";
 
-        });
-        cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice) + Number(cur_sum_app.reduce(reducer)));
-        text += " , включая безлимитные "+text1;
-    }	else	{
-        text += ". ";
+
+        } else {
+            text += ". ";
+        }
+        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
+        text += "\nОбщая стоимость " + cur_sum + " рублей ";
+    } else if (!hardToVmode)
+    {
+
+        text = "";
+
+
+        var unlimpapps = "";
+        var selitems = [];
+
+        if (selected_items.length > 0) {
+            selected_items.forEach(function (item, i, arr) {
+                if (unlimApps[item - 1].ids !== 10) {  if (unlimApps[item - 1].name === "Одноклассники") {selitems.push(unlimApps[item - 1].altname);} else {selitems.push(unlimApps[item - 1].name);}  }
+                cur_sum_app[i] = Number(unlimApps[item - 1].price);
+                //TODO: Обработка списка приложений, безлимитный\ые (ок), "и" при 3 и более элементах, объединить все в один при выборе всего
+            });
+
+            cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice) + Number(cur_sum_app.reduce(reducer)));
+
+
+            selitems.forEach(function(item, i, arr) {
+                if (selitems.length === 1) {
+
+
+                    switch (selitems[i]) {
+                        case "ВК":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы всегда была возможность покекать с мемосиков";
+                        break; case "Одноклассникам":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для общения с родителями";
+                        break; case "Youtube":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для просмотра любимых видосиков без забот о трафике";
+                        break; case "Instagram":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы всегда была возможность поделиться красивыми фотками с подписчиками";
+                        break; case "Twitter":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы продолжить выражать свои мысли в 280 символах";
+                        break; case "Skype":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для того, чтобы сделать из него файлообменник";
+                        break; case "Viber": case "Whatsapp":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для того, чтобы быть всегда на связи";
+                        break; case "Facebook":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы был, вдруг пригодится";
+                        break; default:   unlimpapps = "безлимитный доступ к " + selitems[i];
+                    }
+
+                } else if (selitems.length > 1){
+                    if (i === 0) unlimpapps = "безлимитный доступ к " + selitems[i];
+                    else if (i !== 0 && i !== selitems.length - 1) unlimpapps += ", " + selitems[i];
+                    else if (i !== 0 && i === selitems.length - 1) unlimpapps += " и " + selitems[i];
+                }
+            });
+        }
+        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
+        var gbsclon = declOfNum(cur_gCount, ['гигабайт', 'гигабайта', 'гигабайт']);
+
+        text = `За ${cur_sum} рублей у Вас будет ${text}`;
+
+
+//TODO: Шаблонизатор Tov Hard
+        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
+
+        if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text = `Подключи хоть что-нибудь, ну.. `; }
+        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `только безлимитные SMS на всех операторов РФ. `; }
+        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota без интернета.`; }
+        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также безлимитные SMS без интернета.`; }
+        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, без дополнительного трафика.`; }
+        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${unlimpapps}, без дополнительного трафика, а также безлимитные SMS.`; }
+        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, а также ${unlimpapps} без трафика.`; }
+        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, безлимитные SMS, а также ${unlimpapps} без трафика.`; }
+        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
+        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом, а также безлимитные SMS.`; }
+        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, а также ${cur_gCount} ${gbsclon} трафика для остальных целей`; }
+        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 1) { text += `безлимитные SMS, ${unlimpapps}, а также ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
+        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также ${unlimpapps}, ну и ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
+        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, безлимитные SMS, ${unlimpapps}, ну и ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
+        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota и ${cur_gCount} ${gbsclon} трафика для пользования интернетом`; }
+        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, безлимитные SMS и ${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
+
+
+
+
+
+
     }
-
-    text += "Общая стоимость " + cur_sum + " рублей ";
-
     if ( (gcheck.length + mcheck.length)  === 2 )  {
         document.getElementById("b_tafir_summary_input").innerHTML = text;
         summaryOutput2(selected_items, cur_mCount ,cur_gCount);
@@ -190,33 +615,41 @@ function summaryOutput() {
 }
 
 
+//склоенние в зависимости от числа
+function declOfNum(number, titles) {
+    cases = [2, 0, 1, 1, 1, 2];
+    return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
+}
+
+//функция вывода данных во второе окно при выделении опций (plaphone)
 function summaryOutput2(apps, cminut, cgbites) {
 
     var text = "";
 
 
-    if (cgbites === 0) { text += phrasesInet[0].phrase; }
+    if (cgbites === "0") { text += phrasesInet[4].phrase; }
     else if (cgbites <= 7) {  text += phrasesInet[0].phrase;  }
     else if (cgbites <= 15) { text += phrasesInet[1].phrase; }
     else if (cgbites <= 30) { text += phrasesInet[2].phrase; }
     else if (cgbites > 30) { text += phrasesInet[3].phrase; }
 
-    if( apps.length > 0) {
+    if( apps.length > 0 && cgbites !== "0") {
         text += ", включая безлимитный доступ к ";
         apps.forEach(function(item, i, arr) {
             text += unlimApps[item-1].name + ", ";
         });
-
-
-
+    } else if( apps.length > 0 && cgbites === "0")  {
+        text += ", при этом будут безлимитные ";
+        apps.forEach(function(item, i, arr) {
+            text += unlimApps[item-1].name + ", ";
+        });
     }
 
     document.getElementById("b_tafir_summary_input1").innerHTML = text;
 }
 
 
-
-
+//Функция на обновление переменных по выбанным приложениям (plaphone)
 var text, appitems, appcheck, appall;
 function checkApps(node) {
     var text, appitems, appcheck, appall;
@@ -252,6 +685,7 @@ function checkApps(node) {
 }
 
 
+//Функция на обновление переменных по выбранному тарифу (plaphone)
 function checkType(node) {
     var  mcheck, gcheck, gchecks, mchecks;
     gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');        //Выбрано среди трафика
@@ -259,19 +693,20 @@ function checkType(node) {
     gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');        //Все итемы в трафике
     mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');        //Все итемы в минутах
     //cur_mCount = eval(eval("(function () { return \'current_mCount\' })()") + mcheck[0].value);
-    regiones.forEach(function(item, region, arr) {
-        if (regiones[region].region === customTemplates.getValue(true) ) {
-            cur_mCount = regiones[region].mins[mcheck[0].value][0];
-            cur_mPrice = regiones[region].mins[mcheck[0].value][1];
-            cur_gCount = regiones[region].gbites[gcheck[0].value][0];
-            cur_gPrice = regiones[region].gbites[gcheck[0].value][1];
-
-            //regiones[region].
-        }
-    });
+    //jsondata.elements[0].name
 
 
-    summaryOutput()
+                        if (mcheck[0] !== undefined && gcheck[0] !== undefined) {
+
+                            cur_mCount = cur_region_teriff.mins[mcheck[0].value][0];
+                            cur_mPrice = cur_region_teriff.mins[mcheck[0].value][1];
+                            cur_gCount = cur_region_teriff.gbites[gcheck[0].value][0];
+                            cur_gPrice = cur_region_teriff.gbites[gcheck[0].value][1];
+
+                        }
+
+
+    summaryOutput();
 }
 
 
@@ -282,7 +717,7 @@ function checkType(node) {
 
 
 
-
+//Функция ввода из поля "например"
 var input_MN = document.getElementById('regions_call');
 function example_region(stran){
     input_MN.value = stran;
@@ -290,82 +725,457 @@ function example_region(stran){
 
 }
 
-function startInclude_MN() {
+function addRow(id, region, mins, gbites, sms, snPrice, mePrice, youtube){
+
+
+    //TODO: Установка бирок для БМП
+    var apchecks11 = document.querySelectorAll('div[class="b2c-voice-collect__app-price"]');
+    apchecks11.forEach(function(item, ids, arr) {
+        var dataname = apchecks11[ids];
+        if (dataname.getAttribute('data-name') === "app-media") {
+            apchecks11[ids].innerHTML = youtube + "&#8381;";
+        } else if (dataname.getAttribute('data-name')  === "app-messenger") {
+            apchecks11[ids].innerHTML = mePrice + "&#8381;";
+        } else if (dataname.getAttribute('data-name') === "app-social") {
+            apchecks11[ids].innerHTML = snPrice + "&#8381;";
+        } else if (dataname.getAttribute('data-name') === "app-sms") {
+            apchecks11[ids].innerHTML = sms + "&#8381;";
+        }
+    });
+
+    /// Сохранение цен приложений выбранной области в массив \\ переписать получше бы
+    unlimApps.forEach(function(item, app, arr) {
+        switch (unlimApps[app].group){
+            case "messenger": unlimApps[app].price = mePrice; break;
+            case "social": unlimApps[app].price = snPrice; break;
+            case "youtube": unlimApps[app].price = youtube; break;
+            case "sms": unlimApps[app].price = sms; break;
+            case "deleted": /*unlimApps[app].price = unlimApps[app].price;*/ break;
+            default: break;
+
+        }
+
+    });
 
 
 
+    var elem = document.getElementById("tminute0");
+    while (elem.firstChild) { if (elem.firstChild) elem.removeChild(elem.firstChild);  };
 
-    function addRow(id, region, mins, gbites, itog, snPrice, mePrice, youtube){
+    //TODO: Перестать использовать таблицы, черт
+    var tr1 = document.createElement('tr');
+    tr1.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты минут:  </label></td>';
+    elem.appendChild(tr1);
 
-        var elem = document.getElementById("tminute0");
-        while (elem.firstChild) { if (elem.firstChild) elem.removeChild(elem.firstChild);  };
+    mins.forEach(function(item,i,arr){
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td id="tdminute_' + i + '" nowrap><input value="' + i + '" id="iminute_'+ i + '"class="input_radio_minute" name="radio_minute" type="radio" onchange="checkType(this)"><label for="iminute_' + i + '" class="layout-buttons_gb"> ' +  item[0] + ' минут за ' + item[1] + ' рублей  </label></td>';
+        elem.appendChild(tr);
+    });
+    //TODO: Без понятия
 
-        /// Перестать использовать таблицы, черт
-        var tr1 = document.createElement('tr');
-        tr1.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons">Пакеты минут:  </label></td>';
-        elem.appendChild(tr1);
+    var elem1 = document.getElementById("tgbite0");
+    while (elem1.firstChild) { if (elem1.firstChild) elem1.removeChild(elem1.firstChild);  };
 
-        mins.forEach(function(item,i,arr){
-            var tr = document.createElement('tr');
-            tr.innerHTML = '<td id="tdminute_' + i + '" nowrap><input value="' + i + '" id="iminute_'+ i + '"class="input_radio_minute" name="radio_minute" type="radio" onchange="checkType(this)"><label for="iminute_' + i + '" class="layout-buttons"> ' +  item[0] + ' минут за ' + item[1] + ' рублей  </label></td>';
-            elem.appendChild(tr);
-        });
-        ////////////////////////////////////////
+    var tr2 = document.createElement('tr');
+    tr2.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты трафика:  </label></td>';
+    elem1.appendChild(tr2);
 
-        var elem1 = document.getElementById("tgbite0");
-        while (elem1.firstChild) { if (elem1.firstChild) elem1.removeChild(elem1.firstChild);  };
-
+    gbites.forEach(function(item,i,arr){
         var tr2 = document.createElement('tr');
-        tr2.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons">Пакеты трафика:  </label></td>';
+        tr2.innerHTML = '<td id="tdgbite_' + i + '" nowrap><input value="' + i + '" id="igbite_'+ i + '"class="input_radio_gbite" name="radio_trafic" type="radio" onchange="checkType(this)"><label for="igbite_' + i + '" class="layout-buttons_gb">' +  item[0] + ' ГБ за ' + item[1] + ' рублей' + '</label></td>';
         elem1.appendChild(tr2);
-
-        gbites.forEach(function(item,i,arr){
-            var tr2 = document.createElement('tr');
-            tr2.innerHTML = '<td id="tdgbite_' + i + '" nowrap><input value="' + i + '" id="igbite_'+ i + '"class="input_radio_gbite" name="radio_trafic" type="radio" onchange="checkType(this)"><label for="igbite_' + i + '" class="layout-buttons">' +  item[0] + ' ГБ за ' + item[1] + ' рублей' + '</label></td>';
-            elem1.appendChild(tr2);
-        });
-          //div.className = "alert alert-success";
+    });
 
 
 
-        /// Сохранение цен приложений выбранной области в массив \\ переписать получше бы
-        regiones.forEach(function(item, region, arr) {
-            if (regiones[region].region === customTemplates.getValue(true) ) {
-                unlimApps.forEach(function(item, app, arr) {
-                    switch (unlimApps[app].group){
-                        case "messenger": unlimApps[app].price = regiones[region].messenger; break;
-                        case "social": unlimApps[app].price = regiones[region].social; break;
-                        case "youtube": unlimApps[app].price = regiones[region].youtube; break;
-                        default: break;
 
-                    }
 
-                });
+
+
+}
+
+var currentUnlimTariff;
+function addRowUnlimPhone( ){
+
+
+    var tariffs = currentUnlimTariff.tariffs;
+    var tableTariffs = document.getElementById("unlimstafiffs");
+    tableTariffs.innerHTML = "";
+    var sumCurrentTarriff  = "";
+    var txt = "";
+
+
+    var showAll = document.getElementById("switch-radio-unlim-on-2").checked;
+
+    if (!showAll) {
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            txt += "<div class=\"d-td-tariff-head\">";
+
+            if (tariffs[x].status === "open" || tariffs[x].status === "archived") {
+                txt += tariffs[x].sreenname;
             }
-        });
+            if (tariffs[x].status === "closed") {
+                txt +=  tariffs[x].sreenname + " " + tariffs[x].lastupdate;
+            }
+            txt += '</div>';
+        }
+        txt += '</div>';
+
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            txt += "<div class=\"d-td-tariff-head\">";
+
+            if ( tariffs[x].status === "open" && tariffs[x].name === "current")  {
+                txt +=  "";
+            }
+            if (  tariffs[x].status === "archived") {
+                txt += "Для изменения условий доступны только текущие";
+            }
+            if (tariffs[x].status === "open" && tariffs[x].name !== "current") {
+                txt +=  "Введен " + tariffs[x].lastupdate ;
+            }
+            if (tariffs[x].status === "closed") {
+                txt +=  "Закрыт для выбора ";
+            }
+            txt += '</div>';
+        }
+        txt += '</div>';
+
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            var textCurrentTarriff = "";
+            var infoCurrentTarriff = "";
+            var mins = tariffs[x].mins;
+            mins.forEach(function(itemr,ir,arrr){
+                if (mins[ir][0] === "FREEM")
+                {
+                    textCurrentTarriff +=  `60 минут и 500 МБ за 0 рублей \n`;
+                } else  textCurrentTarriff +=  `${mins[ir][0]} минут за ${mins[ir][1]} рублей \n`;
+            });
+
+            txt += "<div class=\"d-td-tariff\">" + textCurrentTarriff + "</div> ";
+        }
+        txt += '</div>';
+        tableTariffs.innerHTML = txt;
+    }
+    else {
 
 
 
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            if (tariffs[x].name === "current") {
+                var textCurrentTarriff = "";
+                var infoCurrentTarriff = "";
+                var mins = tariffs[x].mins;
+                mins.forEach(function (itemr, ir, arrr) {
+                    if (mins[ir][0] === "FREEM") {
+                        textCurrentTarriff += `60 минут и 500 МБ за 0 рублей \n`;
+                    } else textCurrentTarriff += `${mins[ir][0]} минут за ${mins[ir][1]} рублей \n`;
+                });
+
+                txt += "<div class=\"d-td-tariff\">" + textCurrentTarriff + "</div> ";
+
+            txt += '</div>';
+            tableTariffs.innerHTML = txt;
+            }
+        }
     }
 
 
-    if(input_MN.value.length > 0)	{
 
-            regiones.forEach(function(item, region, arr) {
-                if (regiones[region].region === customTemplates.getValue(true) ) {
-                    addRow('regionTable', regiones[region].region, regiones[region].mins, regiones[region].gbites, regiones[region].itog, regiones[region].social, regiones[region].messenger, regiones[region].youtube);
-                }
-        });
-    }
+
 
 
 }
 
 
+function addRowUnlimTablet(el){
 
-// Названия приложений
-// Добоавить сюда множественные\единиченые, фразу для выбора одного
 
+    var text5555 = `          
+                                <br><b> Тарифы. </b>
+                                <br>Тариф <b style="color:#00bbf2">"День"</b>: ${String(el.day)} руб.   
+                                <br>Тариф <b style="color:#00bbf2">"Месяц"</b>: ${String(el.mounth)} руб. 
+                                <br>Тариф <b style="color:#00bbf2">"Год"</b>: ${String(el.year)} руб.
+                                <br><br>
+                                <br>&emsp;Стоимость месяца при подключении на год: ${String(el.myear)} рублей
+                                <br>&emsp;Скидка при подключении на год: ${String(el.procentas)}/
+                               `;
+
+    document.getElementById("tunlimprice").innerHTML = text5555;
+}
+
+
+function addRowRoaming(el) {
+    {
+        var provs = []; var provs4 = []; var elem = {};
+        el.forEach(function (item, i, arr) {
+            if (el[i].id.toString() === customTemplates.getValue(true)) {
+                elem = el[i];
+                var providers = jsondataroaming.providers;
+
+                providers.forEach(function (itemu, u, arru) {
+                    if (providers[u].id.toString() === el[i].id.toString()) {
+                        provs.push(providers[u]);
+
+                    }
+                });
+
+                var providers4 = jsondataroaming.providers_lte;
+
+                providers4.forEach(function (itemt, t, arrt) {
+                    if (providers4[t].id.toString() === el[i].id.toString()) {
+                        provs4.push(providers4[t]);
+
+                    }
+                });
+                console.log("Выбран " + customTemplates.getValue(true));
+
+
+            }
+        });
+
+
+        document.getElementById("tab_roaming").checked = true;
+
+        var text2222 = `          <br><b> ${String(elem.name)} </b>
+                                <br><b> Интернет. </b>
+                                <br>Стоимость 1 мегабайта при наличии подключенного пакета: ${String(elem.mb_price)} руб. ( Тарификация по 100 КБ. )
+                                <br>После использования ${String(elem.paid_mb)} платных МБ, ${String(elem.free_mb)} МБ - бесплатно.
+                                <br><b> Звонки. </b>
+                                <br>&emsp;Стоимость входящих звонков: ${String(elem.invoice)} руб./мин.
+                                <br>&emsp;Стоимость опции "30 минут бесплатных входящих в день": ${String(elem.m30min)} руб.
+                                <br>&emsp;Минута:
+                                <br>&emsp;&emsp;исходящих звонков в РФ: ${String(elem.out_rf)} руб.
+                                <br>&emsp;&emsp;исходящих звонков внутри страны: ${String(elem.out_country)} руб.
+                                <br>&emsp;&emsp;исходящих звонков в другие страны: ${String(elem.out_other)} руб.
+                                <br><b> SMS (включая бесплатные в РФ номера): </b>
+                                <br>&emsp;исходящие: ${String(elem.out_sms)} руб.
+                                <br>&emsp;входящие : ${String(elem.in_sms)} руб.
+                                <br><b> MMS: </b>
+                                <br>исходящие: ${String(elem.out_mms)}.
+                                <br>входящие: Стоимость интернет-сессии.
+                                <br><br>
+                                <br>Стоимость 1 Мб, если не оплачен основной пакет (Базовый, Региональный, ...): ${String(elem.mb_base)} руб.
+                                <br>Стоимость минуты исходящих звонков на спутниковые сети (Thuraya, Inmarsat,...): 313 руб./мин.`;
+
+        document.getElementById("roamingprice").innerHTML = text2222;
+
+        var textProvs = "";
+        for (xProv in provs) {
+            var name = provs[xProv].name;
+            if (name !== "") {
+                textProvs += `<b> ${String(provs[xProv].name)} </b><br>`;
+            }
+            else {
+                textProvs += `<b> ${String(provs[xProv].forname)} </b><br>`;
+            }
+            var pros = provs[xProv].providers;
+            for (xe in pros) {
+                textProvs += `${String(pros[xe])} <br>`;
+            }
+        }
+
+
+        textProvs += `<br><br>`;
+
+        document.getElementById("roamingproviders").innerHTML = textProvs;
+
+        if (provs4.length === 0) {
+            document.getElementById("label_providers4").style.visibility = "hidden";
+        }
+        else {
+            document.getElementById("label_providers4").style.visibility = "visible";
+            var textProvs4 = "";
+            for (xProv in provs4) {
+
+                textProvs4 += `<b> ${String(provs4[xProv].name)} </b><br>`;
+
+                var pros4 = provs4[xProv].providers;
+                for (xe in pros4) {
+                    textProvs4 += `${String(pros4[xe])} <br>`;
+                }
+            }
+
+
+            textProvs4 += `<br><br>`;
+
+            document.getElementById("roamingproviders4").innerHTML = textProvs4;
+        }
+
+
+    }
+
+}
+
+
+function addRowInter(el) {
+    document.getElementById("tab_roaming").checked = true;
+
+
+
+    var text3333 = `<ul id="myTable_MN" class="b-roaming-operators-table__inner" style="font-size: 14px;">
+			
+		<li><b style="color:#00bbf2">${String(el.zone)}</b></li>
+		<li>Страна: ${String(el.name)}</li>
+		<li>Исходящие вызовы: ${String(el.minute)} р./мин.</li>
+		<li>SMS: ${String(el.sms)} р./шт.</li>
+		<li>MMS: ${String(el.mms)} р./шт.</li>
+		</ul> `;
+
+    document.getElementById("interprice").innerHTML = text3333;
+
+
+}
+
+//Функция заполнения при выборе региона
+var cur_region_teriff = {};
+function startInclude_MN() {
+
+
+
+    function addRowUnlim(id, region, packets, base) {
+        document.getElementById("b_tafir_summary_input").innerHTML = packets;
+        document.getElementById("b_tafir_summary_input1").innerHTML = base;
+    }
+
+
+    //TODO: Вывод информации об условиях в стране
+
+
+
+
+
+
+    //var url = "http://yandex.ru/yandsearch?text=wwww&lr=187"; // юрл в котором происходит поиск
+    //var regV = /yandex\.ru/gi;     // шаблон
+    //var result = url.match(regV);  // поиск шаблона в юрл тру или фолс
+
+    if(input_MN.value.length > 0)	{
+///////////////////////////////////////////////////////////////
+
+        VisibleClearBody(customTemplatess.getValue(true));
+        var regions = jsondata.elements;
+        if (customTemplatess.getValue(true) === "plaphone" || customTemplatess.getValue(true) === "tabt" ) {
+            regions.forEach(function (item, i, arr) {
+                if (regions[i].name === customTemplatess.getValue(true)) {
+                    var data = regions[i].data;
+                    data.forEach(function (item, i, arr) {
+                        {
+                            //TODO: Корректно подгрузить стоимость SMS
+                            if (data[i].id.toString() === customTemplates.getValue(true)) {
+                                console.log("Выбран " + customTemplates.getValue(true));
+                                addRow('regionTable', data[i].id, data[i].mins, data[i].gbites, "50", data[i].social,
+                                    data[i].messenger, data[i].youtube);
+                                cur_region_teriff = data[i];
+
+                            }
+                        }
+                    });
+
+
+                }
+            });
+        }
+
+        if (customTemplatess.getValue(true) === "tunlim" ) {
+
+            regions.forEach(function (item, i, arr) {
+                if (regions[i].name === customTemplatess.getValue(true)) {
+
+                    var data = regions[i].data;
+
+                    data.forEach(function (item, i, arr) {
+                        {
+
+                            if (data[i].id.toString() === customTemplates.getValue(true)) {
+                                console.log("Выбран " + customTemplates.getValue(true));
+
+                                addRowUnlimTablet(data[i]);
+
+                            }
+                        }
+                    });
+                }
+            });
+        }
+            /* for (var key in jsondata.regions) {
+
+                 if (jsondata.regions[key].id === data[i].id) {
+                     var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
+                     choices1212.push({ //regioncity
+                         value: data[i].id.toString(),
+                         label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
+                         disabled: false,
+                         customProperties: {description: jsondata.regions[key].altname}
+                     });
+                 }
+             }*/
+
+        if (customTemplatess.getValue(true) === "unlims" ) {
+
+            regions.forEach(function (item, i, arr) {
+                if (regions[i].name === customTemplatess.getValue(true)) {
+
+                    var data = regions[i].data;
+
+                    data.forEach(function (item, i, arr) {
+                        {
+
+                            if (data[i].id.toString() === customTemplates.getValue(true)) {
+                                console.log("Выбран " + customTemplates.getValue(true));
+                                currentUnlimTariff = data[i];
+                                addRowUnlimPhone();
+
+                            }
+                        }
+                    });
+                }
+            });
+                            /* for (var key in jsondata.regions) {
+
+                                 if (jsondata.regions[key].id === data[i].id) {
+                                     var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
+                                     choices1212.push({ //regioncity
+                                         value: data[i].id.toString(),
+                                         label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
+                                         disabled: false,
+                                         customProperties: {description: jsondata.regions[key].altname}
+                                     });
+                                 }
+                             }*/
+
+
+
+
+
+
+        }
+
+        if (customTemplatess.getValue(true) === "roaming" ) {
+
+
+            var counties = jsondataroaming.countries;
+            doLoad(counties, addRowRoaming);
+
+        }
+
+        if (customTemplatess.getValue(true) === "intervoice" ) {
+            var intervoice = jsondataroaming.intervoice;
+            intervoice.forEach(function (item, i, arr) {
+                if (intervoice[i].id.toString() === customTemplates.getValue(true)) {
+                    addRowInter(intervoice[i]);
+
+                }
+            });
+        }
+    }
+
+
+}
 
 var phrasesInet =[
 // Название, группа, базовая стоимость, альт.название
@@ -373,114 +1183,35 @@ var phrasesInet =[
     {id: 1, phrase: " Этого достаточно для умеренного использования интернета (web-серфинг, чтение новостей, иногда видео/аудио, скачивание/обновление приложений)"},
     {id: 2, phrase: " Это  вариант для активного использования интернета (видео/аудио, скачивание/обновление приложений, web-серфинг)"},
     {id: 3, phrase: " Этого должно (но это не точно) хватить для очень активного использования интернета (просмотр фильмов/трансляций/стримов, скачивание тяжелых приложений, обновление системы)"},
+    {id: 4, phrase: " Этого хватит, чтобы безвылазно сидеть на сайте Yota и в мобильном приложении "},
 ];
 
 
 var unlimApps=[
 // Название, группа, базовая стоимость, альт.название
-    {name: "ВК", 				group: "social", 		price: 20, 		altname: "-"},
-    {name: "Одноклассники", 	group: "social", 		price: 20, 		altname: "-"},
-    {name: "Facebook", 			group: "social", 		price: 20, 		altname: "-"},
-    {name: "Instagram", 		group: "social", 		price: 20, 		altname: "-"},
-    {name: "Twitter", 			group: "social", 		price: 10, 		altname: "-"},
-    {name: "Skype", 			group: "messenger", 	price: 10, 		altname: "-"},
-    {name: "Viber", 			group: "messenger", 	price: 10, 		altname: "-"},
-    {name: "Whatsapp", 			group: "messenger", 	price: 10, 		altname: "-"},
-    {name: "Youtube", 			group: "youtube", 		price: 60, 		altname: "-"}
+    {ids: 1,name: "ВК", 				group: "social", 		price: 20, 		altname: "-"},
+    {ids: 2,name: "Одноклассники", 	group: "social", 		price: 20, 		altname: "Одноклассникам"},
+    {ids: 3,name: "Facebook", 			group: "social", 		price: 20, 		altname: "-"},
+    {ids: 4,name: "Instagram", 		group: "social", 		price: 20, 		altname: "-"},
+    {ids: 5,name: "Twitter", 			group: "social", 		price: 10, 		altname: "-"},
+    {ids: 6,name: "Skype", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 7,name: "Viber", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 8,name: "Whatsapp", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 9,name: "Youtube", 			group: "youtube", 		price: 60, 		altname: "-"},
+    {ids: 10,name: "Безлимитные SMS", 	group: "sms", 		    price: 50, 		altname: "-"},
+    {ids: 11,name: "Telegram", 			group: "deleted", 	    price: 0, 		altname: "-"}
 ];
 
 
 
-// Список регионов
 
 
-var regiones=[
-    { id: 0,   region: "Алтайский край", altname: "Барнаул", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "100"],["400", "130"],["500", "160"],["700", "230"],["1000", "330"],["2000", "450"],], gbites: [["2", "150"],["7", "180"],["15", "200"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 1,   region: "Амурская область", altname: "Благовещенск", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "90"],["400", "110"],["500", "130"],["700", "170"],["1000", "220"],["2000", "320"],], gbites: [["2", "250"],["7", "275"],["15", "325"],["30", "400"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 2,   region: "Архангельская область", altname: "Архангельская область", mins: [["0", "0"],["100", "50"],["200", "80"],["300", "110"],["400", "150"],["500", "180"],["700", "250"],["1000", "350"],["2000", "450"],], gbites: [["2", "180"],["7", "200"],["15", "230"],["30", "330"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 3,   region: "Астраханская область", altname: "Астраханская область", mins: [["0", "0"],["100", "70"],["200", "100"],["300", "120"],["400", "140"],["500", "160"],["700", "180"],["1000", "200"],["2000", "400"],], gbites: [["2", "140"],["7", "180"],["15", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 4,   region: "Белгородская область", altname: "Белгородская область", mins: [["0", "0"],["100", "40"],["200", "60"],["300", "80"],["400", "100"],["600", "130"],["800", "160"],["1000", "190"],["2000", "350"],], gbites: [["2", "150"],["7", "170"],["15", "220"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 5,   region: "Брянская область", altname: "Брянская область", mins: [["0", "0"],["100", "40"],["200", "50"],["300", "60"],["400", "80"],["500", "100"],["700", "140"],["1000", "200"],["2000", "300"],], gbites: [["3", "230"],["9", "250"],["18", "300"],["30", "400"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 6,   region: "Владимирская область", altname: "Владимирская область", mins: [["0", "0"],["100", "70"],["200", "100"],["300", "150"],["400", "180"],["500", "200"],["800", "300"],["1500", "400"],["2000", "450"],], gbites: [["2", "150"],["7", "170"],["15", "300"],["30", "450"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 7,   region: "Волгоградская область", altname: "Волгоградская область", mins: [["0", "0"],["100", "60"],["200", "80"],["300", "100"],["400", "130"],["500", "150"],["800", "170"],["1000", "190"],["2000", "350"],], gbites: [["1", "150"],["5", "200"],["15", "270"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 8,   region: "Вологодская область", altname: "Вологодская область", mins: [["0", "0"],["200", "50"],["300", "75"],["400", "100"],["600", "150"],["800", "200"],["1000", "250"],["2000", "400"],], gbites: [["1", "180"],["5", "220"],["15", "300"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 9,   region: "Воронежская область", altname: "Воронежская область", mins: [["0", "0"],["100", "30"],["200", "40"],["300", "60"],["400", "80"],["600", "110"],["800", "140"],["1000", "170"],["2000", "350"],], gbites: [["2", "180"],["7", "200"],["20", "230"],["30", "300"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 10,   region: "Московская область", altname: "Москва столица 77", mins: [["0", "0"],["100", "50"],["200", "100"],["300", "150"],["400", "200"],["500", "250"],["700", "400"],["1000", "600"],["2000", "700"],], gbites: [["0", "0"],["2", "250"],["6", "280"],["12", "330"],["30", "380"],] , social: "25", messenger: "15", youtube: "60"},
-    { id: 11,   region: "Ленинградская область", altname: "Спб 78 Санкт-Петербург йота", mins: [["0", "0"],["100", "25"],["200", "50"],["300", "100"],["400", "150"],["500", "300"],["700", "400"],["1000", "700"],["2000", "1000"],], gbites: [["7", "300"],["15", "350"],["30", "450"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 12,   region: "Еврейская автономная область", altname: "Биробиджан ЕАО", mins: [["0", "0"],["100", "50"],["200", "75"],["300", "100"],["400", "130"],["500", "160"],["700", "230"],["1000", "330"],["2000", "450"],], gbites: [["1", "200"],["5", "225"],["15", "275"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 13,   region: "Забайкальский край", altname: "Чита", mins: [["0", "0"],["100", "30"],["200", "40"],["300", "60"],["400", "80"],["500", "100"],["700", "140"],["1000", "200"],["2000", "300"],], gbites: [["2", "200"],["7", "220"],["15", "300"],["30", "400"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 14,   region: "Ивановская область", altname: "Ивановская область", mins: [["0", "0"],["200", "50"],["300", "75"],["400", "100"],["500", "125"],["800", "200"],["1000", "250"],["2000", "400"],], gbites: [["2", "180"],["7", "200"],["15", "250"],["30", "300"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 15,   region: "Иркутская область", altname: "Иркутская область", mins: [["0", "0"],["300", "60"],["400", "70"],["500", "90"],["600", "100"],["700", "120"],["1000", "170"],["2000", "330"],], gbites: [["2", "130"],["10", "150"],["20", "200"],["40", "350"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 16,   region: "Кабардино-Балкарская Республика", altname: "КБР  Нальчик", mins: [["0", "0"],["100", "60"],["200", "80"],["300", "100"],["400", "120"],["500", "140"],["700", "170"],["1000", "200"],["2000", "350"],], gbites: [["2", "180"],["7", "200"],["18", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 17,   region: "Калининградская область", altname: "Калининградская область", mins: [["0", "0"],["200", "40"],["300", "60"],["400", "80"],["500", "90"],["700", "100"],["1000", "120"],["2000", "220"],], gbites: [["3", "200"],["9", "220"],["18", "300"],["30", "320"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 18,   region: "Калужская область", altname: "Калужская область", mins: [["0", "0"],["100", "60"],["200", "80"],["300", "100"],["400", "120"],["500", "150"],["700", "170"],["1000", "200"],["2000", "350"],], gbites: [["2", "150"],["7", "180"],["15", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 19,   region: "Камчатский край", altname: "Камчатский край", mins: [["0", "0"],["100", "50"],["200", "80"],["300", "120"],["400", "140"],["500", "160"],["800", "250"],["1000", "300"],["2000", "400"],], gbites: [["1", "290"],["4", "330"],["10", "450"],["20", "600"],] , social: "20", messenger: "10", youtube: "100"},
-    { id: 20,   region: "Карачаево-Черкесская Республика", altname: " КЧР Черкесск", mins: [["0", "0"],["200", "90"],["300", "110"],["500", "120"],["600", "130"],["800", "150"],["1000", "160"],["1500", "230"],["2000", "300"],], gbites: [["2", "180"],["7", "230"],["20", "270"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 21,   region: "Кемеровская область", altname: "Кемеровская область", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "90"],["400", "100"],["500", "120"],["700", "170"],["1000", "200"],["2000", "300"],], gbites: [["2", "160"],["10", "180"],["20", "220"],["30", "340"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 22,   region: "Кировская область", altname: "Кировская область", mins: [["0", "0"],["200", "30"],["300", "40"],["400", "50"],["500", "60"],["700", "80"],["1000", "100"],["2000", "200"],], gbites: [["2", "200"],["7", "220"],["15", "280"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 23,   region: "Костромская область", altname: "Костромская область", mins: [["0", "0"],["100", "40"],["200", "60"],["300", "80"],["400", "100"],["500", "120"],["800", "160"],["1000", "200"],["2000", "300"],], gbites: [["2", "180"],["8", "200"],["15", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 24,   region: "Краснодарский край", altname: "Краснодарский край", mins: [["0", "0"],["100", "50"],["200", "80"],["300", "100"],["400", "120"],["600", "150"],["800", "180"],["1000", "210"],["2000", "400"],], gbites: [["1", "130"],["5", "150"],["15", "200"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 25,   region: "Красноярский край", altname: "Красноярский край", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "100"],["400", "130"],["500", "160"],["700", "210"],["1000", "300"],["2000", "400"],], gbites: [["2", "180"],["7", "210"],["15", "270"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 26,   region: "Курганская область", altname: "Курганская область", mins: [["0", "0"],["200", "40"],["300", "60"],["400", "80"],["500", "100"],["700", "140"],["1000", "200"],["2000", "300"],], gbites: [["2", "180"],["7", "200"],["20", "250"],["30", "300"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 27,   region: "Курская область", altname: "Курская область", mins: [["0", "0"],["100", "40"],["200", "50"],["300", "80"],["400", "110"],["500", "140"],["800", "200"],["1000", "240"],["2000", "400"],], gbites: [["3", "180"],["9", "200"],["18", "250"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 28,   region: "Липецкая область", altname: "Липецкая область", mins: [["0", "0"],["100", "90"],["200", "100"],["300", "110"],["400", "120"],["600", "160"],["800", "180"],["1000", "200"],["2000", "400"],], gbites: [["2", "150"],["7", "170"],["20", "230"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 29,   region: "Магаданская область", altname: "Магаданская область", mins: [["0", "0"],["100", "80"],["200", "110"],["300", "130"],["400", "155"],["500", "180"],["700", "250"],["1000", "350"],["2000", "450"],], gbites: [["1", "270"],["4", "300"],["10", "400"],["20", "550"],] , social: "20", messenger: "10", youtube: "100"},
-    { id: 30,   region: "Мурманская область", altname: "Мурманская область", mins: [["0", "0"],["200", "50"],["300", "75"],["400", "100"],["600", "150"],["800", "200"],["1000", "300"],["2000", "450"],], gbites: [["5", "250"],["15", "320"],["30", "400"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 31,   region: "Нижегородская область", altname: "Нижний Новгород", mins: [["0", "0"],["100", "50"],["200", "80"],["300", "100"],["400", "130"],["500", "160"],["700", "200"],["1000", "270"],["2000", "500"],], gbites: [["1", "130"],["5", "150"],["15", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 32,   region: "Новгородская область", altname: "Новгородская область", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "100"],["400", "125"],["500", "150"],["800", "250"],["1000", "300"],["2000", "450"],], gbites: [["1", "180"],["5", "220"],["15", "280"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 33,   region: "Новосибирская область", altname: "Новосибирская область", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "90"],["400", "110"],["500", "130"],["700", "160"],["1000", "200"],["2000", "300"],], gbites: [["2", "180"],["10", "200"],["20", "240"],["30", "340"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 34,   region: "Омская область", altname: "Омская область", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "100"],["400", "130"],["500", "150"],["700", "210"],["1000", "300"],["2000", "400"],], gbites: [["2", "160"],["7", "180"],["15", "220"],["30", "300"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 35,   region: "Оренбургская область", altname: "Оренбургская область", mins: [["0", "0"],["200", "40"],["300", "60"],["400", "80"],["500", "140"],["700", "210"],["1000", "360"],["2000", "400"],], gbites: [["2", "220"],["7", "260"],["15", "310"],["30", "440"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 36,   region: "Орловская область", altname: "Орловская область", mins: [["0", "0"],["100", "50"],["200", "80"],["300", "110"],["400", "140"],["500", "170"],["700", "230"],["1000", "300"],["2000", "550"],], gbites: [["3", "150"],["7", "170"],["18", "230"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 37,   region: "Пензенская область", altname: "Пензенская область", mins: [["0", "0"],["100", "40"],["200", "80"],["300", "100"],["400", "120"],["500", "150"],["700", "190"],["1000", "230"],["2000", "350"],], gbites: [["1", "160"],["5", "180"],["15", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 38,   region: "Пермский край", altname: "Пермский край", mins: [["0", "0"],["200", "60"],["300", "80"],["400", "100"],["500", "120"],["700", "160"],["1000", "230"],["2000", "350"],], gbites: [["2", "180"],["7", "200"],["15", "240"],["30", "300"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 39,   region: "Приморский край", altname: "Владивосток", mins: [["0", "0"],["100", "50"],["200", "75"],["300", "100"],["400", "150"],["500", "180"],["700", "250"],["1000", "350"],["2000", "450"],], gbites: [["2", "180"],["7", "200"],["15", "270"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 40,   region: "Псковская область", altname: "Псковская область", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "90"],["400", "110"],["500", "130"],["700", "160"],["1000", "200"],["2000", "350"],], gbites: [["2", "230"],["7", "250"],["15", "300"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 41,   region: "Региональный", altname: "Дорого", mins: [["0", "0"],["100", "50"],["200", "100"],["300", "150"],["400", "200"],["500", "250"],["700", "400"],["1000", "600"],["2000", "700"],], gbites: [["2", "250"],["6", "280"],["12", "330"],["30", "380"],] , social: "25", messenger: "15", youtube: "100"},
-    { id: 42,   region: "Республика Адыгея", altname: "Майкоп", mins: [["0", "0"],["100", "50"],["200", "80"],["300", "100"],["400", "120"],["600", "150"],["800", "180"],["1000", "210"],["2000", "400"],], gbites: [["1", "130"],["5", "150"],["15", "200"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 43,   region: "Республика Алтай", altname: "Горно-Алтайск", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "100"],["400", "130"],["500", "160"],["700", "230"],["1000", "330"],["2000", "450"],], gbites: [["2", "160"],["7", "180"],["15", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 44,   region: "Республика Башкортостан", altname: "Уфа", mins: [["0", "0"],["100", "40"],["200", "80"],["300", "100"],["400", "120"],["500", "140"],["700", "170"],["1000", "190"],["2000", "350"],], gbites: [["1", "150"],["5", "170"],["15", "230"],["30", "400"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 45,   region: "Республика Бурятия", altname: "Улан-Удэ", mins: [["0", "0"],["200", "40"],["300", "50"],["400", "70"],["500", "90"],["800", "140"],["1000", "180"],["2000", "300"],], gbites: [["3", "150"],["9", "170"],["15", "240"],["30", "300"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 46,   region: "Республика Дагестан", altname: "Махачкала", mins: [["0", "0"],["200", "60"],["300", "70"],["400", "80"],["500", "100"],["700", "130"],["800", "150"],["1000", "250"],["2000", "500"],], gbites: [["2", "200"],["7", "250"],["20", "300"],["30", "320"],["50", "450"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 47,   region: "Республика Ингушетия", altname: "Магас", mins: [["0", "0"],["200", "90"],["300", "100"],["500", "120"],["600", "130"],["800", "140"],["1000", "150"],["1500", "180"],["2000", "300"],], gbites: [["2", "160"],["7", "190"],["20", "270"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 48,   region: "Республика Калмыкия", altname: "Элиста", mins: [["0", "0"],["100", "70"],["200", "100"],["300", "120"],["400", "140"],["500", "160"],["700", "200"],["1000", "250"],["2000", "400"],], gbites: [["1", "150"],["5", "180"],["15", "230"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 49,   region: "Республика Карелия", altname: " Петрозаводск", mins: [["0", "0"],["100", "50"],["200", "75"],["300", "100"],["400", "125"],["500", "150"],["800", "250"],["1000", "300"],["2000", "450"],], gbites: [["2", "180"],["7", "220"],["15", "300"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 50,   region: "Республика Коми", altname: "Сыктывкар", mins: [["0", "0"],["200", "50"],["300", "70"],["400", "90"],["500", "110"],["700", "150"],["1000", "200"],["2000", "300"],], gbites: [["1", "230"],["5", "250"],["10", "300"],["20", "350"],] , social: "20", messenger: "10", youtube: "100"},
-    { id: 51,   region: "Республика Марий Эл", altname: "Йошкар-Ола", mins: [["0", "0"],["100", "40"],["200", "60"],["300", "80"],["400", "100"],["500", "120"],["700", "150"],["1000", "180"],["2000", "300"],], gbites: [["1", "130"],["5", "150"],["18", "230"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 52,   region: "Республика Мордовия", altname: "Саранск", mins: [["0", "0"],["100", "40"],["200", "70"],["300", "90"],["400", "120"],["500", "150"],["700", "200"],["1000", "250"],["2000", "350"],], gbites: [["2", "130"],["7", "150"],["15", "230"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 53,   region: "Республика Саха (Якутия)", altname: "Якутск", mins: [["0", "0"],["200", "20"],["300", "45"],["400", "70"],["500", "90"],["700", "170"],["1000", "320"],["2000", "450"],], gbites: [["7", "310"],["15", "410"],["30", "450"],] , social: "20", messenger: "10", youtube: "100"},
-    { id: 54,   region: "Республика Северная Осетия - Алания", altname: "Владикавказ", mins: [["0", "0"],["200", "60"],["300", "80"],["400", "100"],["500", "120"],["700", "160"],["800", "180"],["1000", "210"],["2000", "300"],], gbites: [["2", "180"],["7", "200"],["20", "230"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 55,   region: "Республика Татарстан", altname: "Казань", mins: [["0", "0"],["100", "40"],["200", "80"],["300", "100"],["400", "120"],["500", "140"],["700", "170"],["1000", "190"],["2000", "350"],], gbites: [["2", "130"],["7", "150"],["15", "180"],["30", "200"],["50", "280"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 56,   region: "Республика Тыва", altname: "Кызыл", mins: [["0", "0"],["100", "50"],["200", "75"],["300", "100"],["400", "125"],["500", "150"],["700", "200"],["1000", "280"],["2000", "400"],], gbites: [["2", "200"],["7", "230"],["15", "300"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 57,   region: "Республика Хакасия", altname: "Абакан", mins: [["0", "0"],["100", "70"],["200", "90"],["300", "110"],["400", "140"],["500", "180"],["700", "250"],["1000", "300"],["2000", "400"],], gbites: [["2", "180"],["7", "200"],["15", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 58,   region: "Ростовская область", altname: "Ростовская область", mins: [["0", "0"],["100", "50"],["200", "80"],["300", "110"],["400", "130"],["600", "200"],["800", "260"],["1000", "360"],["2000", "500"],], gbites: [["2", "220"],["7", "240"],["20", "280"],["30", "440"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 59,   region: "Рязанская область", altname: "Рязанская область", mins: [["0", "0"],["100", "40"],["200", "50"],["300", "75"],["400", "100"],["500", "125"],["700", "170"],["1000", "220"],["2000", "350"],], gbites: [["2", "150"],["7", "170"],["15", "230"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 60,   region: "Самарская область", altname: "63 Тольятти Самара", mins: [["0", "0"],["200", "40"],["300", "60"],["400", "80"],["500", "150"],["700", "200"],["1000", "260"],["2000", "450"],], gbites: [["5", "240"],["15", "270"],["30", "370"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 61,   region: "Саратовская область", altname: "Саратовская область", mins: [["0", "0"],["200", "40"],["300", "60"],["400", "80"],["500", "140"],["700", "230"],["1000", "300"],["2000", "400"],], gbites: [["7", "260"],["15", "360"],["30", "440"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 62,   region: "Сахалинская область", altname: "Сахалинская область", mins: [["0", "0"],["100", "30"],["200", "40"],["300", "50"],["400", "60"],["500", "70"],["700", "90"],["1000", "130"],["2000", "230"],], gbites: [["1", "250"],["5", "280"],["15", "350"],["30", "500"],] , social: "20", messenger: "10", youtube: "100"},
-    { id: 63,   region: "Свердловская область", altname: "Екатеринбург", mins: [["0", "0"],["100", "30"],["200", "50"],["300", "70"],["400", "90"],["500", "110"],["700", "150"],["1000", "200"],["2000", "350"],], gbites: [["1", "180"],["5", "200"],["15", "300"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 64,   region: "Смоленская область", altname: "Смоленская область", mins: [["0", "0"],["100", "40"],["200", "50"],["300", "70"],["400", "90"],["500", "110"],["700", "150"],["1000", "200"],["2000", "300"],], gbites: [["3", "200"],["9", "220"],["18", "250"],["30", "350"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 65,   region: "Ставропольский край", altname: "Ставропольский край", mins: [["0", "0"],["100", "80"],["200", "90"],["300", "100"],["400", "120"],["600", "140"],["800", "160"],["1000", "180"],["2000", "350"],], gbites: [["2", "180"],["7", "200"],["20", "230"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 66,   region: "Тамбовская область", altname: "Тамбовская область", mins: [["0", "0"],["100", "70"],["200", "80"],["300", "90"],["400", "100"],["600", "140"],["800", "150"],["1000", "180"],["2000", "300"],], gbites: [["2", "150"],["7", "170"],["20", "220"],["30", "300"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 67,   region: "Тверская область", altname: "Тверская область", mins: [["0", "0"],["100", "30"],["200", "40"],["300", "60"],["400", "80"],["500", "100"],["700", "140"],["1000", "180"],["2000", "280"],], gbites: [["4", "200"],["7", "220"],["15", "300"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 68,   region: "Томская область", altname: "Томская область", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "90"],["400", "110"],["500", "130"],["700", "180"],["1000", "230"],["2000", "350"],], gbites: [["3", "160"],["9", "180"],["18", "230"],["30", "300"],] , social: "20", messenger: "10", youtube: "75"},
-    { id: 69,   region: "Тульская область", altname: "Тульская область", mins: [["0", "0"],["200", "40"],["300", "50"],["400", "60"],["500", "70"],["700", "100"],["1000", "150"],["2000", "300"],], gbites: [["9", "150"],["25", "200"],["40", "300"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 70,   region: "Тюменская область", altname: "Тюменская область", mins: [["0", "0"],["200", "50"],["300", "70"],["400", "90"],["500", "110"],["700", "150"],["1000", "200"],["2000", "350"],], gbites: [["2", "160"],["10", "180"],["20", "230"],["30", "270"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 71,   region: "Удмуртская Республика", altname: "Ижевск", mins: [["0", "0"],["200", "40"],["300", "60"],["400", "80"],["500", "100"],["700", "140"],["1000", "200"],["2000", "300"],], gbites: [["2", "230"],["7", "250"],["15", "300"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 72,   region: "Ульяновская область", altname: "Ульяновская область", mins: [["0", "0"],["100", "70"],["200", "110"],["300", "130"],["400", "160"],["500", "200"],["700", "250"],["1000", "300"],["2000", "400"],], gbites: [["1", "160"],["5", "180"],["15", "250"],["30", "400"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 73,   region: "Хабаровский край", altname: "Хабаровский край", mins: [["0", "0"],["100", "60"],["200", "80"],["300", "120"],["400", "160"],["500", "200"],["700", "280"],["1000", "400"],["2000", "550"],], gbites: [["1", "240"],["5", "260"],["15", "300"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 74,   region: "Ханты-Мансийский автономный округ - Югра", altname: "ХМАО", mins: [["0", "0"],["200", "70"],["300", "90"],["400", "120"],["500", "150"],["700", "170"],["1000", "220"],["2000", "400"],], gbites: [["2", "220"],["7", "250"],["20", "270"],["30", "350"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 75,   region: "Челябинская область", altname: "Челябинская область", mins: [["0", "0"],["100", "50"],["200", "70"],["300", "90"],["400", "110"],["500", "130"],["700", "170"],["1000", "220"],["2000", "400"],], gbites: [["2", "180"],["7", "200"],["15", "240"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 76,   region: "Чеченская Республика", altname: "Махачкала", mins: [["0", "0"],["200", "90"],["300", "100"],["500", "120"],["600", "130"],["800", "140"],["1000", "150"],["1500", "180"],["2000", "300"],], gbites: [["2", "180"],["7", "200"],["20", "230"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 77,   region: "Чувашская Республика", altname: "Чебоксары", mins: [["0", "0"],["100", "40"],["200", "80"],["300", "100"],["400", "120"],["600", "140"],["800", "170"],["1000", "190"],["2000", "350"],], gbites: [["2", "130"],["7", "150"],["15", "230"],["30", "350"],] , social: "20", messenger: "10", youtube: "60"},
-    { id: 78,   region: "Ямало-Ненецкий автономный округ", altname: "ЯНАО", mins: [["0", "0"],["200", "50"],["300", "70"],["400", "90"],["500", "115"],["700", "150"],["1000", "200"],["2000", "350"],], gbites: [["2", "200"],["7", "220"],["20", "300"],["30", "400"],] , social: "20", messenger: "10", youtube: "30"},
-    { id: 79,   region: "Ярославская область", altname: "Ярославская область", mins: [["0", "0"],["200", "50"],["300", "75"],["400", "100"],["500", "125"],["800", "200"],["1000", "250"],["2000", "350"],], gbites: [["1", "180"],["5", "200"],["15", "250"],["30", "300"],] , social: "20", messenger: "10", youtube: "60"},
-
-];
 
 document.onreadystatechange = function() {
     if (document.readyState === 'complete') {
         //fn();
     }
 };
+
+
 
