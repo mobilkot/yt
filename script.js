@@ -500,7 +500,34 @@ function VoiceTariffs() {
             }
         });
     }
+    if (customTemplatess.getValue(true) === "unlims") {
+        var regions = jsondata.regions;
+        regions.forEach(function(item, i, arr) {
+            var tttt = customTemplates.getValue(true);
+            if (regions[i].id.toString() === tttt) {
 
+                texthtml = `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 60%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
+                texthtml2 = texthtml;
+
+                    texthtml +=  `
+                    <tr><td class="confluenceTd">Стоимость минуты сверх пакета на всех операторов РФ: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr> 
+                    <tr><td class="confluenceTd">Вызовы на Yota по РФ: </td><td class="confluenceTd"> Не тарифицируются </td></tr> 
+                    <tr><td class="confluenceTd">Входящие вызовы: </td><td class="confluenceTd"> Бесплатные </td></tr>
+                    <tr><td class="confluenceTd">Исходящие SMS сообщения по РФ (без опции): </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `;
+
+
+                texthtml2 +=  `
+                    <tr><td class="confluenceTd">Дополнительный пакет 100 минут: </td><td class="confluenceTd">${regions[i].voice_add_100} руб.</td></tr>  
+                    <tr><td class="confluenceTd">Пакет SMS: </td><td class="confluenceTd"> ${regions[i].sms_base} руб. </td></tr>
+                    <tr><td class="confluenceTd">Общий доступ (тетеринг) на 2 часа: </td><td class="confluenceTd"> ${regions[i].tethering[0]} руб. </td></tr>
+                    <tr><td class="confluenceTd">Общий доступ (тетеринг) на 24 часа:: </td><td class="confluenceTd"> ${regions[i].tethering[1]} руб. </td></tr>`;
+            }
+                texthtml +=   `</tbody></table></div>`;
+                texthtml2 +=   `</tbody></table></div>`;
+
+
+        });
+    }
     node.innerHTML = texthtml;
     textVoiceSMS.appendChild(node);
     node2.innerHTML = texthtml2;
@@ -820,7 +847,7 @@ function addRow(id, region, mins, gbites, sms, snPrice, mePrice, youtube){
 var currentUnlimTariff;
 function addRowUnlimPhone( ){
 
-
+    VoiceTariffs();
     var tariffs = currentUnlimTariff.tariffs;
     var tableTariffs = document.getElementById("unlimstafiffs");
     tableTariffs.innerHTML = "";
@@ -1156,6 +1183,7 @@ function startInclude_MN() {
                                 console.log("Выбран " + customTemplates.getValue(true));
                                 currentUnlimTariff = data[i];
                                 addRowUnlimPhone();
+
 
                             }
                         }
