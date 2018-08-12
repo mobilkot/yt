@@ -4,15 +4,15 @@ var choicesUnlim= [];
 //loadRegions();
 var tarifUnlim = [];
 
-function doLoadUnlim(subject, callback) {
+function doLoad(subject, callback) {
     //gorodogr1 = loadCitiesClosed();//loadUnlimClosed();
     setTimeout( function(){
 
-        callback();
-    }, 100 );
+        callback(subject);
+    }, 10 );
 
 }
-//    doLoadUnlim('math', loadUnlimInbox);
+//    doLoad('math', loadUnlimInbox);
 function loadUnlimInbox(){
 
 
@@ -54,9 +54,23 @@ function tableToJSON(table) { //адаптировать под разное к�
 }
 
 
-
 var jsondata;
+var jsondataroaming;
 function loadJSOND() {
+
+    var reqw1 = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( 'Microsoft.XMLHTTP' );
+    reqw1.open( 'GET', 'https://raw.githubusercontent.com/mobilkot/yt/master/roaming.json', true );
+    reqw1.responseType = 'json';
+    reqw1.onreadystatechange = function () {
+
+        if ( reqw1.readyState == 4 ) {
+            if ( reqw1.status == 200 ) {
+                jsondataroaming = reqw1.response;
+
+            }
+        }
+    };
+    reqw1.send( null );
 
     var reqw = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( 'Microsoft.XMLHTTP' );
     reqw.open( 'GET', 'https://raw.githubusercontent.com/mobilkot/yt/master/tariffs.json', true );
@@ -71,7 +85,9 @@ function loadJSOND() {
         }
     };
     reqw.send( null );
+
 }
+
 
 function importJsond(jsondatas) {
     jsondata= jsondatas;
@@ -87,11 +103,16 @@ function importJsond(jsondatas) {
         VisibleClearBody("clear");
     });
 
+
     customTemplatess.clearStore();
     choices222= [];
     var elements = jsondata.elements;
+
+
     elements.forEach(function(item, i, arr) {
         {
+
+
                     choices222.push({
                         value: elements[i].name,
                         label: elements[i].screenname ,
@@ -104,54 +125,120 @@ function importJsond(jsondatas) {
     customTemplatess.setChoices( choices222, 'value', 'label', 0);
 }
 
-
+//TODO здесь прогрузка роуминга
 function loadRegions(tarif, jsondata) {
     document.getElementById('regions_callname').innerText =tarif;
 
+    //jsondataroaming
 
 
     choices1212= [];
+    //TODO Удалить если выделять роуминг отдельно
+    if (tarif === "intervoice") {
 
-var regions = jsondata.elements;
-    regions.forEach(function(item, i, arr) {
-        if (regions[i].name === tarif) {
+        var intervoice = jsondataroaming.intervoice;
+        intervoice.forEach(function(item, i, arr) {
+//jsondataroaming.providers //providers_lte
 
-            var data = regions[i].data;
-
-            data.forEach(function (item, i, arr) {
-                {
-                    for (var key in jsondata.regions) {
-
-                        if (jsondata.regions[key].id === data[i].id) {
-                            var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
-                            choices1212.push({
-                                value: data[i].id.toString(),
-                                label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
-                                disabled: false,
-                                customProperties: {description: jsondata.regions[key].altname}
-                            });
-                        }
-                    }
-
-
-                }
+            choices1212.push({
+                value: intervoice[i].id.toString(),
+                label: intervoice[i].name + " (" + intervoice[i].zone + ")",
+                disabled: false,
+                customProperties: {description: intervoice[i].name + " (" + intervoice[i].zone + ")"}
             });
-//TODO: log
-            console.log(regions);
+
+
+
+
 
             customTemplates.clearStore();
             customTemplates.setChoices([
                 {
-                    value: regions[i].data[0].type,
-                    label: regions[i].data[0].type,
-                    id: regions[i].data[0].type,
+                    value: "roaming",
+                    label: "Roaming",
+                    id: "roaming",
                     disabled: false,
                     choices: choices1212,
 
                 },  ]  , 'value', 'label', 0);
-        }
-    });
 
+        });
+    }
+    if (tarif === "roaming") {
+
+    var counties = jsondataroaming.countries;
+    counties.forEach(function(item, i, arr) {
+//jsondataroaming.providers //providers_lte
+
+                        choices1212.push({
+                            value: counties[i].id.toString(),
+                            label: counties[i].name,
+                            disabled: false,
+                            customProperties: {description: counties[i].name}
+                        });
+
+
+
+
+
+        customTemplates.clearStore();
+        customTemplates.setChoices([
+            {
+                value: "roaming",
+                label: "Roaming",
+                id: "roaming",
+                disabled: false,
+                choices: choices1212,
+
+            },  ]  , 'value', 'label', 0);
+
+        });
+    }
+
+    if (tarif === "unlims" ||tarif === "tabt" || tarif === "plaphone" || tarif === "tunlim" ) {
+        var regions = jsondata.elements;
+        regions.forEach(function (item, i, arr) {
+            if (regions[i].name === tarif) {
+
+                var data = regions[i].data;
+
+                data.forEach(function (item, i, arr) {
+                    {
+                        for (var key in jsondata.regions) {
+
+                            if (jsondata.regions[key].id === data[i].id) {
+                                var info = "";
+                                if (data[i].info !== undefined) {
+                                    info = data[i].info
+                                }
+                                choices1212.push({
+                                    value: data[i].id.toString(),
+                                    label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
+                                    disabled: false,
+                                    customProperties: {description: jsondata.regions[key].altname}
+                                });
+                            }
+                        }
+
+
+                    }
+                });
+//TODO: log
+                console.log(choices1212);
+
+                customTemplates.clearStore();
+                customTemplates.setChoices([
+                    {
+                        value: regions[i].data[0].type,
+                        label: regions[i].data[0].type,
+                        id: regions[i].data[0].type,
+                        disabled: false,
+                        choices: choices1212,
+
+                    },], 'value', 'label', 0);
+            }
+        });
+    }
 
 
 
@@ -238,11 +325,16 @@ function VisibleClearBody(type) {
     var appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');
     switch (type) {
         case "clear":
-
+            document.getElementById("switch-radio-off-2").checked = false;
+            document.getElementById("switch-radio-on-2").checked = false;
             document.getElementById("tapps").style.visibility = "hidden";
             document.getElementById("legoyota").style.display = "none";
             document.getElementById("unlimsyota").style.display = "none";
-
+            document.getElementById("roamingyota").style.display = "none";
+            document.getElementById("interyota").style.display = "none";
+            document.getElementById("tunlimyota").style.display = "none";
+            document.getElementById("b_tafir_summary_input1").innerHTML = "";
+            document.getElementById("b_tafir_summary_input").innerHTML = "";
             document.getElementById("tminute0").innerHTML = "";
             document.getElementById("tgbite0").innerHTML = "";
             gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
@@ -252,16 +344,12 @@ function VisibleClearBody(type) {
             break;
         case "lego":case "plaphone":case "tabt":
             VisibleClearBody("clear");
-            var checkTov = document.getElementById("switch-radio-on-2");
-            checkTov.checked = false;
-            document.getElementById("b_tafir_summary_input1").innerHTML = "";
-            document.getElementById("b_tafir_summary_input").innerHTML = "";
+
             document.getElementById("tapps").style.visibility = "visible";
-        document.getElementById("legoyota").style.display = "block";
+            document.getElementById("legoyota").style.display = "block";
             document.getElementById("tapps").style.visibility = "visible";
             document.getElementById("tminute0").style.visibility = "visible";
             document.getElementById("tgbite0").style.visibility = "visible";
-        //document.getElementById("legoyota").style.overflow = "visible";
 
             break;
         case "unlims":
@@ -273,6 +361,21 @@ function VisibleClearBody(type) {
             break;
         case "tunlim":
             VisibleClearBody("clear");
+            document.getElementById("tunlimyota").style.display = "block";
+            break;
+        case "roaming":
+            VisibleClearBody("clear");
+            document.getElementById("roamingyota").style.display = "block";
+
+
+
+            break;
+        case "intervoice":
+            VisibleClearBody("clear");
+            document.getElementById("interyota").style.display = "block";
+
+
+
             break;
         default:
             //alert( 'Я таких значений не знаю' );
@@ -342,6 +445,8 @@ var cur_mCount, cur_mPrice, cur_gCount, cur_gPrice; //Выбранные мин�
 
 var outputSummary = document.getElementById("b_tafir_summary_input");  // элемент, куда отдается итоговый текст о тарифе
 
+
+//TODO Отображение условий в домашнем регионе и нет
 function VoiceTariffs() {
     var textInHome = document.getElementById("id-Тарифы[Тест]-Вдомашнемрегионе").nextElementSibling;
     var textOutHome = document.getElementById("id-Тарифы[Тест]-Внедомашнегорегиона").nextElementSibling;
@@ -360,10 +465,10 @@ function VoiceTariffs() {
         regions.forEach(function(item, i, arr) {
             if (regions[i].id === cur_region_teriff.id) {
 
-                texthtml += `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 85.5649%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
+                texthtml = `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 85.5649%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
 
                  if (cur_mCount === "0") {
-                     texthtml =+  `<tr><td class="confluenceTd">SMS: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> 
+                     texthtml +=  `<tr><td class="confluenceTd">SMS: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> 
                     <tr><td class="confluenceTd">Стоимость минуты сверх пакета: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr>
                     <tr><td class="confluenceTd">Вызовы на номера других операторов в домашнем регионе за минуту: </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `
                  }
@@ -787,6 +892,145 @@ function addRowUnlimPhone( ){
 }
 
 
+function addRowUnlimTablet(el){
+
+
+    var text5555 = `          
+                                <br><b> Тарифы. </b>
+                                <br>Тариф <b style="color:#00bbf2">"День"</b>: ${String(el.day)} руб.   
+                                <br>Тариф <b style="color:#00bbf2">"Месяц"</b>: ${String(el.mounth)} руб. 
+                                <br>Тариф <b style="color:#00bbf2">"Год"</b>: ${String(el.year)} руб.
+                                <br><br>
+                                <br>&emsp;Стоимость месяца при подключении на год: ${String(el.myear)} рублей
+                                <br>&emsp;Скидка при подключении на год: ${String(el.procentas)}/
+                               `;
+
+    document.getElementById("tunlimprice").innerHTML = text5555;
+}
+
+
+function addRowRoaming(el) {
+    {
+        var provs = []; var provs4 = []; var elem = {};
+        el.forEach(function (item, i, arr) {
+            if (el[i].id.toString() === customTemplates.getValue(true)) {
+                elem = el[i];
+                var providers = jsondataroaming.providers;
+
+                providers.forEach(function (itemu, u, arru) {
+                    if (providers[u].id.toString() === el[i].id.toString()) {
+                        provs.push(providers[u]);
+
+                    }
+                });
+
+                var providers4 = jsondataroaming.providers_lte;
+
+                providers4.forEach(function (itemt, t, arrt) {
+                    if (providers4[t].id.toString() === el[i].id.toString()) {
+                        provs4.push(providers4[t]);
+
+                    }
+                });
+                console.log("Выбран " + customTemplates.getValue(true));
+
+
+            }
+        });
+
+
+        document.getElementById("tab_roaming").checked = true;
+
+        var text2222 = `          <br><b> ${String(elem.name)} </b>
+                                <br><b> Интернет. </b>
+                                <br>Стоимость 1 мегабайта при наличии подключенного пакета: ${String(elem.mb_price)} руб. ( Тарификация по 100 КБ. )
+                                <br>После использования ${String(elem.paid_mb)} платных МБ, ${String(elem.free_mb)} МБ - бесплатно.
+                                <br><b> Звонки. </b>
+                                <br>&emsp;Стоимость входящих звонков: ${String(elem.invoice)} руб./мин.
+                                <br>&emsp;Стоимость опции "30 минут бесплатных входящих в день": ${String(elem.m30min)} руб.
+                                <br>&emsp;Минута:
+                                <br>&emsp;&emsp;исходящих звонков в РФ: ${String(elem.out_rf)} руб.
+                                <br>&emsp;&emsp;исходящих звонков внутри страны: ${String(elem.out_country)} руб.
+                                <br>&emsp;&emsp;исходящих звонков в другие страны: ${String(elem.out_other)} руб.
+                                <br><b> SMS (включая бесплатные в РФ номера): </b>
+                                <br>&emsp;исходящие: ${String(elem.out_sms)} руб.
+                                <br>&emsp;входящие : ${String(elem.in_sms)} руб.
+                                <br><b> MMS: </b>
+                                <br>исходящие: ${String(elem.out_mms)}.
+                                <br>входящие: Стоимость интернет-сессии.
+                                <br><br>
+                                <br>Стоимость 1 Мб, если не оплачен основной пакет (Базовый, Региональный, ...): ${String(elem.mb_base)} руб.
+                                <br>Стоимость минуты исходящих звонков на спутниковые сети (Thuraya, Inmarsat,...): 313 руб./мин.`;
+
+        document.getElementById("roamingprice").innerHTML = text2222;
+
+        var textProvs = "";
+        for (xProv in provs) {
+            var name = provs[xProv].name;
+            if (name !== "") {
+                textProvs += `<b> ${String(provs[xProv].name)} </b><br>`;
+            }
+            else {
+                textProvs += `<b> ${String(provs[xProv].forname)} </b><br>`;
+            }
+            var pros = provs[xProv].providers;
+            for (xe in pros) {
+                textProvs += `${String(pros[xe])} <br>`;
+            }
+        }
+
+
+        textProvs += `<br><br>`;
+
+        document.getElementById("roamingproviders").innerHTML = textProvs;
+
+        if (provs4.length === 0) {
+            document.getElementById("label_providers4").style.visibility = "hidden";
+        }
+        else {
+            document.getElementById("label_providers4").style.visibility = "visible";
+            var textProvs4 = "";
+            for (xProv in provs4) {
+
+                textProvs4 += `<b> ${String(provs4[xProv].name)} </b><br>`;
+
+                var pros4 = provs4[xProv].providers;
+                for (xe in pros4) {
+                    textProvs4 += `${String(pros4[xe])} <br>`;
+                }
+            }
+
+
+            textProvs4 += `<br><br>`;
+
+            document.getElementById("roamingproviders4").innerHTML = textProvs4;
+        }
+
+
+    }
+
+}
+
+
+function addRowInter(el) {
+    document.getElementById("tab_roaming").checked = true;
+
+
+
+    var text3333 = `<ul id="myTable_MN" class="b-roaming-operators-table__inner" style="font-size: 14px;">
+			
+		<li><b style="color:#00bbf2">${String(el.zone)}</b></li>
+		<li>Страна: ${String(el.name)}</li>
+		<li>Исходящие вызовы: ${String(el.minute)} р./мин.</li>
+		<li>SMS: ${String(el.sms)} р./шт.</li>
+		<li>MMS: ${String(el.mms)} р./шт.</li>
+		</ul> `;
+
+    document.getElementById("interprice").innerHTML = text3333;
+
+
+}
+
 //Функция заполнения при выборе региона
 var cur_region_teriff = {};
 function startInclude_MN() {
@@ -797,6 +1041,12 @@ function startInclude_MN() {
         document.getElementById("b_tafir_summary_input").innerHTML = packets;
         document.getElementById("b_tafir_summary_input1").innerHTML = base;
     }
+
+
+    //TODO: Вывод информации об условиях в стране
+
+
+
 
 
 
@@ -830,6 +1080,40 @@ function startInclude_MN() {
                 }
             });
         }
+
+        if (customTemplatess.getValue(true) === "tunlim" ) {
+
+            regions.forEach(function (item, i, arr) {
+                if (regions[i].name === customTemplatess.getValue(true)) {
+
+                    var data = regions[i].data;
+
+                    data.forEach(function (item, i, arr) {
+                        {
+
+                            if (data[i].id.toString() === customTemplates.getValue(true)) {
+                                console.log("Выбран " + customTemplates.getValue(true));
+
+                                addRowUnlimTablet(data[i]);
+
+                            }
+                        }
+                    });
+                }
+            });
+        }
+            /* for (var key in jsondata.regions) {
+
+                 if (jsondata.regions[key].id === data[i].id) {
+                     var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
+                     choices1212.push({ //regioncity
+                         value: data[i].id.toString(),
+                         label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
+                         disabled: false,
+                         customProperties: {description: jsondata.regions[key].altname}
+                     });
+                 }
+             }*/
 
         if (customTemplatess.getValue(true) === "unlims" ) {
 
@@ -871,6 +1155,23 @@ function startInclude_MN() {
 
         }
 
+        if (customTemplatess.getValue(true) === "roaming" ) {
+
+
+            var counties = jsondataroaming.countries;
+            doLoad(counties, addRowRoaming);
+
+        }
+
+        if (customTemplatess.getValue(true) === "intervoice" ) {
+            var intervoice = jsondataroaming.intervoice;
+            intervoice.forEach(function (item, i, arr) {
+                if (intervoice[i].id.toString() === customTemplates.getValue(true)) {
+                    addRowInter(intervoice[i]);
+
+                }
+            });
+        }
     }
 
 
