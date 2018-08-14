@@ -1,4 +1,533 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Title</title>
+    <meta charset="windows-1251">
+
+
+</head>
+<body>
+<link rel="stylesheet" href="base.css"/>
+<style>
+/* Switch */
+.switch,
+.switch-label,
+.switch-slider {
+    width:25px;
+    height:15px;
+}
+.switch {
+    position:relative;
+    display:inline-block;
+    padding:0;
+    border:none;
+}
+.switch-radio {
+    position:absolute;
+    visibility:hidden;
+}
+
+.switch-label,
+.switch-slider {
+    position:absolute;
+    top:0;
+}
+.switch-label {
+    left:0;
+    text-indent:-9999px;
+}
+.switch-slider {
+    z-index:2;
+    width:25px;
+    border-radius:230px;
+    box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.1) inset,
+            0 0 1px rgba(0, 0, 0, 0.5) inset,
+            0 1px 1px 1px rgba(0, 0, 0, 0.3) inset,
+            0 1px 0 rgba(0, 0, 0, 0.07) inset;
+    -webkit-transition:width 0.2s linear;
+    -moz-transition:width 0.2s linear;
+    -o-transition:width 0.2s linear;
+    transition:width 0.2s linear;
+}
+.switch-slider:after {
+    position:absolute;
+    top:2px;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#E5E5E5;
+    background:-webkit-linear-gradient(#D0D0D0, #FDFDFD);
+    background:-moz-linear-gradient(#D0D0D0, #FDFDFD);
+    background:-o-linear-gradient(#D0D0D0, #FDFDFD);
+    background:linear-gradient(#D0D0D0, #FDFDFD);
+    box-shadow:
+            0 0 1px 1px #FFF inset,
+            0 0 1px 1px rgba(0, 0, 0, 0.6);
+    content:'';
+}
+.switch-label-on .switch-slider {
+    left:0;
+    background:#369AEE  100% 12px no-repeat;
+}
+.switch-label-on .switch-slider:after {
+    right:1px;
+}
+.switch-label-off .switch-slider {
+    right:0;
+    background:#FFF 86px 14px no-repeat;
+} /*url(images/on.svg) background:#FFF url(images/off.svg) 86  */
+.switch-label-off .switch-slider:after {
+    left:1px;
+}
+.switch-label:active .switch-slider:after {
+    background:#D5D5D5;
+    background:-webkit-linear-gradient(#C8C8C8, #E4E4E4);
+    background:-moz-linear-gradient(#C8C8C8, #E4E4E4);
+    background:-o-linear-gradient(#C8C8C8, #E4E4E4);
+    background:linear-gradient(#C8C8C8, #E4E4E4);
+}
+.switch-radio:checked + .switch-label .switch-slider {
+    z-index:1;
+    width:10px;
+}
+.switch-radio:checked + .switch-label .switch-slider:after {
+    visibility:hidden;
+}
+
+
+
+
+
+.divTableCell { border: 0px solid #999999;  padding: 0px 0px; display: table-cell; }
+
+
+
+*{
+    box-sizing: border-box;
+}
+.d-table{
+    display: table;
+    font-size: 11px;
+    border-collapse: collapse;
+}
+.d-tr{
+    display: table-row;
+
+}
+.d-td{
+    display: table-cell;
+    text-align: center;
+    border: none;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+
+}
+.d-td:not(.no-p){
+    padding: 0px;
+}
+
+
+
+.d-td-tariff{
+    display: table-cell;
+    text-align: left;
+    border: none;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    padding: 8px 4px;
+
+    margin: 0px 0px;
+
+
+    width: 170px;
+    height: 160px;
+    font-family: DinDisplay,sans-serif;
+    color: #205081;
+
+
+    -webkit-user-modify: read-write-plaintext-only;
+}
+.d-td-tariff-head{
+    display: table-cell;
+    text-align: left;
+    border: none;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    padding: 4px 4px;
+    margin: 0px 0px;
+    font-family: DinDisplay,sans-serif;
+    color: #205081;
+    background-color: rgba(0, 164, 255, 0.3);
+    -webkit-user-modify: read-write-plaintext-only;
+}
+
+.input_radio_minute, .input_radio_gbite, .input_app-vk, .input_app-all, .input_app-ok, .input_app-fb, .input_app-ig, .input_app-tw,
+.input_app-sk, .input_app-vi, .input_app-wh, .input_app-yt,.input_app-sm,.input_app-tg   { position: absolute; visibility: hidden; }
+.layout-buttons {
+    display: block;
+    height: 27px;
+    margin: 0px;
+    cursor: pointer;
+    /*border-radius: 15px;*/
+}
+.layout-buttons_gb {
+    display: block;
+    /*width: 150px;*/
+    height: 27px;
+    margin: 0px;
+    padding: 6px 2px;
+    border: 0px solid black;
+    font-size: 0.7em;
+    cursor: pointer;
+    font-family:Arial;
+    text-align: center;
+    font-weight: bold;
+    box-sizing: border-box;
+    border: none;
+    /*border-radius: 15px;*/
+}
+.input_app-vk + label .activated { visibility: hidden;   }   .input_app-vk:checked + label .activated {visibility: visible; }
+.input_app-ig + label .activated { visibility: hidden;   }   .input_app-ig:checked + label .activated {visibility: visible; }
+.input_app-fb + label .activated { visibility: hidden;   }   .input_app-fb:checked + label .activated {visibility: visible; }
+.input_app-ok + label .activated { visibility: hidden;   }   .input_app-ok:checked + label .activated {visibility: visible; }
+.input_app-tw + label .activated { visibility: hidden;   }   .input_app-tw:checked + label .activated {visibility: visible; }
+.input_app-vi + label .activated { visibility: hidden;   }   .input_app-vi:checked + label .activated {visibility: visible; }
+.input_app-wh + label .activated { visibility: hidden;   }   .input_app-wh:checked + label .activated {visibility: visible; }
+.input_app-sk + label .activated { visibility: hidden;   }   .input_app-sk:checked + label .activated {visibility: visible; }
+.input_app-tg + label .activated { visibility: hidden;   }   .input_app-tg:checked + label .activated {visibility: visible; }
+.input_app-yt + label .activated { visibility: hidden;   }   .input_app-yt:checked + label .activated {visibility: visible; }
+.input_app-sm + label .activated { visibility: hidden;   }   .input_app-sm:checked + label .activated {visibility: visible; }
+
+.input_radio_minute + label { color: #00729e; background: #e8edff; width: 180px; height: 25px;} .input_radio_minute:checked + label {opacity: 0.7;color: #fff; background: #04adef;text-shadow: 1px 1px 1px #000; }
+.input_radio_gbite + label { color: #00729e; background: #e8edff;width: 150px; height: 25px;} .input_radio_gbite:checked + label {opacity: 0.7;color: #fff; background: #04adef;text-shadow: 1px 1px 1px #000; }
+
+
+input[type="checkbox"]:checked + label {
+//background: #e83737; //красный
+color: #fff; //белый
+//border-color: #e83737; //красный
+}
+#vari4:checked + label span{
+    content: 'другой текст';
+}
+.search_alt {
+    margin-top: 20px;
+    position: relative;
+}
+.unlimsyota {
+    position: relative;
+    top: -20px;
+    /*200*/
+}
+.roamingyota, .interyota {
+    position: relative;
+    top: -20px;
+    text-align: left;
+    /*200*/
+}
+.legoyota {
+    position: relative;
+    top: -20px;
+}
+
+.b-region-search__formwrap {
+    position: relative;
+    border: 1px solid #F3F3F3;
+    width: 520px;
+    left: 245px;
+    border-top-color: #D8D8D8;
+    font-size: 12px;
+    padding: 0 0px 0 0px;
+    background: #FBFBFB;
+    box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -webkit-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -moz-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -o-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+}
+
+.b-type-search__formwrap {
+    position: absolute;
+    border: 1px solid #F3F3F3;
+    width: 240px;
+
+    border-top-color: #D8D8D8;
+    font-size: 12px;
+    padding: 0 0px 0 0px;
+    background: #FBFBFB;
+    box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -webkit-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -moz-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+    -o-box-shadow: inset 0 1px 4px -1px #d8d8d8;
+}
+.b_summary_tarif_form {
+    overflow: hidden;
+
+}
+
+
+
+.b_summary_tarif_text {
+
+    padding: 8px 4px;
+
+    margin: 0px 0px;
+    position: relative;
+    top: 0px;
+    right: 0px;
+    width: 280px;
+    height: 120px;
+    resize:none;
+    font-family: DinDisplay,sans-serif;
+    color: #205081;
+    font-size: 11px;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-focus-ring-color: rgba(0,0,0,0);
+
+    -webkit-user-modify: read-write-plaintext-only;
+    font-weight: bold;
+    text-align: center;
+}
+
+input {
+    outline:none;
+}
+.b-region-info {
+    font-size: 11px;
+    line-height: 1.1;
+    border-collapse: inherit;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: gray;
+}
+.b-region-info {
+    font-size: 11px;
+    line-height: 1.1;
+    border-collapse: inherit;
+}
+.b-region-info th {
+    line-height: 16px;
+}
+.b-region-info th {
+    border-bottom: 2px solid #D9D9D9;
+    padding: 0 15px 10px 0;
+    font-size: 14px;
+    line-height: 25px;
+    color: #9b9b9c;
+    text-align: left;
+}
+.b-region-info td {
+    padding: 18px 15px 18px 0;
+    border-bottom: 1px solid #D9D9D9;
+    font-size: 14px;
+    line-height: 18px;
+    color: #2c302e;
+}
+.b-region-search__suggest-list-wrap {
+    font-family: DinDisplay,Arial,ArialRuble,sans-serif;
+    margin: 10px 4px 20px;
+    font-size: 12px;
+}
+.b-region-search__sample-key {
+    color: #999;
+    padding-right: 0px;
+}
+.b-region-search__suggest-list {
+    list-style: none;
+    padding: 0;
+    display: inline;
+}
+.b-region-search__suggest-item {
+    font-family: DinDisplay,Arial,ArialRuble,sans-serif;
+    text-decoration: none;
+    list-style: none;
+    display: inline;
+    padding: 0;
+    color: #008cfc;
+    padding-right: 3px;
+}
+.b-region-search__suggest-link {
+    cursor: pointer;
+}
+/*Стили для поисковой строки*/
+.choices{position:relative;margin-bottom:24px;font-size:16px}.choices:focus{outline:none}.choices:last-child{margin-bottom:0}.choices.is-disabled .choices__inner,.choices.is-disabled .choices__input{background-color:#eaeaea;cursor:not-allowed;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.choices.is-disabled .choices__item{cursor:not-allowed}.choices[data-type*=select-one]{cursor:pointer}.choices[data-type*=select-one] .choices__inner{padding-bottom:7.5px}.choices[data-type*=select-one] .choices__input{display:block;width:100%;padding:10px;border-bottom:1px solid #ddd;background-color:#fff;margin:0}.choices[data-type*=select-one] .choices__button{background-image:url(../../icons/cross-inverse.svg);padding:0;background-size:8px;position:absolute;top:50%;right:0;margin-top:-10px;margin-right:25px;height:20px;width:20px;border-radius:10em;opacity:.5}.choices[data-type*=select-one] .choices__button:focus,.choices[data-type*=select-one] .choices__button:hover{opacity:1}.choices[data-type*=select-one] .choices__button:focus{box-shadow:0 0 0 2px #00bcd4}.choices[data-type*=select-one]:after{content:"";height:0;width:0;border-style:solid;border-color:#333 transparent transparent transparent;border-width:5px;position:absolute;right:11.5px;top:50%;margin-top:-2.5px;pointer-events:none}.choices[data-type*=select-one].is-open:after{border-color:transparent transparent #333 transparent;margin-top:-7.5px}.choices[data-type*=select-one][dir=rtl]:after{left:11.5px;right:auto}.choices[data-type*=select-one][dir=rtl] .choices__button{right:auto;left:0;margin-left:25px;margin-right:0}.choices[data-type*=select-multiple] .choices__inner,.choices[data-type*=text] .choices__inner{cursor:text}.choices[data-type*=select-multiple] .choices__button,.choices[data-type*=text] .choices__button{position:relative;display:inline-block;margin:0 -4px 0 8px;padding-left:16px;border-left:1px solid #008fa1;background-image:url(../../icons/cross.svg);background-size:8px;width:8px;line-height:1;opacity:.75}.choices[data-type*=select-multiple] .choices__button:focus,.choices[data-type*=select-multiple] .choices__button:hover,.choices[data-type*=text] .choices__button:focus,.choices[data-type*=text] .choices__button:hover{opacity:1}.choices__inner{display:inline-block;vertical-align:top;width:100%;background-color:#f9f9f9;padding:7.5px 7.5px 3.75px;border:1px solid #ddd;border-radius:2.5px;font-size:14px;min-height:44px;overflow:hidden}.is-focused .choices__inner,.is-open .choices__inner{border-color:#b7b7b7}.is-open .choices__inner{border-radius:2.5px 2.5px 0 0}.is-flipped.is-open .choices__inner{border-radius:0 0 2.5px 2.5px}.choices__list{margin:0;padding-left:0;list-style:none}.choices__list--single{display:inline-block;padding:4px 16px 4px 4px;width:100%}[dir=rtl] .choices__list--single{padding-right:4px;padding-left:16px}.choices__list--single .choices__item{width:100%}.choices__list--multiple{display:inline}.choices__list--multiple .choices__item{display:inline-block;vertical-align:middle;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:500;margin-right:3.75px;margin-bottom:3.75px;background-color:#00bcd4;border:1px solid #00a5bb;color:#fff;word-break:break-all}.choices__list--multiple .choices__item[data-deletable]{padding-right:5px}[dir=rtl] .choices__list--multiple .choices__item{margin-right:0;margin-left:3.75px}.choices__list--multiple .choices__item.is-highlighted{background-color:#00a5bb;border:1px solid #008fa1}.is-disabled .choices__list--multiple .choices__item{background-color:#aaa;border:1px solid #919191}.choices__list--dropdown{display:none;z-index:1;position:absolute;width:100%;background-color:#fff;border:1px solid #ddd;top:100%;margin-top:-1px;border-bottom-left-radius:2.5px;border-bottom-right-radius:2.5px;overflow:hidden;word-break:break-all}.choices__list--dropdown.is-active{display:block}.is-open .choices__list--dropdown{border-color:#b7b7b7}.is-flipped .choices__list--dropdown{top:auto;bottom:100%;margin-top:0;margin-bottom:-1px;border-radius:.25rem .25rem 0 0}.choices__list--dropdown .choices__list{position:relative;max-height:300px;overflow:auto;-webkit-overflow-scrolling:touch;will-change:scroll-position}.choices__list--dropdown .choices__item{position:relative;padding:10px;font-size:14px}[dir=rtl] .choices__list--dropdown .choices__item{text-align:right}@media (min-width:640px){.choices__list--dropdown .choices__item--selectable{padding-right:100px}.choices__list--dropdown .choices__item--selectable:after{content:attr(data-select-text);font-size:12px;opacity:0;position:absolute;right:10px;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}[dir=rtl] .choices__list--dropdown .choices__item--selectable{text-align:right;padding-left:100px;padding-right:10px}[dir=rtl] .choices__list--dropdown .choices__item--selectable:after{right:auto;left:10px}}.choices__list--dropdown .choices__item--selectable.is-highlighted{background-color:#f2f2f2}.choices__list--dropdown .choices__item--selectable.is-highlighted:after{opacity:.5}.choices__item{cursor:default}.choices__item--selectable{cursor:pointer}.choices__item--disabled{cursor:not-allowed;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;opacity:.5}.choices__heading{font-weight:600;font-size:12px;padding:10px;border-bottom:1px solid #f7f7f7;color:gray}.choices__button{text-indent:-9999px;-webkit-appearance:none;-moz-appearance:none;appearance:none;border:0;background-color:transparent;background-repeat:no-repeat;background-position:center;cursor:pointer}.choices__button:focus{outline:none}.choices__input{display:inline-block;vertical-align:baseline;background-color:#f9f9f9;font-size:14px;margin-bottom:5px;border:0;border-radius:0;max-width:100%;padding:4px 0 4px 2px}.choices__input:focus{outline:0}[dir=rtl] .choices__input{padding-right:2px;padding-left:0}.choices__placeholder{opacity:.5}
+
+
+
+
+
+
+
+
+
+
+.b2c-voice-collect__app_tg circle {
+    fill: #888888;
+
+}
+.b2c-voice-collect__app-price_tg svg {
+    margin:auto;
+    background: #888888;
+    position:relative;
+    top: -40px;
+    left: 2px;
+    padding: 1px 4px;
+    border-radius: 5px;
+    width: 30px;
+    margin-left:-4px;
+
+}
+
+
+.b2c-voice-collect__app-price{
+    margin:auto;
+    background: #4a76a8;
+    font-family:  Yota Sans,sans-serif;
+    color: #ffffff;
+    font-size: 11px;
+
+    position:relative;
+    top: -38px;
+    /*top: -36px;*/
+    left: 6px;
+    padding: 1px 0px;
+    border-radius: 5px;
+    width: 32px;
+    margin-left:-4px;
+    transform:translatey(-50%) rotate(-0deg);
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, .2), 0 0 0 1px rgba(0, 0, 0, .08);
+}
+
+
+.legoyota, .unlimsyota, .roamingyota, .interyota, .tunlimyota{display: none; }
+/* Базовый контейнер табов */
+.tabs {
+    min-width: 320px;
+    max-width: 800px;
+    padding: 0px;
+    margin: 0 0;
+}
+/* Стили секций с содержанием */
+.tabs>section {
+    display: none;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+.tabs>section>p {
+    margin: 0 0 5px;
+    line-height: 1.5;
+    color: #383838;
+    /* прикрутим анимацию */
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+/* Описываем анимацию свойства opacity */
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* Прячем чекбоксы */
+.tabs>input {
+    display: none;
+    position: absolute;
+}
+/* Стили переключателей вкладок (табов) */
+.tabs>label {
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    font-weight: 600;
+    text-align: center;
+    color: #aaa;
+    border: 0px solid #ddd;
+    border-width: 1px 1px 1px 1px;
+    background: #f1f1f1;
+    border-radius: 3px 3px 0 0;
+}
+/* Шрифт-иконки от Font Awesome в формате Unicode */
+.tabs>label:before {
+    font-family: fontawesome;
+    font-weight: normal;
+    margin-right: 10px;
+}
+.tabs>label[for*="1"]:before {
+    content: "\f19a";
+}
+.tabs>label[for*="2"]:before {
+    content: "\f17a";
+}
+.tabs>label[for*="3"]:before {
+    content: "\f13b";
+}
+.tabs>label[for*="4"]:before {
+    content: "\f13c";
+}
+/* Изменения стиля переключателей вкладок при наведении */
+
+.tabs>label:hover {
+    color: #888;
+    cursor: pointer;
+}
+/* Стили для активной вкладки */
+.tabs>input:checked+label {
+    color: #555;
+    border-top: 1px solid #009933;
+    border-bottom: 1px solid #fff;
+    background: #fff;
+}
+/* Активация секций с помощью псевдокласса :checked */
+#tab_roaming:checked~#content-tab_roaming, #tab_providers:checked~#content-tab_providers, #tab_providers4:checked~#content-tab_providers4, #tab4:checked~#content-tab4 {
+    display: block;
+}
+/* Убираем текст с переключателей
+* и оставляем иконки на малых экранах
+*/
+
+@media screen and (max-width: 680px) {
+    .tabs>label {
+        font-size: 0;
+    }
+    .tabs>label:before {
+        margin: 0;
+        font-size: 18px;
+    }
+}
+/* Изменяем внутренние отступы
+*  переключателей для малых экранов
+*/
+@media screen and (max-width: 400px) {
+    .tabs>label {
+        padding: 15px;
+    }
+}
+</style>
+
 <div class="search_alt">
+
     <div class="b-type-search__formwrap">
         <label for="regions_called" id="regions_callname">Custom templates</label>
         <select class="form-control" name="choices-single-custom-templates1" id="regions_called" placeholder="This is a placeholder">
@@ -7,114 +536,160 @@
     <div class="b-region-search__formwrap">
         <label for="regions_call" id="regions_callname2">Custom templates</label>
         <select class="form-control" name="choices-single-custom-templates" id="regions_call" placeholder="This is a placeholder">
-            <optgroup label="Национальный роуминг" id="Национальный роуминг">
-                <option value="Крым" disabled>Крым и Севастополь</option>
-            </optgroup>
         </select>
     </div>
-    <div class="b-region-search__suggest-list-wrap"><span class="b-region-search__sample-key">Например:</span>
+    <div class="b-region-search__suggest-list-wrap" style="visibility: hidden"><span class="b-region-search__sample-key">Например:</span>
         <ul class="b-region-search__suggest-list">
             <li class="b-region-search__suggest-item"><a style="text-decoration: none;" class="b-region-search__suggest-link" onclick="example_region('Магадан')">Магадан</a></li>
             <li class="b-region-search__suggest-item"><a style="text-decoration: none;" class="b-region-search__suggest-link" onclick="example_region('Спб')">Санкт-Петербург</a></li>
             <li class="b-region-search__suggest-item"><a style="text-decoration: none;" class="b-region-search__suggest-link" onclick="example_region('Самара')">Самарская область</a></li>
         </ul>
     </div>
+
+
     <div class="b-region-operators-table i-bem">
         <ul id="regionTable" class="b-region-info" style="font-size: 14px;">
         </ul>
     </div>
-</div> 
-<div class="d-table">
-
-    <div class="d-tr">
-        <div class="d-td no-p">
-            <div class="d-table">
-                <div class="d-tr">
-                    <div class="d-td">
-                        <textarea readonly class="b_summary_tarif_text" id="b_tafir_summary_input" placeholder="Пока ничего не выбрано :( " onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"></textarea>
-                    </div>
-                </div>
-                <div class="d-tr">
-                    <div class="d-td">
-                        <textarea readonly class="b_summary_tarif_text" id="b_tafir_summary_input1" placeholder="  " onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="d-td no-p" >
-            <div  id="tapps" class="divTableCell"  >
-                <div class="divTable">
-                    <div class="divTableBody">
-                        <div class="divTableRow">
-                            <input id="app-all" class="input_app-all" type="checkbox" name="select_apps_all" value="0" onchange="checkApps(this)">  <label for="app-all" class="layout-buttons_gb">Все опции и БМП    </span></label>
-                            <div class="divTableCell">
-                                <input id="app-vk" class="input_app-vk" type="checkbox" name="select_apps" value="1" onchange="checkApps(this)">  <label for="app-vk" class="layout-buttons"><span> <div data-name="vk" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"><div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg"><circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle><circle class="activated" fill="#5A7DA3" cx="20.5" cy="20.5" r="60"></circle> <path d="M28.8 20.4c.7-.9 1.4-1.9 2-2.8.3-.4.4-.9.7-1.4 0 0 0-.1.1-.1v-.3c-.2-.4-.5-.4-.8-.4h-3.9c-.6 0-.8.1-1 .7-.3.6-.5 1.2-.8 1.7-.4.9-.9 1.7-1.5 2.5-.3.4-.6.7-.9 1-.2.2-.5.2-.7-.1-.2-.2-.3-.5-.3-.8V19v-2.9c0-.2 0-.4-.1-.6-.1-.3-.4-.5-.8-.5H17c-.5 0-.8.2-1.1.6-.1.2-.1.3.1.3.4.1.8.3 1 .6.1.2.2.4.2.6.2 1.1.2 2.3 0 3.5 0 .2-.1.5-.2.7-.2.3-.4.4-.8.2-.2-.1-.4-.3-.5-.5-.4-.6-.9-1.2-1.3-1.9-.3-.5-.6-1.1-.9-1.7-.2-.4-.3-.7-.5-1.1-.2-.5-.6-.8-1.1-.8H8.5c-.2 0-.4.1-.5.3v.3c.3.7.6 1.4 1 2.1.6 1.1 1.2 2.3 1.8 3.4.5.9 1.1 1.7 1.7 2.6.7 1 1.5 1.8 2.4 2.5 1 .7 2.1 1.2 3.3 1.4.9.2 1.7.2 2.6.1.5 0 .7-.3.8-.8.1-.5.1-.9.2-1.4.1-.3.2-.6.4-.8.2-.2.5-.2.8 0 .3.2.6.5.9.8.4.5.9.9 1.3 1.4.5.5 1.2.8 2 .8h3.3c.6 0 .8-.2.9-.7v-.2c-.2-.8-.8-1.4-1.3-2L28 23.2c-.1-.1-.2-.2-.3-.4-.2-.4-.2-.8.1-1.1.4-.5.7-.9 1-1.3z" fill="#FFF"></path> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
-                            </div>
-
-                            <div class="divTableCell">
-                                <input id="app-ig" class="input_app-ig" type="checkbox" name="select_apps" value="4" onchange="checkApps(this)">  <label for="app-ig" class="layout-buttons"><span> <div data-name="instagram" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle><linearGradient class="enableflow1" x1="36.7393%" y1="74.3071%" x2="77.4217%" y2="-.2646%" id="a"> <stop stop-color="#F5BB58" offset="0%"></stop> <stop stop-color="#D22C78" offset="57.65%"></stop> <stop stop-color="#5959C5" offset="100%"></stop> </linearGradient> <circle class="activated" fill="url(#a)" cx="20.5" cy="20.5" r="60"></circle> <path d="M21.9 7h-3.2C12.2 7 7 12.3 7 18.7v3.1c0 6.5 5.3 11.7 11.7 11.7h3.2c6.5 0 11.7-5.3 11.7-11.7v-3.1C33.6 12.2 28.4 7 21.9 7zm9.6 14.7c0 5.3-4.3 9.6-9.6 9.6h-3.2c-5.3 0-9.6-4.3-9.6-9.6v-3.1c0-5.3 4.3-9.6 9.6-9.6h3.2c2.4 0 4.6.9 6.2 2.3-.2 0-.3-.1-.5-.1-1 0-1.8.8-1.8 1.8s.8 1.8 1.8 1.8 1.8-.8 1.8-1.8v-.3c1.3 1.6 2.1 3.7 2.1 5.9v3.1zm-11.1-8.3c-3.8 0-6.9 3.1-6.9 6.9 0 3.8 3.1 6.9 6.9 6.9 3.8 0 6.9-3.1 6.9-6.9 0-3.8-3.1-6.9-6.9-6.9zm0 11.7c-2.7 0-4.8-2.2-4.8-4.8 0-2.7 2.2-4.8 4.8-4.8 2.7 0 4.8 2.2 4.8 4.8 0 2.7-2.2 4.8-4.8 4.8z" fill="#FFF"></path> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
-                            </div>
-                            <div class="divTableCell">
-                                <input id="app-fb" class="input_app-fb" type="checkbox" name="select_apps" value="3" onchange="checkApps(this)">  <label for="app-fb" class="layout-buttons"><span> <div data-name="fb" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">   <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#6781CA" cx="20.5" cy="20.5" r="60"></circle> <path d="M24.4 13.8h2.3v-3.5H23c-4.6 0-4.4 5.3-4.4 5.3v2.6h-3.1v3.5h3.1V31.5h4v-9.8h3.2l.5-3.5h-3.7v-2.6c.1-1.9 1.8-1.8 1.8-1.8z" fill="#FFF"></path> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
-                            </div>
-                            <div class="divTableCell">
-                                <input id="app-ok" class="input_app-ok" type="checkbox" name="select_apps" value="2" onchange="checkApps(this)">  <label for="app-ok" class="layout-buttons"><span> <div data-name="ok" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">   <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#FC8924" cx="20.5" cy="20.5" r="60"></circle> <path d="M27.24444 23.7c-.5 1.3-1.7 1.6-3 1.7-.4.2-.9.3-1.4.5.1.2.3.4.4.5l2.7 2.7c.7.8.8 1.8.1 2.5-.7.7-1.7.6-2.5-.1-.8-.9-1.7-1.7-2.6-2.6-.2-.1-.3-.3-.6-.5-.5.6-1 1.1-1.5 1.6-.5.6-1.1 1.2-1.7 1.7-.7.7-1.8.7-2.4 0-.6-.6-.6-1.6.1-2.3.9-.9 1.9-1.8 2.8-2.7l.5-.5c-.8-.3-1.5-.5-2.2-.8-.4-.2-.7-.4-1.1-.6-.8-.5-1.1-1.5-.6-2.3.5-.7 1.5-1 2.4-.5 1.2.7 2.5 1.1 3.9 1.1 1.3 0 2.6-.2 3.7-.9s2.3-.7 3 .9v.6zm-6.7-2.2c-3.3 0-5.8-2.5-5.9-5.8 0-3.1 2.7-5.7 5.9-5.7 3.3 0 5.9 2.6 5.9 5.8 0 3.5-3 5.8-5.9 5.7zm0-8.2c-1.3 0-2.5 1.1-2.5 2.5 0 1.3 1.2 2.4 2.5 2.4 1.4 0 2.5-1.1 2.5-2.5 0-1.3-1.1-2.4-2.5-2.4z" fill="#FFF"></path> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
-                            </div>
-                            <div class="divTableCell">
-                                <input id="app-tw" class="input_app-tw" type="checkbox" name="select_apps" value="5" onchange="checkApps(this)">  <label for="app-tw" class="layout-buttons"><span>  <div data-name="twitter" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg"> <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#55B2F0" cx="20.5" cy="20.5" r="60"></circle> <path d="M31.7 13.94628c-1.1.7-2.1.8-2.1.8 1.7-1.5 1.6-2.4 1.6-2.4-1.3 1-2.5 1.1-2.5 1.1-2.5-2.5-5-1-5-1-3.1 2-2.1 4.8-2.1 4.8-5.2-.3-8.5-4.6-8.5-4.6-1.8 3.8 1.2 5.7 1.2 5.7-.7.1-1.8-.5-1.8-.5.6 4.1 3.3 4.1 3.3 4.1-.5.4-1.8.2-1.8.2 1.3 3.1 3.8 2.8 3.8 2.8-2 2.2-5.8 1.8-5.8 1.8 3.6 2.9 8.7 1.7 8.7 1.7 9.6-2.2 9.1-12.4 9.1-12.4 1.7-.8 1.9-2.1 1.9-2.1z" fill="#FFF"></path> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
-                            </div></div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">
-                                <input id="app-vi" class="input_app-vi" type="checkbox" name="select_apps" value="7" onchange="checkApps(this)">  <label for="app-vi" class="layout-buttons"><span>  <div data-name="viber" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle>  <circle class="activated" fill="#A589D7" cx="20.5" cy="20.5" r="60"></circle> <path d="M30.9861006 14.9555556s1.3 3.8.2 9.9c0 0-.3 6.7-12.5 5.6l-1.8 2c-1.4 1.6-2.5 1.2-2.4-.9l.1-1.7s-4-.7-5.20000001-4.9c-1.1-4.3.5-10 .5-10s.80000001-2.9 3.40000001-3.8c0 0 6.9-2.60000004 14 0 0 0 2.8.9 3.7 3.8zm-1.6 9.3c.9-5.1-.1-8.3-.1-8.4-.7-2.4-3.1-3.1-3.1-3.1-5.9-2.1-11.7 0-11.7 0-2.2.8-2.9 3.2-2.9 3.2s-1.4 4.8-.4 8.4c1 3.6 4.1 4.1 4.1 4.1v3.8c0 .5.2.5.5.2l3.1-3.6c10.2 1 10.5-4.6 10.5-4.6zm-13.8-4.5c-.6-1.2-.9-2.1-.9-2.7 0-.6.2-.8.3-1 .1-.2.9-.6 1-.7.1-.1.8-.2 1 .2.3.4.8 1.1 1.2 1.6.6.8 0 1.3-.2 1.5-.3.4-.4.5-.4.9s1.3 1.8 1.6 2.1c.3.3 1.6 1.5 2 1.5.4.1.9-.4 1.1-.5.6-.4 1-.4 1.3-.3.3.1 1.4 1.2 1.7 1.5.5.4.3.7.3.7s-.7 1.2-.8 1.3c-.1.2-.4.3-1 .3s-1.2-.1-2.8-.9c-1.2-.7-2.4-1.8-3.1-2.4-.5-.5-1.6-1.7-2.3-3.1zm7.3.2c-.2 0-.4-.2-.4-.4-.1-1.5-1.3-1.5-1.4-1.5-.2 0-.4-.2-.4-.4s.2-.4.4-.4c.7 0 2.1.5 2.2 2.3 0 .2-.1.4-.4.4.1 0 0 0 0 0zm1.4.5c-.2 0-.4-.2-.4-.4 0-1.1-.3-2-.9-2.5-.9-.9-2.3-.9-2.3-.9-.2 0-.4-.2-.4-.4s.2-.4.4-.4c.1 0 1.7 0 2.9 1.1.8.7 1.1 1.8 1.1 3.1 0 .3-.1.4-.4.4zm1.4.5c-.2 0-.4-.2-.4-.4 0-1.7-.5-3.1-1.4-4-1.5-1.4-3.7-1.3-3.8-1.3-.2 0-.4-.1-.4-.4 0-.2.1-.4.4-.4.1 0 2.6-.1 4.3 1.5 1.1 1.1 1.7 2.6 1.7 4.5 0 .4-.1.5-.4.5z" fill="#FFF"></path> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-messenger"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
-                            </div>
-                            <div class="divTableCell">
-                                <input id="app-wh" class="input_app-wh" type="checkbox" name="select_apps" value="8" onchange="checkApps(this)">  <label for="app-wh" class="layout-buttons"><span>   <div data-name="whatsapp" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle>  <circle class="activated" fill="#1BD86D" cx="20.5" cy="20.5" r="60"></circle> <path d="M20.2 9C14.1 9 9.1 14 9.1 20.1c0 2.1.6 4 1.5 5.6l-1 3.8-.3 1-.3 1 5.9-1.6c1.6.8 3.3 1.3 5.2 1.3 6.1 0 11.1-5 11.1-11.1C31.3 14 26.4 9 20.2 9zm0 20.4c-1.6 0-3.1-.4-4.4-1.1l-.6-.3-.7.2-2.8.8.7-2.7.2-.7-.4-.7c-.8-1.4-1.3-3-1.3-4.7 0-5.1 4.2-9.3 9.3-9.3 5.1 0 9.3 4.2 9.3 9.3 0 5.1-4.1 9.2-9.3 9.2zm5.2-6.8c-.9-.4-1.7-.9-1.7-.9-.6-.4-1 .2-1 .2-.3.4-.7.8-.7.8-.6.6-1.2.1-1.2.1-2.4-1.4-3.2-2.9-3.2-2.9s-.5-.6.2-1.1c.7-.5.4-1.3.4-1.3l-.7-1.8c-.6-1.4-1.9-.4-1.9-.4-1.4.9-1.1 2.5-1.1 2.5.1.7.7 2 .7 2s.6 1.2 1.8 2.5l.8.8.3.3c.6.5.6.5.9.7 1.6 1.1 3.4 1.3 3.4 1.3 2.5.5 3.5-1.7 3.5-1.7.3-.8-.5-1.1-.5-1.1z" fill="#FFF"></path> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-messenger"   tooltip-position='left'> 20&#8381; </div>  </div> </div></span></label>
-                            </div>
-                            <div class="divTableCell">
-                                <input id="app-sk" class="input_app-sk" type="checkbox" name="select_apps" value="6" onchange="checkApps(this)">  <label for="app-sk" class="layout-buttons"><span>   <div data-name="skype" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg"> <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#5DC0FF" cx="20.5" cy="20.5" r="60"></circle> <path d="M31.05408 21.88594c.2-1.2.3-2.5.1-3.6-.9-5.4-6-9.3-11.5-8.5-.3.1-.6 0-.9-.1-2.3-1.2-5.1-.8-7 1-1.8 1.8-2.3 4.6-1.1 6.9.1.2.1.4.1.7-.1.6-.1 1.1-.1 1.7 0 .3 0 .7.1 1 .6 5.9 6 10 11.9 9.1.1 0 .4 0 .5.1 1.1.6 2.3.7 3.5.5 3.9-.7 6.1-4.7 4.5-8.4-.1-.1-.1-.2-.1-.4zm-7.4 4.8c-1.8.5-3.6.5-5.3 0-1.6-.5-2.8-1.5-3.3-3.1-.4-1.2.4-2 1.6-1.9.5.1.9.4 1.1.8.1.3.3.5.4.8.4.9 1.2 1.4 2.1 1.5.8.1 1.6 0 2.3-.3.3-.1.6-.3.7-.6.6-.7.4-1.6-.2-2.1-.7-.5-1.5-.7-2.3-.8-1.1-.2-2.3-.5-3.3-.9-1.1-.5-2-1.2-2.3-2.4-.4-1.5.1-2.6 1.2-3.6 1-.8 2.2-1.1 3.5-1.2h.9c1.2 0 2.3.1 3.4.7.8.4 1.5.9 1.8 1.8.2.4.3.9.1 1.3-.1.5-.5.9-1 1-.6.1-1.1 0-1.5-.5-.1-.2-.4-.5-.5-.8-.5-.8-1.2-1.3-2.2-1.3-.4 0-.9 0-1.3.1s-.7.3-1.1.5c-.5.5-.5 1.2.1 1.7.4.3.8.4 1.3.6 1.1.3 2.2.5 3.3.8.6.1 1.2.4 1.7.7 2.5 1.2 2.3 4.2 1 5.8-.5.6-1.3 1.1-2.2 1.4z" fill="#FFF"></path> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-messenger"   tooltip-position='left'> 20&#8381; </div>  </div></div></span></label>
-                            </div>
-                            <div class="divTableCell">
-                                <input id="app-tg" class="input_app-tg" type="checkbox" name="select_apps_off" value="11" onchange="checkApps(this)">  <label for="app-tg" class="layout-buttons"><span>   <div data-name="telegram" class="b2c-voice-collect__app_tg js-b2c-voice-collect-app"> <div class="b2c-voice-collect__app-icon_tg"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">   <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#64ADEB" cx="20.5" cy="20.5" r="60"></circle> <path d="M27.31287 13.03854c-.2 0-.5.1-.7.2-4.8 1.7-9.6 3.4-14.3 5-.6.2-1.2.5-1.3 1.3-.1.7.4 1.2.9 1.6.3.2.5.3.8.4 1.4.7 2.7 1.4 4.1 2 .7.3 1.2.8 1.5 1.5.8 1.6 1.6 3.3 2.4 4.9.3.6.8 1.2 1.6 1.1.8-.1 1.1-.7 1.3-1.4 1.7-4.7 3.3-9.5 5-14.2.1-.4.3-.7.2-1.1.1-.9-.6-1.5-1.5-1.3z" fill="#FCFDFD"></path> </svg>  <div class="b2c-voice-collect__app-price_tg" data-name="tg"   tooltip-position='left'>
-                                    <svg width="35" height="15" viewBox="17 3 25 25" xmlns="http://www.w3.org/2000/svg">  <g xmlns="http://www.w3.org/2000/svg" transform=" scale(0.0045)" fill="red" stroke="none">
-                                        <path d="M5961 6330 c-18 -4 -409 -386 -627 -612 -34 -35 -99 -100 -145 -145 -46 -45 -109 -108 -140 -140 -31 -32 -67 -68 -80 -80 -13 -11 -86 -83 -161 -160 -75 -76 -317 -318 -538 -538 l-400 -399 0 -413 c0 -402 1 -413 20 -425 11 -7 20 -16 20 -20 0 -3 90 -95 201 -205 111 -109 206 -203 213 -210 139 -143 190 -191 201 -187 7 3 12 -1 12 -9 -2 -18 131 -160 143 -152 6 3 7 -1 4 -9 -3 -9 -3 -16 1 -16 4 0 88 81 186 179 138 138 178 183 173 198 -5 14 -4 15 4 4 8 -11 26 1 86 60 42 41 74 80 71 87 -3 7 0 10 5 7 11 -7 97 71 89 80 -48 52 -563 565 -568 565 -4 0 -15 13 -24 30 -20 33 -14 54 22 80 12 8 21 19 21 25 0 6 13 19 30 28 18 11 27 23 23 32 -4 11 -1 13 13 8 13 -5 16 -3 11 10 -4 11 -1 17 8 17 20 0 52 33 47 48 -2 8 3 10 14 5 14 -5 16 -3 11 11 -4 10 -3 15 3 11 6 -3 13 0 16 8 3 8 15 17 26 20 11 3 17 10 13 16 -3 6 -1 11 4 11 16 0 51 33 51 47 0 7 7 13 15 13 9 0 12 6 8 17 -4 10 -2 14 5 9 14 -8 106 80 97 94 -3 6 1 7 10 4 11 -5 18 0 22 15 3 11 10 21 16 21 16 0 111 103 108 117 -1 8 4 10 14 7 11 -5 18 0 22 15 3 11 9 21 14 21 12 0 109 97 109 110 0 5 5 9 12 8 7 -2 17 7 23 20 5 12 13 22 16 22 12 0 149 137 149 149 0 6 4 11 10 11 15 0 50 42 43 53 -4 6 -1 7 6 2 13 -7 51 26 51 45 0 5 5 10 11 10 11 0 39 24 39 34 0 9 59 66 69 66 5 0 13 9 16 20 4 11 11 18 16 15 5 -4 9 1 9 9 0 9 4 16 10 16 5 0 25 17 45 38 75 79 89 92 97 92 5 0 6 5 3 10 -3 6 0 10 8 10 22 0 41 27 25 33 -9 4 -9 6 2 6 22 1 73 48 65 60 -4 7 0 8 10 5 11 -5 18 0 22 15 3 11 12 21 20 21 8 0 11 5 8 10 -3 6 -1 10 5 10 14 0 79 67 72 75 -3 3 0 5 6 5 5 0 17 2 24 5 9 4 72 -53 168 -149 84 -85 157 -153 162 -150 4 3 8 -1 8 -9 0 -7 14 -27 30 -43 17 -16 59 -58 93 -93 34 -35 73 -73 86 -85 14 -11 38 -35 53 -52 l29 -30 50 47 c36 34 48 51 43 65 -5 15 -4 16 4 4 9 -11 35 10 138 114 100 101 124 130 113 138 -11 8 -10 9 4 4 14 -5 47 21 133 107 63 63 114 120 114 128 -1 8 -19 28 -40 44 -21 17 -39 35 -40 42 0 6 -4 13 -10 15 -10 3 -141 129 -176 169 -11 13 -53 55 -92 92 -40 38 -72 70 -72 72 0 7 -145 145 -152 145 -5 0 -8 6 -8 13 0 8 -10 19 -23 26 -12 6 -31 25 -42 42 -11 16 -26 27 -33 24 -7 -3 -11 -1 -8 4 3 4 -9 22 -27 39 -17 16 -45 44 -60 61 l-29 31 -256 0 c-142 0 -319 2 -394 3 -75 1 -146 0 -157 -3z"/>
-                                        <path d="M7719 4775 c-167 -168 -306 -308 -309 -311 -2 -2 135 -144 305 -314 l310 -310 -828 -827 -827 -828 -310 310 -310 310 -305 -305 c-168 -168 -305 -309 -305 -315 0 -6 183 -193 408 -418 l407 -407 420 0 420 0 1028 1028 1027 1028 0 425 0 424 -408 408 c-224 224 -410 407 -413 407 -3 0 -143 -137 -310 -305z"/>
-                                        <path d="M5910 4285 l-415 -415 423 -422 422 -423 418 418 417 417 -420 420 c-231 231 -422 420 -425 420 -3 0 -192 -187 -420 -415z"/>
-                                    </g> </svg>
-                                </div> </div> </div></span></label>
-                            </div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">
-                                <input id="app-yt" class="input_app-yt" type="checkbox" name="select_apps" value="9" onchange="checkApps(this)">  <label for="app-yt" class="layout-buttons"><span>   <div data-name="youtube" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <g fill="none" fill-rule="evenodd"> <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#FE2E2E" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#path" cx="20.5" cy="20.5" r="60"></circle>  <path fill="#FFF" d="M31.452 16.773s-.216-1.577-.876-2.272c-.838-.912-1.777-.916-2.207-.97-3.084-.231-7.708-.231-7.708-.231h-.01s-4.625 0-7.708.232c-.431.053-1.37.057-2.208.969-.66.695-.875 2.272-.875 2.272s-.22 1.853-.22 3.705v1.736c0 1.853.22 3.705.22 3.705s.214 1.577.875 2.272c.838.912 1.94.884 2.43.979 1.762.176 7.49.23 7.49.23s4.63-.007 7.714-.239c.43-.054 1.37-.058 2.207-.97.66-.695.876-2.272.876-2.272s.22-1.852.22-3.705v-1.736c0-1.852-.22-3.705-.22-3.705z"></path> <path class="activated" fill="#FD2E2E" d="M18.38 24.319v-6.432l5.953 3.227z"></path> </g> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-media"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
-                            </div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">
-
-                                <input id="app-sm" class="input_app-sm" type="checkbox" name="select_sms" value="10" onchange="checkApps(this)">  <label for="app-sm" class="layout-buttons"><span>  <div data-name="sms" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="-3 -6 30 30" xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" stroke="none" >  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#8cd073" cx="20.5" cy="20.5" r="60"></circle> <path  d="M18,7c0.542,0,1,0.458,1,1v7c0,0.542-0.458,1-1,1h-8H9.171L9,16.171V16H7H6c-0.542,0-1-0.458-1-1V8c0-0.542,0.458-1,1-1H18    M18,5H6C4.35,5,3,6.35,3,8v7c0,1.65,1.35,3,3,3h1v3l3-3h8c1.65,0,3-1.35,3-3V8C21,6.35,19.65,5,18,5z"/> </svg>
-                                <div class="b2c-voice-collect__app-price" data-name="app-sms"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 </div>
-            <div class="divTableCell" >
-               <!-- <tr> <td nowrap><input id="app-all" class="input_app-all" type="checkbox" name="select_apps_all" value="0" onchange="checkApps(this)">  <label for="app-all" class="layout-buttons">Все БМП       </span></label>   </td></tr>-->
-                       </div>
-            <div  id="tminute0" class="divTableCell"  >
+
+
+
+
+
+
+<div class="d-table legoyota" id="legoyota" >
+        <div class="d-table">
+
+            <div class="d-tr">
+                <div class="d-td no-p">
+                    <div class="d-table">
+                        <div class="d-tr">
+                            <div class="d-td">
+                                <textarea readonly class="b_summary_tarif_text" id="b_tafir_summary_input" placeholder="Пока ничего не выбрано :( " onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"></textarea>
+                            </div>
+                        </div>
+                        <div class="d-tr">
+                            <div class="d-td">
+                                <textarea readonly class="b_summary_tarif_text" id="b_tafir_summary_input1" placeholder="  " onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-td no-p" >
+                    <div  id="tapps" class="divTableCell"  >
+                        <div class="divTable">
+                            <div class="divTableBody">
+                                <div class="divTableRow">
+                                    <input id="app-all" class="input_app-all" type="checkbox" name="select_apps_all" value="0" onchange="checkApps(this)">  <label for="app-all" class="layout-buttons_gb">Все опции и БМП		</span></label>
+                                    <div class="divTableCell">
+                                        <input id="app-vk" class="input_app-vk" type="checkbox" name="select_apps" value="1" onchange="checkApps(this)">  <label for="app-vk" class="layout-buttons"><span> <div data-name="vk" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"><div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg"><circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle><circle class="activated" fill="#5A7DA3" cx="20.5" cy="20.5" r="60"></circle> <path d="M28.8 20.4c.7-.9 1.4-1.9 2-2.8.3-.4.4-.9.7-1.4 0 0 0-.1.1-.1v-.3c-.2-.4-.5-.4-.8-.4h-3.9c-.6 0-.8.1-1 .7-.3.6-.5 1.2-.8 1.7-.4.9-.9 1.7-1.5 2.5-.3.4-.6.7-.9 1-.2.2-.5.2-.7-.1-.2-.2-.3-.5-.3-.8V19v-2.9c0-.2 0-.4-.1-.6-.1-.3-.4-.5-.8-.5H17c-.5 0-.8.2-1.1.6-.1.2-.1.3.1.3.4.1.8.3 1 .6.1.2.2.4.2.6.2 1.1.2 2.3 0 3.5 0 .2-.1.5-.2.7-.2.3-.4.4-.8.2-.2-.1-.4-.3-.5-.5-.4-.6-.9-1.2-1.3-1.9-.3-.5-.6-1.1-.9-1.7-.2-.4-.3-.7-.5-1.1-.2-.5-.6-.8-1.1-.8H8.5c-.2 0-.4.1-.5.3v.3c.3.7.6 1.4 1 2.1.6 1.1 1.2 2.3 1.8 3.4.5.9 1.1 1.7 1.7 2.6.7 1 1.5 1.8 2.4 2.5 1 .7 2.1 1.2 3.3 1.4.9.2 1.7.2 2.6.1.5 0 .7-.3.8-.8.1-.5.1-.9.2-1.4.1-.3.2-.6.4-.8.2-.2.5-.2.8 0 .3.2.6.5.9.8.4.5.9.9 1.3 1.4.5.5 1.2.8 2 .8h3.3c.6 0 .8-.2.9-.7v-.2c-.2-.8-.8-1.4-1.3-2L28 23.2c-.1-.1-.2-.2-.3-.4-.2-.4-.2-.8.1-1.1.4-.5.7-.9 1-1.3z" fill="#FFF"></path> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
+                                    </div>
+
+                                    <div class="divTableCell">
+                                        <input id="app-ig" class="input_app-ig" type="checkbox" name="select_apps" value="4" onchange="checkApps(this)">  <label for="app-ig" class="layout-buttons"><span> <div data-name="instagram" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle><linearGradient class="enableflow1" x1="36.7393%" y1="74.3071%" x2="77.4217%" y2="-.2646%" id="a"> <stop stop-color="#F5BB58" offset="0%"></stop> <stop stop-color="#D22C78" offset="57.65%"></stop> <stop stop-color="#5959C5" offset="100%"></stop> </linearGradient> <circle class="activated" fill="url(#a)" cx="20.5" cy="20.5" r="60"></circle> <path d="M21.9 7h-3.2C12.2 7 7 12.3 7 18.7v3.1c0 6.5 5.3 11.7 11.7 11.7h3.2c6.5 0 11.7-5.3 11.7-11.7v-3.1C33.6 12.2 28.4 7 21.9 7zm9.6 14.7c0 5.3-4.3 9.6-9.6 9.6h-3.2c-5.3 0-9.6-4.3-9.6-9.6v-3.1c0-5.3 4.3-9.6 9.6-9.6h3.2c2.4 0 4.6.9 6.2 2.3-.2 0-.3-.1-.5-.1-1 0-1.8.8-1.8 1.8s.8 1.8 1.8 1.8 1.8-.8 1.8-1.8v-.3c1.3 1.6 2.1 3.7 2.1 5.9v3.1zm-11.1-8.3c-3.8 0-6.9 3.1-6.9 6.9 0 3.8 3.1 6.9 6.9 6.9 3.8 0 6.9-3.1 6.9-6.9 0-3.8-3.1-6.9-6.9-6.9zm0 11.7c-2.7 0-4.8-2.2-4.8-4.8 0-2.7 2.2-4.8 4.8-4.8 2.7 0 4.8 2.2 4.8 4.8 0 2.7-2.2 4.8-4.8 4.8z" fill="#FFF"></path> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
+                                    </div>
+                                    <div class="divTableCell">
+                                        <input id="app-fb" class="input_app-fb" type="checkbox" name="select_apps" value="3" onchange="checkApps(this)">  <label for="app-fb" class="layout-buttons"><span> <div data-name="fb" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">   <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#6781CA" cx="20.5" cy="20.5" r="60"></circle> <path d="M24.4 13.8h2.3v-3.5H23c-4.6 0-4.4 5.3-4.4 5.3v2.6h-3.1v3.5h3.1V31.5h4v-9.8h3.2l.5-3.5h-3.7v-2.6c.1-1.9 1.8-1.8 1.8-1.8z" fill="#FFF"></path> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
+                                    </div>
+                                    <div class="divTableCell">
+                                        <input id="app-ok" class="input_app-ok" type="checkbox" name="select_apps" value="2" onchange="checkApps(this)">  <label for="app-ok" class="layout-buttons"><span> <div data-name="ok" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">   <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#FC8924" cx="20.5" cy="20.5" r="60"></circle> <path d="M27.24444 23.7c-.5 1.3-1.7 1.6-3 1.7-.4.2-.9.3-1.4.5.1.2.3.4.4.5l2.7 2.7c.7.8.8 1.8.1 2.5-.7.7-1.7.6-2.5-.1-.8-.9-1.7-1.7-2.6-2.6-.2-.1-.3-.3-.6-.5-.5.6-1 1.1-1.5 1.6-.5.6-1.1 1.2-1.7 1.7-.7.7-1.8.7-2.4 0-.6-.6-.6-1.6.1-2.3.9-.9 1.9-1.8 2.8-2.7l.5-.5c-.8-.3-1.5-.5-2.2-.8-.4-.2-.7-.4-1.1-.6-.8-.5-1.1-1.5-.6-2.3.5-.7 1.5-1 2.4-.5 1.2.7 2.5 1.1 3.9 1.1 1.3 0 2.6-.2 3.7-.9s2.3-.7 3 .9v.6zm-6.7-2.2c-3.3 0-5.8-2.5-5.9-5.8 0-3.1 2.7-5.7 5.9-5.7 3.3 0 5.9 2.6 5.9 5.8 0 3.5-3 5.8-5.9 5.7zm0-8.2c-1.3 0-2.5 1.1-2.5 2.5 0 1.3 1.2 2.4 2.5 2.4 1.4 0 2.5-1.1 2.5-2.5 0-1.3-1.1-2.4-2.5-2.4z" fill="#FFF"></path> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
+                                    </div>
+                                    <div class="divTableCell">
+                                        <input id="app-tw" class="input_app-tw" type="checkbox" name="select_apps" value="5" onchange="checkApps(this)">  <label for="app-tw" class="layout-buttons"><span>  <div data-name="twitter" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg"> <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#55B2F0" cx="20.5" cy="20.5" r="60"></circle> <path d="M31.7 13.94628c-1.1.7-2.1.8-2.1.8 1.7-1.5 1.6-2.4 1.6-2.4-1.3 1-2.5 1.1-2.5 1.1-2.5-2.5-5-1-5-1-3.1 2-2.1 4.8-2.1 4.8-5.2-.3-8.5-4.6-8.5-4.6-1.8 3.8 1.2 5.7 1.2 5.7-.7.1-1.8-.5-1.8-.5.6 4.1 3.3 4.1 3.3 4.1-.5.4-1.8.2-1.8.2 1.3 3.1 3.8 2.8 3.8 2.8-2 2.2-5.8 1.8-5.8 1.8 3.6 2.9 8.7 1.7 8.7 1.7 9.6-2.2 9.1-12.4 9.1-12.4 1.7-.8 1.9-2.1 1.9-2.1z" fill="#FFF"></path> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-social"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
+                                    </div></div>
+                                <div class="divTableRow">
+                                    <div class="divTableCell">
+                                        <input id="app-vi" class="input_app-vi" type="checkbox" name="select_apps" value="7" onchange="checkApps(this)">  <label for="app-vi" class="layout-buttons"><span>  <div data-name="viber" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle>  <circle class="activated" fill="#A589D7" cx="20.5" cy="20.5" r="60"></circle> <path d="M30.9861006 14.9555556s1.3 3.8.2 9.9c0 0-.3 6.7-12.5 5.6l-1.8 2c-1.4 1.6-2.5 1.2-2.4-.9l.1-1.7s-4-.7-5.20000001-4.9c-1.1-4.3.5-10 .5-10s.80000001-2.9 3.40000001-3.8c0 0 6.9-2.60000004 14 0 0 0 2.8.9 3.7 3.8zm-1.6 9.3c.9-5.1-.1-8.3-.1-8.4-.7-2.4-3.1-3.1-3.1-3.1-5.9-2.1-11.7 0-11.7 0-2.2.8-2.9 3.2-2.9 3.2s-1.4 4.8-.4 8.4c1 3.6 4.1 4.1 4.1 4.1v3.8c0 .5.2.5.5.2l3.1-3.6c10.2 1 10.5-4.6 10.5-4.6zm-13.8-4.5c-.6-1.2-.9-2.1-.9-2.7 0-.6.2-.8.3-1 .1-.2.9-.6 1-.7.1-.1.8-.2 1 .2.3.4.8 1.1 1.2 1.6.6.8 0 1.3-.2 1.5-.3.4-.4.5-.4.9s1.3 1.8 1.6 2.1c.3.3 1.6 1.5 2 1.5.4.1.9-.4 1.1-.5.6-.4 1-.4 1.3-.3.3.1 1.4 1.2 1.7 1.5.5.4.3.7.3.7s-.7 1.2-.8 1.3c-.1.2-.4.3-1 .3s-1.2-.1-2.8-.9c-1.2-.7-2.4-1.8-3.1-2.4-.5-.5-1.6-1.7-2.3-3.1zm7.3.2c-.2 0-.4-.2-.4-.4-.1-1.5-1.3-1.5-1.4-1.5-.2 0-.4-.2-.4-.4s.2-.4.4-.4c.7 0 2.1.5 2.2 2.3 0 .2-.1.4-.4.4.1 0 0 0 0 0zm1.4.5c-.2 0-.4-.2-.4-.4 0-1.1-.3-2-.9-2.5-.9-.9-2.3-.9-2.3-.9-.2 0-.4-.2-.4-.4s.2-.4.4-.4c.1 0 1.7 0 2.9 1.1.8.7 1.1 1.8 1.1 3.1 0 .3-.1.4-.4.4zm1.4.5c-.2 0-.4-.2-.4-.4 0-1.7-.5-3.1-1.4-4-1.5-1.4-3.7-1.3-3.8-1.3-.2 0-.4-.1-.4-.4 0-.2.1-.4.4-.4.1 0 2.6-.1 4.3 1.5 1.1 1.1 1.7 2.6 1.7 4.5 0 .4-.1.5-.4.5z" fill="#FFF"></path> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-messenger"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
+                                    </div>
+                                    <div class="divTableCell">
+                                        <input id="app-wh" class="input_app-wh" type="checkbox" name="select_apps" value="8" onchange="checkApps(this)">  <label for="app-wh" class="layout-buttons"><span>   <div data-name="whatsapp" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle>  <circle class="activated" fill="#1BD86D" cx="20.5" cy="20.5" r="60"></circle> <path d="M20.2 9C14.1 9 9.1 14 9.1 20.1c0 2.1.6 4 1.5 5.6l-1 3.8-.3 1-.3 1 5.9-1.6c1.6.8 3.3 1.3 5.2 1.3 6.1 0 11.1-5 11.1-11.1C31.3 14 26.4 9 20.2 9zm0 20.4c-1.6 0-3.1-.4-4.4-1.1l-.6-.3-.7.2-2.8.8.7-2.7.2-.7-.4-.7c-.8-1.4-1.3-3-1.3-4.7 0-5.1 4.2-9.3 9.3-9.3 5.1 0 9.3 4.2 9.3 9.3 0 5.1-4.1 9.2-9.3 9.2zm5.2-6.8c-.9-.4-1.7-.9-1.7-.9-.6-.4-1 .2-1 .2-.3.4-.7.8-.7.8-.6.6-1.2.1-1.2.1-2.4-1.4-3.2-2.9-3.2-2.9s-.5-.6.2-1.1c.7-.5.4-1.3.4-1.3l-.7-1.8c-.6-1.4-1.9-.4-1.9-.4-1.4.9-1.1 2.5-1.1 2.5.1.7.7 2 .7 2s.6 1.2 1.8 2.5l.8.8.3.3c.6.5.6.5.9.7 1.6 1.1 3.4 1.3 3.4 1.3 2.5.5 3.5-1.7 3.5-1.7.3-.8-.5-1.1-.5-1.1z" fill="#FFF"></path> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-messenger"   tooltip-position='left'> 20&#8381; </div>  </div> </div></span></label>
+                                    </div>
+                                    <div class="divTableCell">
+                                        <input id="app-sk" class="input_app-sk" type="checkbox" name="select_apps" value="6" onchange="checkApps(this)">  <label for="app-sk" class="layout-buttons"><span>   <div data-name="skype" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg"> <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#5DC0FF" cx="20.5" cy="20.5" r="60"></circle> <path d="M31.05408 21.88594c.2-1.2.3-2.5.1-3.6-.9-5.4-6-9.3-11.5-8.5-.3.1-.6 0-.9-.1-2.3-1.2-5.1-.8-7 1-1.8 1.8-2.3 4.6-1.1 6.9.1.2.1.4.1.7-.1.6-.1 1.1-.1 1.7 0 .3 0 .7.1 1 .6 5.9 6 10 11.9 9.1.1 0 .4 0 .5.1 1.1.6 2.3.7 3.5.5 3.9-.7 6.1-4.7 4.5-8.4-.1-.1-.1-.2-.1-.4zm-7.4 4.8c-1.8.5-3.6.5-5.3 0-1.6-.5-2.8-1.5-3.3-3.1-.4-1.2.4-2 1.6-1.9.5.1.9.4 1.1.8.1.3.3.5.4.8.4.9 1.2 1.4 2.1 1.5.8.1 1.6 0 2.3-.3.3-.1.6-.3.7-.6.6-.7.4-1.6-.2-2.1-.7-.5-1.5-.7-2.3-.8-1.1-.2-2.3-.5-3.3-.9-1.1-.5-2-1.2-2.3-2.4-.4-1.5.1-2.6 1.2-3.6 1-.8 2.2-1.1 3.5-1.2h.9c1.2 0 2.3.1 3.4.7.8.4 1.5.9 1.8 1.8.2.4.3.9.1 1.3-.1.5-.5.9-1 1-.6.1-1.1 0-1.5-.5-.1-.2-.4-.5-.5-.8-.5-.8-1.2-1.3-2.2-1.3-.4 0-.9 0-1.3.1s-.7.3-1.1.5c-.5.5-.5 1.2.1 1.7.4.3.8.4 1.3.6 1.1.3 2.2.5 3.3.8.6.1 1.2.4 1.7.7 2.5 1.2 2.3 4.2 1 5.8-.5.6-1.3 1.1-2.2 1.4z" fill="#FFF"></path> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-messenger"   tooltip-position='left'> 20&#8381; </div>  </div></div></span></label>
+                                    </div>
+                                    <div class="divTableCell">
+                                        <input id="app-tg" class="input_app-tg" type="checkbox" name="select_apps_off" value="11" onchange="checkApps(this)">  <label for="app-tg" class="layout-buttons"><span>   <div data-name="telegram" class="b2c-voice-collect__app_tg js-b2c-voice-collect-app"> <div class="b2c-voice-collect__app-icon_tg"><svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">   <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#64ADEB" cx="20.5" cy="20.5" r="60"></circle> <path d="M27.31287 13.03854c-.2 0-.5.1-.7.2-4.8 1.7-9.6 3.4-14.3 5-.6.2-1.2.5-1.3 1.3-.1.7.4 1.2.9 1.6.3.2.5.3.8.4 1.4.7 2.7 1.4 4.1 2 .7.3 1.2.8 1.5 1.5.8 1.6 1.6 3.3 2.4 4.9.3.6.8 1.2 1.6 1.1.8-.1 1.1-.7 1.3-1.4 1.7-4.7 3.3-9.5 5-14.2.1-.4.3-.7.2-1.1.1-.9-.6-1.5-1.5-1.3z" fill="#FCFDFD"></path> </svg>  <div class="b2c-voice-collect__app-price_tg" data-name="tg"   tooltip-position='left'>
+                                            <svg width="35" height="15" viewBox="17 3 25 25" xmlns="http://www.w3.org/2000/svg">  <g xmlns="http://www.w3.org/2000/svg" transform=" scale(0.0045)" fill="red" stroke="none">
+                                                <path d="M5961 6330 c-18 -4 -409 -386 -627 -612 -34 -35 -99 -100 -145 -145 -46 -45 -109 -108 -140 -140 -31 -32 -67 -68 -80 -80 -13 -11 -86 -83 -161 -160 -75 -76 -317 -318 -538 -538 l-400 -399 0 -413 c0 -402 1 -413 20 -425 11 -7 20 -16 20 -20 0 -3 90 -95 201 -205 111 -109 206 -203 213 -210 139 -143 190 -191 201 -187 7 3 12 -1 12 -9 -2 -18 131 -160 143 -152 6 3 7 -1 4 -9 -3 -9 -3 -16 1 -16 4 0 88 81 186 179 138 138 178 183 173 198 -5 14 -4 15 4 4 8 -11 26 1 86 60 42 41 74 80 71 87 -3 7 0 10 5 7 11 -7 97 71 89 80 -48 52 -563 565 -568 565 -4 0 -15 13 -24 30 -20 33 -14 54 22 80 12 8 21 19 21 25 0 6 13 19 30 28 18 11 27 23 23 32 -4 11 -1 13 13 8 13 -5 16 -3 11 10 -4 11 -1 17 8 17 20 0 52 33 47 48 -2 8 3 10 14 5 14 -5 16 -3 11 11 -4 10 -3 15 3 11 6 -3 13 0 16 8 3 8 15 17 26 20 11 3 17 10 13 16 -3 6 -1 11 4 11 16 0 51 33 51 47 0 7 7 13 15 13 9 0 12 6 8 17 -4 10 -2 14 5 9 14 -8 106 80 97 94 -3 6 1 7 10 4 11 -5 18 0 22 15 3 11 10 21 16 21 16 0 111 103 108 117 -1 8 4 10 14 7 11 -5 18 0 22 15 3 11 9 21 14 21 12 0 109 97 109 110 0 5 5 9 12 8 7 -2 17 7 23 20 5 12 13 22 16 22 12 0 149 137 149 149 0 6 4 11 10 11 15 0 50 42 43 53 -4 6 -1 7 6 2 13 -7 51 26 51 45 0 5 5 10 11 10 11 0 39 24 39 34 0 9 59 66 69 66 5 0 13 9 16 20 4 11 11 18 16 15 5 -4 9 1 9 9 0 9 4 16 10 16 5 0 25 17 45 38 75 79 89 92 97 92 5 0 6 5 3 10 -3 6 0 10 8 10 22 0 41 27 25 33 -9 4 -9 6 2 6 22 1 73 48 65 60 -4 7 0 8 10 5 11 -5 18 0 22 15 3 11 12 21 20 21 8 0 11 5 8 10 -3 6 -1 10 5 10 14 0 79 67 72 75 -3 3 0 5 6 5 5 0 17 2 24 5 9 4 72 -53 168 -149 84 -85 157 -153 162 -150 4 3 8 -1 8 -9 0 -7 14 -27 30 -43 17 -16 59 -58 93 -93 34 -35 73 -73 86 -85 14 -11 38 -35 53 -52 l29 -30 50 47 c36 34 48 51 43 65 -5 15 -4 16 4 4 9 -11 35 10 138 114 100 101 124 130 113 138 -11 8 -10 9 4 4 14 -5 47 21 133 107 63 63 114 120 114 128 -1 8 -19 28 -40 44 -21 17 -39 35 -40 42 0 6 -4 13 -10 15 -10 3 -141 129 -176 169 -11 13 -53 55 -92 92 -40 38 -72 70 -72 72 0 7 -145 145 -152 145 -5 0 -8 6 -8 13 0 8 -10 19 -23 26 -12 6 -31 25 -42 42 -11 16 -26 27 -33 24 -7 -3 -11 -1 -8 4 3 4 -9 22 -27 39 -17 16 -45 44 -60 61 l-29 31 -256 0 c-142 0 -319 2 -394 3 -75 1 -146 0 -157 -3z"/>
+                                                <path d="M7719 4775 c-167 -168 -306 -308 -309 -311 -2 -2 135 -144 305 -314 l310 -310 -828 -827 -827 -828 -310 310 -310 310 -305 -305 c-168 -168 -305 -309 -305 -315 0 -6 183 -193 408 -418 l407 -407 420 0 420 0 1028 1028 1027 1028 0 425 0 424 -408 408 c-224 224 -410 407 -413 407 -3 0 -143 -137 -310 -305z"/>
+                                                <path d="M5910 4285 l-415 -415 423 -422 422 -423 418 418 417 417 -420 420 c-231 231 -422 420 -425 420 -3 0 -192 -187 -420 -415z"/>
+                                            </g> </svg>
+                                        </div> </div> </div></span></label>
+                                    </div>
+                                </div>
+                                <div class="divTableRow">
+                                    <div class="divTableCell">
+                                        <input id="app-yt" class="input_app-yt" type="checkbox" name="select_apps" value="9" onchange="checkApps(this)">  <label for="app-yt" class="layout-buttons"><span>   <div data-name="youtube" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <g fill="none" fill-rule="evenodd"> <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#FE2E2E" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#path" cx="20.5" cy="20.5" r="60"></circle>  <path fill="#FFF" d="M31.452 16.773s-.216-1.577-.876-2.272c-.838-.912-1.777-.916-2.207-.97-3.084-.231-7.708-.231-7.708-.231h-.01s-4.625 0-7.708.232c-.431.053-1.37.057-2.208.969-.66.695-.875 2.272-.875 2.272s-.22 1.853-.22 3.705v1.736c0 1.853.22 3.705.22 3.705s.214 1.577.875 2.272c.838.912 1.94.884 2.43.979 1.762.176 7.49.23 7.49.23s4.63-.007 7.714-.239c.43-.054 1.37-.058 2.207-.97.66-.695.876-2.272.876-2.272s.22-1.852.22-3.705v-1.736c0-1.852-.22-3.705-.22-3.705z"></path> <path class="activated" fill="#FD2E2E" d="M18.38 24.319v-6.432l5.953 3.227z"></path> </g> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-media"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
+                                    </div>
+                                </div>
+                                <div class="divTableRow">
+                                    <div class="divTableCell">
+
+                                        <input id="app-sm" class="input_app-sm" type="checkbox" name="select_sms" value="10" onchange="checkApps(this)">  <label for="app-sm" class="layout-buttons"><span>  <div data-name="sms" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="-3 -6 30 30" xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" stroke="none" >  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle> <circle class="activated" fill="#8cd073" cx="20.5" cy="20.5" r="60"></circle> <path  d="M18,7c0.542,0,1,0.458,1,1v7c0,0.542-0.458,1-1,1h-8H9.171L9,16.171V16H7H6c-0.542,0-1-0.458-1-1V8c0-0.542,0.458-1,1-1H18    M18,5H6C4.35,5,3,6.35,3,8v7c0,1.65,1.35,3,3,3h1v3l3-3h8c1.65,0,3-1.35,3-3V8C21,6.35,19.65,5,18,5z"/> </svg>
+                                        <div class="b2c-voice-collect__app-price" data-name="app-sms"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+        </div>
+                    <div class="divTableCell" >
+                       <!-- <tr> <td nowrap><input id="app-all" class="input_app-all" type="checkbox" name="select_apps_all" value="0" onchange="checkApps(this)">  <label for="app-all" class="layout-buttons">Все БМП		</span></label>   </td></tr>-->
+                               </div>
+                    <div  id="tminute0" class="divTableCell"  >
+                    </div>
+                    <div id="tgbite0" class="divTableCell" >
+                    </div>
+
+                </div>
             </div>
-            <div id="tgbite0" class="divTableCell" >
+
+
+
+
+        <fieldset class="switch" id="switch-radio" >
+            <input type="radio" name="switch-2" id="switch-radio-off-2" class="switch-radio switch-radio-off" onchange="summaryOutput()">
+            <label for="switch-radio-off-2" class="switch-label switch-label-off">
+                Выкл.
+                <span class="switch-slider"></span>
+            </label>
+            <input type="radio" checked name="switch-2" id="switch-radio-on-2" class="switch-radio switch-radio-on" onchange="summaryOutput()">
+            <label for="switch-radio-on-2" class="switch-label switch-label-on">
+                Вкл.
+                <span class="switch-slider"></span>
+            </label>
+        </fieldset><label for="switch-radio">ToV HARD</label>
+</div>
+
+<div class="d-table unlimsyota" id="unlimsyota" >
+    <fieldset class="switch" id="switch-radio-unlim" >
+        <input type="radio" name="switch-2" id="switch-radio-unlim-off-2" class="switch-radio switch-radio-off" onchange="addRowUnlimPhone('1')">
+        <label for="switch-radio-unlim-off-2" class="switch-label switch-label-off">
+            Выкл.
+            <span class="switch-slider"></span>
+        </label>
+        <input type="radio" checked name="switch-2" id="switch-radio-unlim-on-2" class="switch-radio switch-radio-on" onchange="addRowUnlimPhone('1')">
+        <label for="switch-radio-unlim-on-2" class="switch-label switch-label-on">
+            Вкл.
+            <span class="switch-slider"></span>
+        </label>
+    </fieldset><label for="switch-radio">Показать архивные и закрытые</label>
+    <div class="d-table">
+
+        <div class="d-tr">
+            <div class="d-td no-p">
+                <div class="d-table" id="unlimstafiffs">   </div>
             </div>
 
         </div>
@@ -123,15 +698,1375 @@
 
 
 
-<fieldset class="switch" id="switch-radio" >
-    <input type="radio" name="switch-2" id="switch-radio-off-2" class="switch-radio switch-radio-off" onchange="summaryOutput()">
-    <label for="switch-radio-off-2" class="switch-label switch-label-off">
-        Выкл.
-        <span class="switch-slider"></span>
-    </label>
-    <input type="radio" checked name="switch-2" id="switch-radio-on-2" class="switch-radio switch-radio-on" onchange="summaryOutput()">
-    <label for="switch-radio-on-2" class="switch-label switch-label-on">
-        Вкл.
-        <span class="switch-slider"></span>
-    </label>
-</fieldset><label for="switch-radio">ToV HARD</label>
+</div>
+
+
+<div class="d-table roamingyota" id="roamingyota" >
+
+    <div class="tabs">
+        <input id="tab_roaming" type="radio" name="tabs" checked>
+        <label id="label_roaming" for="tab_roaming" title="Вкладка 1">Условия и цены</label>
+
+        <input id="tab_providers" type="radio" name="tabs">
+        <label id="label_providers" for="tab_providers" title="Вкладка 2">Рекомендуемые операторы</label>
+
+        <input id="tab_providers4" type="radio" name="tabs">
+        <label id="label_providers4" for="tab_providers4" title="Вкладка 3">Операторы LTE</label>
+
+        <section id="content-tab_roaming">
+            <p>
+            <div class="d-table">
+
+                <div class="d-tr">
+                    <div class="d-td no-p" id="roamingprice" style="text-align: left; padding: 10px 30px 10px 30px;">
+
+                    </div>
+
+                </div>
+            </div>
+            </p>
+        </section>
+        <section id="content-tab_providers">
+            <p>
+            <div class="d-td no-p" id="roamingproviders" style="text-align: left; padding: 10px 30px 10px 30px;">
+
+            </div>
+            </p>
+        </section>
+        <section id="content-tab_providers4">
+            <p>
+            <div class="d-td no-p" id="roamingproviders4" style="text-align: left; padding: 10px 30px 10px 30px;">
+
+            </div>
+            </p>
+        </section>
+    </div>
+
+
+
+
+
+
+</div>
+
+<div class="d-table interyota" id="interyota" >
+
+
+            <div class="d-table">
+
+                <div class="d-tr">
+                    <div class="d-td no-p" id="interprice" style="text-align: left; padding: 10px 30px 10px 30px;">
+
+                    </div>
+
+                </div>
+            </div>
+</div>
+
+
+<div class="d-table tunlimyota" id="tunlimyota" >
+
+
+    <div class="d-table">
+
+        <div class="d-tr">
+            <div class="d-td no-p" id="tunlimprice" style="text-align: left; padding: 10px 30px 10px 30px;">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<h2 id="id-Тарифы[Тест]-СтоимостьвызововиSMS">Стоимость вызовов и SMS  </h2><p>Текст1 </p><h2 id="id-Тарифы[Тест]-Дополнительныеуслуги">Дополнительные услуги</h2><p>Текст1</p>
+<script type="text/javascript"  >
+
+
+var customTemplates;
+var customTemplatess;
+var choicesUnlim= [];
+//loadRegions();
+var tarifUnlim = [];
+
+function doLoad(subject, callback) {
+    //gorodogr1 = loadCitiesClosed();//loadUnlimClosed();
+    setTimeout( function(){
+
+        callback(subject);
+    }, 10 );
+
+}
+//    doLoad('math', loadUnlimInbox);
+function loadUnlimInbox(){
+
+
+}
+
+
+
+function tableToJSON(table) { //адаптировать под разное количество столбцов
+
+
+
+    var search = ["\\<strong>?(.*?)\\</strong>", "\\<br>","\\</p>" ,"\\<p>" ,"\\[futurama]?(.*?)\\[/futurama]"];
+    var replaceTo = ['$1', '\n', '\n', '', '<span style="font-family: \'Futurama\', sans-serif">$1</span>'];
+
+    var tables = [];
+    var cells = table.querySelectorAll("td");
+    var count = 0;
+    for (var i = 0; i < cells.length; i+=3) {
+        var name = cells[i].firstChild.data +  "\n";//.split("-");
+
+        var info1 = "";
+        var info11 = cells[i + 1].innerHTML;
+        for (t = 0; t < search.length; t++) {
+            info11 = info11.replace(new RegExp(search[t], 'g'), replaceTo[t]);
+        }
+        info1 = info11;
+        var info2 = "";
+        var info21 = cells[i + 2].innerHTML;
+        for (var t = 0; t < search.length; t++) {
+            info21 = info21.replace(new RegExp(search[t], 'g'), replaceTo[t]);
+        }
+        info2 = info21;
+        tables[count] = { id: count, type: "Unlim", region: name, packets: info1, base: info2 ,};
+
+
+        ++count;
+    }
+    return tables;
+}
+
+
+var jsondata;
+var jsondataroaming;
+function loadJSOND() {
+//https://raw.githubusercontent.com/
+    //https://raw.githack.com/
+    var reqw1 = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( 'Microsoft.XMLHTTP' );
+    reqw1.open( 'GET', 'https://raw.githubusercontent.com/mobilkot/yt/master/roaming.json', true );
+    reqw1.responseType = 'json';
+    reqw1.onreadystatechange = function () {
+
+        if ( reqw1.readyState == 4 ) {
+            if ( reqw1.status == 200 ) {
+                jsondataroaming = reqw1.response;
+
+            }
+        }
+    };
+    reqw1.send( null );
+
+    var reqw = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( 'Microsoft.XMLHTTP' );
+    reqw.open( 'GET', 'https://raw.githubusercontent.com/mobilkot/yt/master/tariffs.json', true );
+    reqw.responseType = 'json';
+    reqw.onreadystatechange = function () {
+
+        if ( reqw.readyState == 4 ) {
+            if ( reqw.status == 200 ) {
+                 importJsond(reqw.response);
+
+            }
+        }
+    };
+    reqw.send( null );
+
+}
+
+
+function importJsond(jsondatas) {
+    jsondata= jsondatas;
+    customTemplates.disable();
+    //TODO: евент на первый поиск
+    customTemplatess.passedElement.addEventListener('change', function(e) {
+        if (e.detail.value !== '') {
+            customTemplates.enable();
+        } else {
+            customTemplates.disable();
+        }
+        loadRegions(e.detail.value, jsondata);
+        VisibleClearBody("clear");
+    });
+
+
+    customTemplatess.clearStore();
+    choices222= [];
+    var elements = jsondata.elements;
+
+
+    elements.forEach(function(item, i, arr) {
+        {
+
+
+                    choices222.push({
+                        value: elements[i].name,
+                        label: elements[i].screenname ,
+                        disabled: elements[i].disabled,
+                    });
+
+
+        }});
+
+    customTemplatess.setChoices( choices222, 'value', 'label', 0);
+}
+
+//TODO здесь прогрузка роуминга
+function loadRegions(tarif, jsondata) {
+    document.getElementById('regions_callname').innerText =tarif;
+
+    //jsondataroaming
+
+
+    choices1212= [];
+    //TODO Удалить если выделять роуминг отдельно
+    if (tarif === "intervoice") {
+
+        var intervoice = jsondataroaming.intervoice;
+        intervoice.forEach(function(item, i, arr) {
+//jsondataroaming.providers //providers_lte
+
+            choices1212.push({
+                value: intervoice[i].id.toString(),
+                label: intervoice[i].name + " (" + intervoice[i].zone + ")",
+                disabled: false,
+                customProperties: {description: intervoice[i].name + " (" + intervoice[i].zone + ")"}
+            });
+
+
+
+
+
+            customTemplates.clearStore();
+            customTemplates.setChoices([
+                {
+                    value: "roaming",
+                    label: "Roaming",
+                    id: "roaming",
+                    disabled: false,
+                    choices: choices1212,
+
+                },  ]  , 'value', 'label', 0);
+
+        });
+    }
+    if (tarif === "roaming") {
+
+    var counties = jsondataroaming.countries;
+    counties.forEach(function(item, i, arr) {
+//jsondataroaming.providers //providers_lte
+
+                        choices1212.push({
+                            value: counties[i].id.toString(),
+                            label: counties[i].name,
+                            disabled: false,
+                            customProperties: {description: counties[i].name}
+                        });
+
+
+
+
+
+        customTemplates.clearStore();
+        customTemplates.setChoices([
+            {
+                value: "roaming",
+                label: "Roaming",
+                id: "roaming",
+                disabled: false,
+                choices: choices1212,
+
+            },  ]  , 'value', 'label', 0);
+
+        });
+    }
+
+    if (tarif === "unlims" ||tarif === "tabt" || tarif === "plaphone" || tarif === "tunlim" ) {
+        var regions = jsondata.elements;
+        regions.forEach(function (item, i, arr) {
+            if (regions[i].name === tarif) {
+
+                var data = regions[i].data;
+
+                data.forEach(function (item, i, arr) {
+                    {
+                        for (var key in jsondata.regions) {
+
+                            if (jsondata.regions[key].id === data[i].id) {
+                                var info = "";
+                                if (data[i].info !== undefined) {
+                                    info = data[i].info
+                                }
+                                choices1212.push({
+                                    value: data[i].id.toString(),
+                                    label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
+                                    disabled: false,
+                                    customProperties: {description: jsondata.regions[key].altname}
+                                });
+                            }
+                        }
+
+
+                    }
+                });
+//TODO: log
+                console.log(choices1212);
+
+                customTemplates.clearStore();
+                customTemplates.setChoices([
+                    {
+                        value: regions[i].data[0].type,
+                        label: regions[i].data[0].type,
+                        id: regions[i].data[0].type,
+                        disabled: false,
+                        choices: choices1212,
+
+                    },], 'value', 'label', 0);
+            }
+        });
+    }
+
+
+
+
+}
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+
+    VisibleClearBody("clear");
+    customTemplates = new Choices(document.getElementById('regions_call'), {
+        searchFields: ['customProperties.description'],
+        placeholderValue: 'This is a placeholder set in the config',
+        searchPlaceholderValue: 'Наверное, это поле поиска..',
+        placeholder: true,
+        callbackOnCreateTemplates: function(strToEl) {
+            var classNames = this.config.classNames;
+            var itemSelectText = this.config.itemSelectText;
+            return {
+                item: function(data) {
+                    return strToEl('\
+                <div\
+                  class="'+ String(classNames.item) + ' ' + String(data.highlighted ? classNames.highlightedState : classNames.itemSelectable) + '"\
+                  data-item\
+                  data-id="'+ String(data.id) + '"\
+                  data-value="'+ String(data.value) + '"\
+                  '+ String(data.active ? 'aria-selected="true"' : '') + '\
+                  '+ String(data.disabled ? 'aria-disabled="true"' : '') + '\
+                  >\
+                  <span style="margin-right:1px;"></span> ' /*+ ' [<b>'  + String(data.groupId) + '</b>] ' */+ String(data.label) + ' ' + '\
+                </div>\
+              ');
+                },
+                choice: function(data) {
+                    return strToEl('\
+                <div\
+                  class="'+ String(classNames.item) + ' ' + String(classNames.itemChoice) + ' ' + String(data.disabled ? classNames.itemDisabled : classNames.itemSelectable) + '"\
+                  data-select-text="'+ String(itemSelectText) + '"\
+                  data-choice \
+                  '+ String(data.disabled ? 'data-choice-disabled aria-disabled="true"' : 'data-choice-selectable') + '\
+                  data-id="'+ String(data.id) + '"\
+                  data-value="'+ String(data.value) + '"\
+                  '+ String(data.groupId > 0 ? 'role="treeitem"' : 'role="option"') + '\
+                  >\
+                  <span style="margin-right:1px;"></span> ' /*+ ' [<b>'  + String(data.groupId) + '</b>] ' */+ String(data.label) + ' ' + '\
+                </div>\
+              ');
+                },
+            };
+        },
+    });
+
+    customTemplatess = new Choices(document.getElementById('regions_called'), {
+        searchFields: ['customProperties.description'],
+        placeholderValue: 'This is a placeholder set in the config',
+        placeholder: true,
+        searchEnabled: false,
+
+    });
+    loadJSOND();
+
+    customTemplates.passedElement.addEventListener('change', function(e) {
+        document.getElementById('regions_callname2').innerText =e.detail.value;
+
+
+        //if (e.detail.value === 'London') {
+        //    tubeStations.innerText = "London";
+        //} else {
+        //    tubeStations.innerText = `  ${e.detail.value}   ${e.choices}`;
+        //document.getElementById('choices-single-groups').placeholder = 'no London ${e.detail.value}' + 'You just added "' + e.detail.value + '"';
+        startInclude_MN();
+    });
+
+});
+
+//TODO: Очистка тела, обнуление
+//что оставить lego,unlim,tunlim,clear
+function VisibleClearBody(type) {
+    var gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');
+    var mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');
+    var appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');
+    switch (type) {
+        case "clear":
+            document.getElementById("switch-radio-off-2").checked = false;
+            document.getElementById("switch-radio-on-2").checked = false;
+            document.getElementById("tapps").style.visibility = "hidden";
+            document.getElementById("legoyota").style.display = "none";
+            document.getElementById("unlimsyota").style.display = "none";
+            document.getElementById("roamingyota").style.display = "none";
+            document.getElementById("interyota").style.display = "none";
+            document.getElementById("tunlimyota").style.display = "none";
+            document.getElementById("b_tafir_summary_input1").innerHTML = "";
+            document.getElementById("b_tafir_summary_input").innerHTML = "";
+            document.getElementById("tminute0").innerHTML = "";
+            document.getElementById("tgbite0").innerHTML = "";
+            document.getElementById("id-Тарифы[Тест]-СтоимостьвызововиSMS").nextElementSibling.innerHTML = "Выбери тариф и регион";
+            document.getElementById("id-Тарифы[Тест]-Дополнительныеуслуги").nextElementSibling.innerHTML = "Выбери тариф и регион";
+            gchecks.forEach(function(item, i, arr) {  if (gchecks[i].checked) gchecks[i].checked = false; });
+            mchecks.forEach(function(item, i, arr) {  if (mchecks[i].checked) mchecks[i].checked = false; });
+            appitems.forEach(function(item, i, arr) {  if (appitems[i].checked) appitems[i].checked = false; });
+
+            break;
+        case "lego":case "plaphone":case "tabt":
+            VisibleClearBody("clear");
+
+            document.getElementById("tapps").style.visibility = "visible";
+            document.getElementById("legoyota").style.display = "block";
+            document.getElementById("tapps").style.visibility = "visible";
+            document.getElementById("tminute0").style.visibility = "visible";
+            document.getElementById("tgbite0").style.visibility = "visible";
+
+            break;
+        case "unlims":
+            VisibleClearBody("clear");
+            document.getElementById("unlimsyota").style.display = "block";
+
+
+
+            break;
+        case "tunlim":
+            VisibleClearBody("clear");
+            document.getElementById("tunlimyota").style.display = "block";
+            break;
+        case "roaming":
+            VisibleClearBody("clear");
+            document.getElementById("roamingyota").style.display = "block";
+
+
+
+            break;
+        case "intervoice":
+            VisibleClearBody("clear");
+            document.getElementById("interyota").style.display = "block";
+
+
+
+            break;
+        default:
+            //alert( 'Я таких значений не знаю' );
+    }
+
+
+}
+
+{
+    function addOnWheel(elem, handler) {
+        if (elem.addEventListener) {
+            if ('onwheel' in document) {
+                // IE9+, FF17+
+                elem.addEventListener("wheel", handler);
+            }
+        }
+    }
+
+    var scale = 1;
+    var info = document.getElementById("b_tafir_summary_input");//
+    addOnWheel(info, function(e) {
+        var delta = e.deltaY || e.detail || e.wheelDelta;
+
+
+        if (delta=== 100) {
+            document.getElementById("switch-radio-on-2").checked = true;
+        } else if (delta === -100) {
+            document.getElementById("switch-radio-off-2").checked = true;
+        }
+        summaryOutput();
+        /*info.innerHTML = +info.innerHTML + delta;*/
+
+        e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+    });
+
+    function mOver(obj) {
+        //obj.innerHTML = "Thank You"
+    }
+
+    function mOut(obj) {
+        //obj.innerHTML = "Mouse Over Me"
+    }
+
+    function mDown(obj) {
+        obj.style.backgroundColor = "#6da8e6";//"#1ec5e5";
+        //obj.innerHTML = "Release Me";
+    }
+
+    function mUp(obj) {
+        obj.style.backgroundColor = "#f0f7ff";//"#D94A38";
+        //obj.innerHTML = "Thank You";
+    }
+
+
+}
+
+
+
+
+
+let log = document.getElementById('spans');
+
+
+
+var selected_items = []; //id чекнутых бмп
+var cur_mCount, cur_mPrice, cur_gCount, cur_gPrice; //Выбранные минуты,цена,трафик,цена
+
+var outputSummary = document.getElementById("b_tafir_summary_input");  // элемент, куда отдается итоговый текст о тарифе
+
+
+//TODO Отображение условий в домашнем регионе и нет
+function VoiceTariffs() {
+    var textVoiceSMS = document.getElementById("id-Тарифы[Тест]-СтоимостьвызововиSMS").nextElementSibling;
+    var textUslugi = document.getElementById("id-Тарифы[Тест]-Дополнительныеуслуги").nextElementSibling;
+    textVoiceSMS.innerHTML = ""; textUslugi.innerHTML = "";
+    var node = document.createElement('p');
+    var node2 = document.createElement('p');
+    gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');        //Выбрано среди трафика
+    mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');        //Выбрано среди минут
+
+
+    var price1 = "0";
+
+    var texthtml = "";
+    var texthtml2 = "";
+    if (mcheck[0] !== undefined && gcheck[0] !== undefined) {
+        var regions = jsondata.regions;
+        regions.forEach(function(item, i, arr) {
+            if (regions[i].id === cur_region_teriff.id) {
+
+                texthtml = `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 60%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
+                texthtml2 = texthtml;
+                 if (cur_mCount === "0") {
+                     texthtml +=  `
+                    <tr><td class="confluenceTd">Исходящие в домашний регион на других операторов: </td><td class="confluenceTd">${regions[i].pag_voice_inbound} руб./мин.</td></tr>
+                    <tr><td class="confluenceTd">Исходящие в другой регион на других операторов: </td><td class="confluenceTd">${regions[i].pag_voice} руб./мин.</td></tr>
+                    <tr><td class="confluenceTd">Вызовы на Yota по РФ: </td><td class="confluenceTd">${regions[i].pag_voice_inbound} руб./шт.</td></tr> 
+                    <tr><td class="confluenceTd">Входящие вызовы (в домашнем регионе): </td><td class="confluenceTd"> Бесплатные </td></tr>
+                    <tr><td class="confluenceTd">Входящие вызовы (вне домашнего региона): </td><td class="confluenceTd">${regions[i].pag_voice} руб./мин.</td></tr>
+                    <tr><td class="confluenceTd">Исходящие SMS сообщения по РФ (без опции): </td><td class="confluenceTd">${regions[i].pag_sms} руб./шт.</td></tr>
+                    <tr><td class="confluenceTd" colspan="2">При подключении «дополнительных 100 минут» звонки Yota-Yota становятся бесплатными и не расходуют пакет минут, вся тарификация - как при активном пакете </td> `;
+                 } else {
+                     texthtml +=  `
+                    <tr><td class="confluenceTd">Стоимость минуты сверх пакета на всех операторов РФ: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr> 
+                    <tr><td class="confluenceTd">Вызовы на Yota по РФ: </td><td class="confluenceTd"> Не тарифицируются </td></tr> 
+                    <tr><td class="confluenceTd">Входящие вызовы: </td><td class="confluenceTd"> Бесплатные </td></tr>
+                    <tr><td class="confluenceTd">Исходящие SMS сообщения по РФ (без опции): </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `;
+                 }
+
+                texthtml2 +=  `
+                    <tr><td class="confluenceTd">Дополнительный пакет 100 минут: </td><td class="confluenceTd">${regions[i].voice_add_100} руб.</td></tr> 
+                    <tr><td class="confluenceTd">Дополнительный пакет 5 Гб: </td><td class="confluenceTd"> ${regions[i].gb_add_5} руб.</td></tr> 
+                    <tr><td class="confluenceTd">Пакет SMS: </td><td class="confluenceTd"> ${regions[i].sms_base} руб. </td></tr>`;
+//
+                texthtml +=   `</tbody></table></div>`;
+                texthtml2 +=   `</tbody></table></div>`;
+
+
+            }
+        });
+    }
+    if (customTemplatess.getValue(true) === "unlims") {
+        var regions = jsondata.regions;
+        regions.forEach(function(item, i, arr) {
+            var tttt = customTemplates.getValue(true);
+            if (regions[i].id.toString() === tttt) {
+
+                texthtml = `<div class="table-wrap" style=""><table class="relative-table confluenceTable" style="width: 60%;"><colgroup><col style="width: 79.902%;"><col style="width: 20.098%;"></colgroup><tbody>`;
+                texthtml2 = texthtml;
+
+                    texthtml +=  `
+                    <tr><td class="confluenceTd">Стоимость минуты сверх пакета на всех операторов РФ: </td><td class="confluenceTd">${regions[i].min_over_pack} руб./мин.</td></tr> 
+                    <tr><td class="confluenceTd">Вызовы на Yota по РФ: </td><td class="confluenceTd"> Не тарифицируются </td></tr> 
+                    <tr><td class="confluenceTd">Входящие вызовы: </td><td class="confluenceTd"> Бесплатные </td></tr>
+                    <tr><td class="confluenceTd">Исходящие SMS сообщения по РФ (без опции): </td><td class="confluenceTd">${regions[i].sms_over_pack} руб./шт.</td></tr> `;
+
+
+                texthtml2 +=  `
+                    <tr><td class="confluenceTd">Дополнительный пакет 100 минут: </td><td class="confluenceTd">${regions[i].voice_add_100} руб.</td></tr>  
+                    <tr><td class="confluenceTd">Пакет SMS: </td><td class="confluenceTd"> ${regions[i].sms_base} руб. </td></tr>
+                    <tr><td class="confluenceTd">Общий доступ (тетеринг) на 2 часа: </td><td class="confluenceTd"> ${regions[i].tethering[0]} руб. </td></tr>
+                    <tr><td class="confluenceTd">Общий доступ (тетеринг) на 24 часа:: </td><td class="confluenceTd"> ${regions[i].tethering[1]} руб. </td></tr>`;
+            }
+                texthtml +=   `</tbody></table></div>`;
+                texthtml2 +=   `</tbody></table></div>`;
+
+
+        });
+    }
+    node.innerHTML = texthtml;
+    textVoiceSMS.appendChild(node);
+    node2.innerHTML = texthtml2;
+    textUslugi.appendChild(node2);
+
+
+}
+
+
+//функция вывода данных в первое окно при выделении опций (plaphone)
+function summaryOutput() {
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    var text, text1 = "";
+    var cur_sum_app = [];
+    var cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice));
+    var  gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');
+    var  mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');
+    var  appcheck = document.querySelectorAll('input[type="checkbox"][name="select_apps"]:checked');
+    var  smscheck = document.querySelectorAll('input[type="checkbox"][name="select_sms"]:checked');
+    var  appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]'); 		//галочка "все"
+    if (appcheck.length===0)  selected_items = [];
+
+    VoiceTariffs();
+
+    var hardToVmode = document.getElementById("switch-radio-on-2").checked;
+
+
+
+
+    if (hardToVmode) {
+        text = " Выбран пакет:\n  " + cur_mCount + " минут за " + cur_mPrice + " рублей\n + " + cur_gCount + " ГБ за " + cur_gPrice + " рублей";
+        if (smscheck.length === 1) {
+            text += "\n + " + unlimApps[10 - 1].name + ". ";
+        }
+
+        if (selected_items.length > 0) {
+            selected_items.forEach(function (item, i, arr) {
+                if (unlimApps[item - 1].ids !== 10) {
+                    text1 += unlimApps[item - 1].name + ", ";
+
+                }
+                cur_sum_app[i] = Number(unlimApps[item - 1].price);
+                cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice) + Number(cur_sum_app.reduce(reducer)));
+            });
+            text += "\nА также безлимитные " + text1 + ".";
+
+
+        } else {
+            text += ". ";
+        }
+        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
+        text += "\nОбщая стоимость " + cur_sum + " рублей ";
+    } else if (!hardToVmode)
+    {
+
+        text = "";
+
+
+        var unlimpapps = "";
+        var selitems = [];
+
+        if (selected_items.length > 0) {
+            selected_items.forEach(function (item, i, arr) {
+                if (unlimApps[item - 1].ids !== 10) {  if (unlimApps[item - 1].name === "Одноклассники") {selitems.push(unlimApps[item - 1].altname);} else {selitems.push(unlimApps[item - 1].name);}  }
+                cur_sum_app[i] = Number(unlimApps[item - 1].price);
+                //TODO: Обработка списка приложений, безлимитный\ые (ок), "и" при 3 и более элементах, объединить все в один при выборе всего
+            });
+
+            cur_sum = Number(Number(cur_mPrice) + Number(cur_gPrice) + Number(cur_sum_app.reduce(reducer)));
+
+
+            selitems.forEach(function(item, i, arr) {
+                if (selitems.length === 1) {
+
+
+                    switch (selitems[i]) {
+                        case "ВК":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы всегда была возможность покекать с мемосиков";
+                        break; case "Одноклассникам":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для общения с родителями";
+                        break; case "Youtube":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для просмотра любимых видосиков без забот о трафике";
+                        break; case "Instagram":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы всегда была возможность поделиться красивыми фотками с подписчиками";
+                        break; case "Twitter":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы продолжить выражать свои мысли в 280 символах";
+                        break; case "Skype":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для того, чтобы сделать из него файлообменник";
+                        break; case "Viber": case "Whatsapp":   unlimpapps = "безлимитный доступ к " + selitems[i] + " для того, чтобы быть всегда на связи";
+                        break; case "Facebook":   unlimpapps = "безлимитный доступ к " + selitems[i] + ", чтобы был, вдруг пригодится";
+                        break; default:   unlimpapps = "безлимитный доступ к " + selitems[i];
+                    }
+
+                } else if (selitems.length > 1){
+                    if (i === 0) unlimpapps = "безлимитный доступ к " + selitems[i];
+                    else if (i !== 0 && i !== selitems.length - 1) unlimpapps += ", " + selitems[i];
+                    else if (i !== 0 && i === selitems.length - 1) unlimpapps += " и " + selitems[i];
+                }
+            });
+        }
+        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
+        var gbsclon = declOfNum(cur_gCount, ['гигабайт', 'гигабайта', 'гигабайт']);
+
+        text = `За ${cur_sum} рублей у Вас будет ${text}`;
+
+
+//TODO: Шаблонизатор Tov Hard
+        if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
+
+        if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text = `Подключи хоть что-нибудь, ну.. `; }
+        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `только безлимитные SMS на всех операторов РФ. `; }
+        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota без интернета.`; }
+        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также безлимитные SMS без интернета.`; }
+        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, без дополнительного трафика.`; }
+        else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${unlimpapps}, без дополнительного трафика, а также безлимитные SMS.`; }
+        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, а также ${unlimpapps} без трафика.`; }
+        else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, безлимитные SMS, а также ${unlimpapps} без трафика.`; }
+        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
+        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом, а также безлимитные SMS.`; }
+        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, а также ${cur_gCount} ${gbsclon} трафика для остальных целей`; }
+        else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 1) { text += `безлимитные SMS, ${unlimpapps}, а также ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
+        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также ${unlimpapps}, ну и ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
+        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, безлимитные SMS, ${unlimpapps}, ну и ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
+        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota и ${cur_gCount} ${gbsclon} трафика для пользования интернетом`; }
+        else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, безлимитные SMS и ${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
+
+
+
+
+
+
+    }
+    if ( (gcheck.length + mcheck.length)  === 2 )  {
+        document.getElementById("b_tafir_summary_input").innerHTML = text;
+        summaryOutput2(selected_items, cur_mCount ,cur_gCount);
+    } else {
+
+    }
+
+}
+
+
+//склоенние в зависимости от числа
+function declOfNum(number, titles) {
+    cases = [2, 0, 1, 1, 1, 2];
+    return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
+}
+
+//функция вывода данных во второе окно при выделении опций (plaphone)
+function summaryOutput2(apps, cminut, cgbites) {
+
+    var text = "";
+
+
+    if (cgbites === "0") { text += phrasesInet[4].phrase; }
+    else if (cgbites <= 7) {  text += phrasesInet[0].phrase;  }
+    else if (cgbites <= 15) { text += phrasesInet[1].phrase; }
+    else if (cgbites <= 30) { text += phrasesInet[2].phrase; }
+    else if (cgbites > 30) { text += phrasesInet[3].phrase; }
+
+    if( apps.length > 0 && cgbites !== "0") {
+        text += ", включая безлимитный доступ к ";
+        apps.forEach(function(item, i, arr) {
+            text += unlimApps[item-1].name + ", ";
+        });
+    } else if( apps.length > 0 && cgbites === "0")  {
+        text += ", при этом будут безлимитные ";
+        apps.forEach(function(item, i, arr) {
+            text += unlimApps[item-1].name + ", ";
+        });
+    }
+
+    document.getElementById("b_tafir_summary_input1").innerHTML = text;
+}
+
+
+//Функция на обновление переменных по выбанным приложениям (plaphone)
+var text, appitems, appcheck, appall;
+function checkApps(node) {
+    var text, appitems, appcheck, appall;
+
+
+
+    // Название, группа, базовая стоимость, альт.название
+    // [name: "ВК", 			group: "social", 		price: "20", 		altname: "-"]
+    appcheck = document.querySelectorAll('input[type="checkbox"][name="select_apps"]:checked');      //Выбрано среди приложений
+    appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps"]');        		//Все итемы приложжений
+    appall = document.querySelector('input[type="checkbox"][name="select_apps_all"][value="0"]'); 		//галочка "все"
+
+    ////////////// Обработчик чекбокса (все\по отдельности)
+    if (node.value > appall.value) {
+        selected_items = [];
+        appall.checked = (appcheck.length === appitems.length) && (!appall.checked);
+        appcheck.forEach(function(item, i, arr) {		if (arr[i].value!==0) selected_items[i] = arr[i].value; 		});
+
+    }  else  {
+        appitems.forEach(function(item, i, arr) {
+            appitems[i].checked = !!(appall.checked);
+            if ( appall.checked ) {
+                  selected_items[i] = arr[i].value;
+                }
+                    else { selected_items = [];
+                }
+
+        });
+    }
+      summaryOutput();
+    //Передача выбранных пунктов в обработчик для вывода (чекнутые в selected_items)
+
+}
+
+
+//Функция на обновление переменных по выбранному тарифу (plaphone)
+function checkType(node) {
+    var  mcheck, gcheck, gchecks, mchecks;
+    gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic"]:checked');        //Выбрано среди трафика
+    mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute"]:checked');        //Выбрано среди минут
+    gchecks = document.querySelectorAll('input[type="radio"][name="radio_trafic"]');        //Все итемы в трафике
+    mchecks = document.querySelectorAll('input[type="radio"][name="radio_minute"]');        //Все итемы в минутах
+    //cur_mCount = eval(eval("(function () { return \'current_mCount\' })()") + mcheck[0].value);
+    //jsondata.elements[0].name
+
+
+                        if (mcheck[0] !== undefined && gcheck[0] !== undefined) {
+
+                            cur_mCount = cur_region_teriff.mins[mcheck[0].value][0];
+                            cur_mPrice = cur_region_teriff.mins[mcheck[0].value][1];
+                            cur_gCount = cur_region_teriff.gbites[gcheck[0].value][0];
+                            cur_gPrice = cur_region_teriff.gbites[gcheck[0].value][1];
+
+                        }
+
+
+    summaryOutput();
+}
+
+
+
+
+
+
+
+
+
+//Функция ввода из поля "например"
+var input_MN = document.getElementById('regions_call');
+function example_region(stran){
+    input_MN.value = stran;
+    startInclude_MN();
+
+}
+
+function addRow(id, region, mins, gbites, sms, snPrice, mePrice, youtube){
+
+
+    //TODO: Установка бирок для БМП
+    var apchecks11 = document.querySelectorAll('div[class="b2c-voice-collect__app-price"]');
+    apchecks11.forEach(function(item, ids, arr) {
+        var dataname = apchecks11[ids];
+        if (dataname.getAttribute('data-name') === "app-media") {
+            apchecks11[ids].innerHTML = youtube + "&#8381;";
+        } else if (dataname.getAttribute('data-name')  === "app-messenger") {
+            apchecks11[ids].innerHTML = mePrice + "&#8381;";
+        } else if (dataname.getAttribute('data-name') === "app-social") {
+            apchecks11[ids].innerHTML = snPrice + "&#8381;";
+        } else if (dataname.getAttribute('data-name') === "app-sms") {
+            apchecks11[ids].innerHTML = sms + "&#8381;";
+        }
+    });
+
+    /// Сохранение цен приложений выбранной области в массив \\ переписать получше бы
+    unlimApps.forEach(function(item, app, arr) {
+        switch (unlimApps[app].group){
+            case "messenger": unlimApps[app].price = mePrice; break;
+            case "social": unlimApps[app].price = snPrice; break;
+            case "youtube": unlimApps[app].price = youtube; break;
+            case "sms": unlimApps[app].price = sms; break;
+            case "deleted": /*unlimApps[app].price = unlimApps[app].price;*/ break;
+            default: break;
+
+        }
+
+    });
+
+
+
+    var elem = document.getElementById("tminute0");
+    while (elem.firstChild) { if (elem.firstChild) elem.removeChild(elem.firstChild);  };
+
+    //TODO: Перестать использовать таблицы, черт
+    var tr1 = document.createElement('tr');
+    tr1.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты минут:  </label></td>';
+    elem.appendChild(tr1);
+
+    mins.forEach(function(item,i,arr){
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td id="tdminute_' + i + '" nowrap><input value="' + i + '" id="iminute_'+ i + '"class="input_radio_minute" name="radio_minute" type="radio" onchange="checkType(this)"><label for="iminute_' + i + '" class="layout-buttons_gb"> ' +  item[0] + ' минут за ' + item[1] + ' рублей  </label></td>';
+        elem.appendChild(tr);
+    });
+    //TODO: Без понятия
+
+    var elem1 = document.getElementById("tgbite0");
+    while (elem1.firstChild) { if (elem1.firstChild) elem1.removeChild(elem1.firstChild);  };
+
+    var tr2 = document.createElement('tr');
+    tr2.innerHTML = '<td nowrap id="labletd"><label class="layout-buttons_gb">Пакеты трафика:  </label></td>';
+    elem1.appendChild(tr2);
+
+    gbites.forEach(function(item,i,arr){
+        var tr2 = document.createElement('tr');
+        tr2.innerHTML = '<td id="tdgbite_' + i + '" nowrap><input value="' + i + '" id="igbite_'+ i + '"class="input_radio_gbite" name="radio_trafic" type="radio" onchange="checkType(this)"><label for="igbite_' + i + '" class="layout-buttons_gb">' +  item[0] + ' ГБ за ' + item[1] + ' рублей' + '</label></td>';
+        elem1.appendChild(tr2);
+    });
+
+
+
+
+
+
+
+}
+
+var currentUnlimTariff;
+function addRowUnlimPhone( ){
+
+    VoiceTariffs();
+    var tariffs = currentUnlimTariff.tariffs;
+    var tableTariffs = document.getElementById("unlimstafiffs");
+    tableTariffs.innerHTML = "";
+    var sumCurrentTarriff  = "";
+    var txt = "";
+
+
+    var showAll = document.getElementById("switch-radio-unlim-on-2").checked;
+
+    if (!showAll) {
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            txt += "<div class=\"d-td-tariff-head\">";
+
+            if (tariffs[x].status === "open" || tariffs[x].status === "archived") {
+                txt += tariffs[x].sreenname;
+            }
+            if (tariffs[x].status === "closed") {
+                txt +=  tariffs[x].sreenname + " " + tariffs[x].lastupdate;
+            }
+            txt += '</div>';
+        }
+        txt += '</div>';
+
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            txt += "<div class=\"d-td-tariff-head\">";
+
+            if ( tariffs[x].status === "open" && tariffs[x].name === "current")  {
+                txt +=  "";
+            }
+            if (  tariffs[x].status === "archived") {
+                txt += "Для изменения условий доступны только текущие";
+            }
+            if (tariffs[x].status === "open" && tariffs[x].name !== "current") {
+                txt +=  "Введен " + tariffs[x].lastupdate ;
+            }
+            if (tariffs[x].status === "closed") {
+                txt +=  "Закрыт для выбора ";
+            }
+            txt += '</div>';
+        }
+        txt += '</div>';
+
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            var textCurrentTarriff = "";
+            var infoCurrentTarriff = "";
+            var mins = tariffs[x].mins;
+            mins.forEach(function(itemr,ir,arrr){
+                if (mins[ir][0] === "FREEM")
+                {
+                    textCurrentTarriff +=  `60 минут и 500 МБ за 0 рублей \n`;
+                } else  textCurrentTarriff +=  `${mins[ir][0]} минут за ${mins[ir][1]} рублей \n`;
+            });
+
+            txt += "<div class=\"d-td-tariff\">" + textCurrentTarriff + "</div> ";
+        }
+        txt += '</div>';
+        tableTariffs.innerHTML = txt;
+    }
+    else {
+
+
+
+        txt += '<div class="d-tr">';
+        for (x in tariffs) {
+            if (tariffs[x].name === "current") {
+                var textCurrentTarriff = "";
+                var infoCurrentTarriff = "";
+                var mins = tariffs[x].mins;
+                mins.forEach(function (itemr, ir, arrr) {
+                    if (mins[ir][0] === "FREEM") {
+                        textCurrentTarriff += `60 минут и 500 МБ за 0 рублей \n`;
+                    } else textCurrentTarriff += `${mins[ir][0]} минут за ${mins[ir][1]} рублей \n`;
+                });
+
+                txt += "<div class=\"d-td-tariff\">" + textCurrentTarriff + "</div> ";
+
+            txt += '</div>';
+            tableTariffs.innerHTML = txt;
+            }
+        }
+    }
+
+
+
+
+
+
+}
+
+
+function addRowUnlimTablet(el){
+
+
+    var text5555 = `          
+                                <br><b> Тарифы. </b>
+                                <br>Тариф <b style="color:#00bbf2">"День"</b>: ${String(el.day)} руб.   
+                                <br>Тариф <b style="color:#00bbf2">"Месяц"</b>: ${String(el.mounth)} руб. 
+                                <br>Тариф <b style="color:#00bbf2">"Год"</b>: ${String(el.year)} руб.
+                                <br><br>
+                                <br>&emsp;Стоимость месяца при подключении на год: ${String(el.myear)} рублей
+                                <br>&emsp;Скидка при подключении на год: ${String(el.procentas)}/
+                               `;
+
+    document.getElementById("tunlimprice").innerHTML = text5555;
+}
+
+
+function addRowRoaming(el) {
+    {
+        var provs = []; var provs4 = []; var elem = {};
+        el.forEach(function (item, i, arr) {
+            if (el[i].id.toString() === customTemplates.getValue(true)) {
+                elem = el[i];
+                var providers = jsondataroaming.providers;
+
+                providers.forEach(function (itemu, u, arru) {
+                    if (providers[u].id.toString() === el[i].id.toString()) {
+                        provs.push(providers[u]);
+
+                    }
+                });
+
+                var providers4 = jsondataroaming.providers_lte;
+
+                providers4.forEach(function (itemt, t, arrt) {
+                    if (providers4[t].id.toString() === el[i].id.toString()) {
+                        provs4.push(providers4[t]);
+
+                    }
+                });
+                console.log("Выбран " + customTemplates.getValue(true));
+
+
+            }
+        });
+        if (provs.length === 0) {
+            document.getElementById("label_providers").style.visibility = "hidden";
+        }
+        else {
+            document.getElementById("label_providers").style.visibility = "visible";
+        }
+
+        document.getElementById("tab_roaming").checked = true;
+
+        var text2222 = `          <br><b> ${String(elem.name)} </b>
+                                <br><b> Интернет. </b>
+                                <br>Стоимость 1 мегабайта при наличии подключенного пакета: ${String(elem.mb_price)} руб. ( Тарификация по 100 КБ. )
+                                <br>После использования ${String(elem.paid_mb)} платных МБ, ${String(elem.free_mb)} МБ - бесплатно.
+                                <br><b> Звонки. </b>
+                                <br>&emsp;Стоимость входящих звонков: ${String(elem.invoice)} руб./мин.
+                                <br>&emsp;Стоимость опции "30 минут бесплатных входящих в день": ${String(elem.m30min)} руб.
+                                <br>&emsp;Минута:
+                                <br>&emsp;&emsp;исходящих звонков в РФ: ${String(elem.out_rf)} руб.
+                                <br>&emsp;&emsp;исходящих звонков внутри страны: ${String(elem.out_country)} руб.
+                                <br>&emsp;&emsp;исходящих звонков в другие страны: ${String(elem.out_other)} руб.
+                                <br><b> SMS (включая бесплатные в РФ номера): </b>
+                                <br>&emsp;исходящие: ${String(elem.out_sms)} руб.
+                                <br>&emsp;входящие : ${String(elem.in_sms)} руб.
+                                <br><b> MMS: </b>
+                                <br>исходящие: ${String(elem.out_mms)}.
+                                <br>входящие: Стоимость интернет-сессии.
+                                <br><br>
+                                <br>Стоимость 1 Мб, если не оплачен основной пакет (Базовый, Региональный, ...): ${String(elem.mb_base)} руб.
+                                <br>Стоимость минуты исходящих звонков на спутниковые сети (Thuraya, Inmarsat,...): 313 руб./мин.`;
+
+        document.getElementById("roamingprice").innerHTML = text2222;
+
+        var textProvs = "";
+        for (xProv in provs) {
+            var name = provs[xProv].name;
+            if (name !== "") {
+                textProvs += `<b> ${String(provs[xProv].name)} </b><br>`;
+            }
+            else {
+                textProvs += `<b> ${String(provs[xProv].forname)} </b><br>`;
+            }
+            var pros = provs[xProv].providers;
+            for (xe in pros) {
+                textProvs += `${String(pros[xe])} <br>`;
+            }
+        }
+
+
+        textProvs += `<br><br>`;
+
+        document.getElementById("roamingproviders").innerHTML = textProvs;
+
+        if (provs4.length === 0) {
+            document.getElementById("label_providers4").style.visibility = "hidden";
+        }
+        else {
+            document.getElementById("label_providers4").style.visibility = "visible";
+            var textProvs4 = "";
+            for (xProv in provs4) {
+
+                textProvs4 += `<b> ${String(provs4[xProv].name)} </b><br>`;
+
+                var pros4 = provs4[xProv].providers;
+                for (xe in pros4) {
+                    textProvs4 += `${String(pros4[xe])} <br>`;
+                }
+            }
+
+
+            textProvs4 += `<br><br>`;
+
+            document.getElementById("roamingproviders4").innerHTML = textProvs4;
+        }
+
+
+    }
+
+}
+
+
+function addRowInter(el) {
+    document.getElementById("tab_roaming").checked = true;
+
+
+
+    var text3333 = `<ul id="myTable_MN" class="b-roaming-operators-table__inner" style="font-size: 14px;">
+			
+		<li><b style="color:#00bbf2">${String(el.zone)}</b></li>
+		<li>Страна: ${String(el.name)}</li>
+		<li>Исходящие вызовы: ${String(el.minute)} р./мин.</li>
+		<li>SMS: ${String(el.sms)} р./шт.</li>
+		<li>MMS: ${String(el.mms)} р./шт.</li>
+		</ul> `;
+
+    document.getElementById("interprice").innerHTML = text3333;
+
+
+}
+
+//Функция заполнения при выборе региона
+var cur_region_teriff = {};
+function startInclude_MN() {
+
+
+
+    function addRowUnlim(id, region, packets, base) {
+        document.getElementById("b_tafir_summary_input").innerHTML = packets;
+        document.getElementById("b_tafir_summary_input1").innerHTML = base;
+    }
+
+
+    //TODO: Вывод информации об условиях в стране
+
+
+
+
+
+
+    //var url = "http://yandex.ru/yandsearch?text=wwww&lr=187"; // юрл в котором происходит поиск
+    //var regV = /yandex\.ru/gi;     // шаблон
+    //var result = url.match(regV);  // поиск шаблона в юрл тру или фолс
+
+    if(input_MN.value.length > 0)	{
+///////////////////////////////////////////////////////////////
+
+        VisibleClearBody(customTemplatess.getValue(true));
+        var regions = jsondata.elements;
+        if (customTemplatess.getValue(true) === "plaphone" || customTemplatess.getValue(true) === "tabt" ) {
+            regions.forEach(function (item, i, arr) {
+                if (regions[i].name === customTemplatess.getValue(true)) {
+                    var data = regions[i].data;
+                    data.forEach(function (item, i, arr) {
+                        {
+                            //TODO: Корректно подгрузить стоимость SMS
+                            if (data[i].id.toString() === customTemplates.getValue(true)) {
+                                console.log("Выбран " + customTemplates.getValue(true));
+                                addRow('regionTable', data[i].id, data[i].mins, data[i].gbites, "50", data[i].social,
+                                    data[i].messenger, data[i].youtube);
+                                cur_region_teriff = data[i];
+
+                            }
+                        }
+                    });
+
+
+                }
+            });
+        }
+
+        if (customTemplatess.getValue(true) === "tunlim" ) {
+
+            regions.forEach(function (item, i, arr) {
+                if (regions[i].name === customTemplatess.getValue(true)) {
+
+                    var data = regions[i].data;
+
+                    data.forEach(function (item, i, arr) {
+                        {
+
+                            if (data[i].id.toString() === customTemplates.getValue(true)) {
+                                console.log("Выбран " + customTemplates.getValue(true));
+
+                                addRowUnlimTablet(data[i]);
+
+                            }
+                        }
+                    });
+                }
+            });
+        }
+            /* for (var key in jsondata.regions) {
+
+                 if (jsondata.regions[key].id === data[i].id) {
+                     var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
+                     choices1212.push({ //regioncity
+                         value: data[i].id.toString(),
+                         label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
+                         disabled: false,
+                         customProperties: {description: jsondata.regions[key].altname}
+                     });
+                 }
+             }*/
+
+        if (customTemplatess.getValue(true) === "unlims" ) {
+
+            regions.forEach(function (item, i, arr) {
+                if (regions[i].name === customTemplatess.getValue(true)) {
+
+                    var data = regions[i].data;
+
+                    data.forEach(function (item, i, arr) {
+                        {
+
+                            if (data[i].id.toString() === customTemplates.getValue(true)) {
+                                console.log("Выбран " + customTemplates.getValue(true));
+                                //FIXME d
+                                currentUnlimTariff = data[i];
+                                addRowUnlimPhone();
+
+
+                            }
+                        }
+                    });
+                }
+            });
+                            /* for (var key in jsondata.regions) {
+
+                                 if (jsondata.regions[key].id === data[i].id) {
+                                     var info = ""; if(data[i].info  !== undefined) {info = data[i].info}
+                                     choices1212.push({ //regioncity
+                                         value: data[i].id.toString(),
+                                         label: jsondata.regions[key].region + " (" + jsondata.regions[key].regioncity + ") " + info,
+                                         disabled: false,
+                                         customProperties: {description: jsondata.regions[key].altname}
+                                     });
+                                 }
+                             }*/
+
+
+
+
+
+
+        }
+
+        if (customTemplatess.getValue(true) === "roaming" ) {
+
+
+            var counties = jsondataroaming.countries;
+            doLoad(counties, addRowRoaming);
+
+        }
+
+        if (customTemplatess.getValue(true) === "intervoice" ) {
+            var intervoice = jsondataroaming.intervoice;
+            intervoice.forEach(function (item, i, arr) {
+                if (intervoice[i].id.toString() === customTemplates.getValue(true)) {
+                    addRowInter(intervoice[i]);
+
+                }
+            });
+        }
+    }
+
+
+}
+
+var phrasesInet =[
+// Название, группа, базовая стоимость, альт.название
+    {id: 0, phrase: " Этого хватит для минимального использования интернета, он практически не используется (нужен редко/иногда/только для поиска информации)"},
+    {id: 1, phrase: " Этого достаточно для умеренного использования интернета (web-серфинг, чтение новостей, иногда видео/аудио, скачивание/обновление приложений)"},
+    {id: 2, phrase: " Это  вариант для активного использования интернета (видео/аудио, скачивание/обновление приложений, web-серфинг)"},
+    {id: 3, phrase: " Этого должно (но это не точно) хватить для очень активного использования интернета (просмотр фильмов/трансляций/стримов, скачивание тяжелых приложений, обновление системы)"},
+    {id: 4, phrase: " Этого хватит, чтобы безвылазно сидеть на сайте Yota и в мобильном приложении "},
+];
+
+
+var unlimApps=[
+// Название, группа, базовая стоимость, альт.название
+    {ids: 1,name: "ВК", 				group: "social", 		price: 20, 		altname: "-"},
+    {ids: 2,name: "Одноклассники", 	group: "social", 		price: 20, 		altname: "Одноклассникам"},
+    {ids: 3,name: "Facebook", 			group: "social", 		price: 20, 		altname: "-"},
+    {ids: 4,name: "Instagram", 		group: "social", 		price: 20, 		altname: "-"},
+    {ids: 5,name: "Twitter", 			group: "social", 		price: 10, 		altname: "-"},
+    {ids: 6,name: "Skype", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 7,name: "Viber", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 8,name: "Whatsapp", 			group: "messenger", 	price: 10, 		altname: "-"},
+    {ids: 9,name: "Youtube", 			group: "youtube", 		price: 60, 		altname: "-"},
+    {ids: 10,name: "Безлимитные SMS", 	group: "sms", 		    price: 50, 		altname: "-"},
+    {ids: 11,name: "Telegram", 			group: "deleted", 	    price: 0, 		altname: "-"}
+];
+
+
+
+
+
+
+document.onreadystatechange = function() {
+    if (document.readyState === 'complete') {
+        //fn();
+    }
+};
+
+
+
+</script>
+
+
+
+
+<script type="text/javascript" >
+/*! choices.js v3.0.4 | (c) 2018 Josh Johnson | https://github.com/jshjohnson/Choices#readme */
+!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.Choices=t():e.Choices=t()}(this,function(){return function(e){function t(n){if(i[n])return i[n].exports;var s=i[n]={exports:{},id:n,loaded:!1};return e[n].call(s.exports,s,s.exports,t),s.loaded=!0,s.exports}var i={};return t.m=e,t.c=i,t.p="/assets/scripts/dist/",t(0)}([function(e,t,i){e.exports=i(1)},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function s(e,t,i){return t in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}function o(e){if(Array.isArray(e)){for(var t=0,i=Array(e.length);t<e.length;t++)i[t]=e[t];return i}return Array.from(e)}function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var a=function(){function e(e,t){for(var i=0;i<t.length;i++){var n=t[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,i,n){return i&&e(t.prototype,i),n&&e(t,n),t}}(),c=i(2),l=n(c),h=i(3),u=n(h),d=i(4),f=n(d),p=i(31),v=i(32);i(33);var m=function(){function e(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"[data-choice]",i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(r(this,e),(0,v.isType)("String",t)){var n=document.querySelectorAll(t);if(n.length>1)for(var s=1;s<n.length;s++){var o=n[s];new e(o,i)}}var a={silent:!1,items:[],choices:[],renderChoiceLimit:-1,maxItemCount:-1,addItems:!0,removeItems:!0,removeItemButton:!1,editItems:!1,duplicateItems:!0,delimiter:",",paste:!0,searchEnabled:!0,searchChoices:!0,searchFloor:1,searchResultLimit:4,searchFields:["label","value"],position:"auto",resetScrollPosition:!0,regexFilter:null,shouldSort:!0,shouldSortItems:!1,sortFilter:v.sortByAlpha,placeholder:!0,placeholderValue:null,searchPlaceholderValue:null,prependValue:null,appendValue:null,renderSelectedChoices:"auto",loadingText:"Loading...",noResultsText:"No results found",noChoicesText:"No choices to choose from",itemSelectText:"Press to select",addItemText:function(e){return'Press Enter to add <b>"'+(0,v.stripHTML)(e)+'"</b>'},maxItemText:function(e){return"Only "+e+" values can be added."},itemComparer:function(e,t){return e===t},uniqueItemText:"Only unique values can be added.",classNames:{containerOuter:"choices",containerInner:"choices__inner",input:"choices__input",inputCloned:"choices__input--cloned",list:"choices__list",listItems:"choices__list--multiple",listSingle:"choices__list--single",listDropdown:"choices__list--dropdown",item:"choices__item",itemSelectable:"choices__item--selectable",itemDisabled:"choices__item--disabled",itemChoice:"choices__item--choice",placeholder:"choices__placeholder",group:"choices__group",groupHeading:"choices__heading",button:"choices__button",activeState:"is-active",focusState:"is-focused",openState:"is-open",disabledState:"is-disabled",highlightedState:"is-highlighted",hiddenState:"is-hidden",flippedState:"is-flipped",loadingState:"is-loading",noResults:"has-no-results",noChoices:"has-no-choices"},fuseOptions:{include:"score"},callbackOnInit:null,callbackOnCreateTemplates:null};if(this.idNames={itemChoice:"item-choice"},this.config=(0,v.extend)(a,i),"auto"!==this.config.renderSelectedChoices&&"always"!==this.config.renderSelectedChoices&&(this.config.silent||console.warn("renderSelectedChoices: Possible values are 'auto' and 'always'. Falling back to 'auto'."),this.config.renderSelectedChoices="auto"),this.store=new f.default(this.render),this.initialised=!1,this.currentState={},this.prevState={},this.currentValue="",this.element=t,this.passedElement=(0,v.isType)("String",t)?document.querySelector(t):t,!this.passedElement)return void(this.config.silent||console.error("Passed element not found"));this.isTextElement="text"===this.passedElement.type,this.isSelectOneElement="select-one"===this.passedElement.type,this.isSelectMultipleElement="select-multiple"===this.passedElement.type,this.isSelectElement=this.isSelectOneElement||this.isSelectMultipleElement,this.isValidElementType=this.isTextElement||this.isSelectElement,this.isIe11=!(!navigator.userAgent.match(/Trident/)||!navigator.userAgent.match(/rv[ :]11/)),this.isScrollingOnIe=!1,this.config.shouldSortItems===!0&&this.isSelectOneElement&&(this.config.silent||console.warn("shouldSortElements: Type of passed element is 'select-one', falling back to false.")),this.highlightPosition=0,this.canSearch=this.config.searchEnabled,this.placeholder=!1,this.isSelectOneElement||(this.placeholder=!!this.config.placeholder&&(this.config.placeholderValue||this.passedElement.getAttribute("placeholder"))),this.presetChoices=this.config.choices,this.presetItems=this.config.items,this.passedElement.value&&(this.presetItems=this.presetItems.concat(this.passedElement.value.split(this.config.delimiter))),this.baseId=(0,v.generateId)(this.passedElement,"choices-"),this.render=this.render.bind(this),this._onFocus=this._onFocus.bind(this),this._onBlur=this._onBlur.bind(this),this._onKeyUp=this._onKeyUp.bind(this),this._onKeyDown=this._onKeyDown.bind(this),this._onClick=this._onClick.bind(this),this._onTouchMove=this._onTouchMove.bind(this),this._onTouchEnd=this._onTouchEnd.bind(this),this._onMouseDown=this._onMouseDown.bind(this),this._onMouseOver=this._onMouseOver.bind(this),this._onPaste=this._onPaste.bind(this),this._onInput=this._onInput.bind(this),this.wasTap=!0;var c="classList"in document.documentElement;c||this.config.silent||console.error("Choices: Your browser doesn't support Choices");var l=(0,v.isElement)(this.passedElement)&&this.isValidElementType;if(l){if("active"===this.passedElement.getAttribute("data-choice"))return;this.init()}else this.config.silent||console.error("Incompatible input passed")}return a(e,[{key:"init",value:function(){if(this.initialised!==!0){var e=this.config.callbackOnInit;this.initialised=!0,this._createTemplates(),this._createInput(),this.store.subscribe(this.render),this.render(),this._addEventListeners(),e&&(0,v.isType)("Function",e)&&e.call(this)}}},{key:"destroy",value:function(){if(this.initialised!==!1){this._removeEventListeners(),this.passedElement.classList.remove(this.config.classNames.input,this.config.classNames.hiddenState),this.passedElement.removeAttribute("tabindex");var e=this.passedElement.getAttribute("data-choice-orig-style");Boolean(e)?(this.passedElement.removeAttribute("data-choice-orig-style"),this.passedElement.setAttribute("style",e)):this.passedElement.removeAttribute("style"),this.passedElement.removeAttribute("aria-hidden"),this.passedElement.removeAttribute("data-choice"),this.passedElement.value=this.passedElement.value,this.containerOuter.parentNode.insertBefore(this.passedElement,this.containerOuter),this.containerOuter.parentNode.removeChild(this.containerOuter),this.clearStore(),this.config.templates=null,this.initialised=!1}}},{key:"renderGroups",value:function(e,t,i){var n=this,s=i||document.createDocumentFragment(),o=this.config.sortFilter;return this.config.shouldSort&&e.sort(o),e.forEach(function(e){var i=t.filter(function(t){return n.isSelectOneElement?t.groupId===e.id:t.groupId===e.id&&!t.selected});if(i.length>=1){var o=n._getTemplate("choiceGroup",e);s.appendChild(o),n.renderChoices(i,s,!0)}}),s}},{key:"renderChoices",value:function(e,t){var i=this,n=arguments.length>2&&void 0!==arguments[2]&&arguments[2],s=t||document.createDocumentFragment(),r=this.config,a=r.renderSelectedChoices,c=r.searchResultLimit,l=r.renderChoiceLimit,h=this.isSearching?v.sortByScore:this.config.sortFilter,u=function(e){var t="auto"!==a||(i.isSelectOneElement||!e.selected);if(t){var n=i._getTemplate("choice",e);s.appendChild(n)}},d=e;"auto"!==a||this.isSelectOneElement||(d=e.filter(function(e){return!e.selected}));var f=d.reduce(function(e,t){return t.placeholder?e.placeholderChoices.push(t):e.normalChoices.push(t),e},{placeholderChoices:[],normalChoices:[]}),p=f.placeholderChoices,m=f.normalChoices;(this.config.shouldSort||this.isSearching)&&m.sort(h);var g=d.length,y=[].concat(o(p),o(m));this.isSearching?g=c:l>0&&!n&&(g=l);for(var b=0;b<g;b++)y[b]&&u(y[b]);return s}},{key:"renderItems",value:function(e){var t=this,i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,n=i||document.createDocumentFragment();if(this.config.shouldSortItems&&!this.isSelectOneElement&&e.sort(this.config.sortFilter),this.isTextElement){var s=this.store.getItemsReducedToValues(e),o=s.join(this.config.delimiter);this.passedElement.setAttribute("value",o),this.passedElement.value=o}else{var r=document.createDocumentFragment();e.forEach(function(e){var i=t._getTemplate("option",e);r.appendChild(i)}),this.passedElement.innerHTML="",this.passedElement.appendChild(r)}return e.forEach(function(e){var i=t._getTemplate("item",e);n.appendChild(i)}),n}},{key:"render",value:function(){if(!this.store.isLoading()&&(this.currentState=this.store.getState(),this.currentState!==this.prevState)){if((this.currentState.choices!==this.prevState.choices||this.currentState.groups!==this.prevState.groups||this.currentState.items!==this.prevState.items)&&this.isSelectElement){var e=this.store.getGroupsFilteredByActive(),t=this.store.getChoicesFilteredByActive(),i=document.createDocumentFragment();this.choiceList.innerHTML="",this.config.resetScrollPosition&&(this.choiceList.scrollTop=0),e.length>=1&&this.isSearching!==!0?i=this.renderGroups(e,t,i):t.length>=1&&(i=this.renderChoices(t,i));var n=this.store.getItemsFilteredByActive(),s=this._canAddItem(n,this.input.value);if(i.childNodes&&i.childNodes.length>0)s.response?(this.choiceList.appendChild(i),this._highlightChoice()):this.choiceList.appendChild(this._getTemplate("notice",s.notice));else{var o=void 0,r=void 0;this.isSearching?(r=(0,v.isType)("Function",this.config.noResultsText)?this.config.noResultsText():this.config.noResultsText,o=this._getTemplate("notice",r,"no-results")):(r=(0,v.isType)("Function",this.config.noChoicesText)?this.config.noChoicesText():this.config.noChoicesText,o=this._getTemplate("notice",r,"no-choices")),this.choiceList.appendChild(o)}}if(this.currentState.items!==this.prevState.items){var a=this.store.getItemsFilteredByActive();if(this.itemList.innerHTML="",a&&a){var c=this.renderItems(a);c.childNodes&&this.itemList.appendChild(c)}}this.prevState=this.currentState}}},{key:"highlightItem",value:function(e){var t=!(arguments.length>1&&void 0!==arguments[1])||arguments[1];if(!e)return this;var i=e.id,n=e.groupId,s=n>=0?this.store.getGroupById(n):null;return this.store.dispatch((0,p.highlightItem)(i,!0)),t&&(s&&s.value?(0,v.triggerEvent)(this.passedElement,"highlightItem",{id:i,value:e.value,label:e.label,groupValue:s.value}):(0,v.triggerEvent)(this.passedElement,"highlightItem",{id:i,value:e.value,label:e.label})),this}},{key:"unhighlightItem",value:function(e){if(!e)return this;var t=e.id,i=e.groupId,n=i>=0?this.store.getGroupById(i):null;return this.store.dispatch((0,p.highlightItem)(t,!1)),n&&n.value?(0,v.triggerEvent)(this.passedElement,"unhighlightItem",{id:t,value:e.value,label:e.label,groupValue:n.value}):(0,v.triggerEvent)(this.passedElement,"unhighlightItem",{id:t,value:e.value,label:e.label}),this}},{key:"highlightAll",value:function(){var e=this,t=this.store.getItems();return t.forEach(function(t){e.highlightItem(t)}),this}},{key:"unhighlightAll",value:function(){var e=this,t=this.store.getItems();return t.forEach(function(t){e.unhighlightItem(t)}),this}},{key:"removeItemsByValue",value:function(e){var t=this;if(!e||!(0,v.isType)("String",e))return this;var i=this.store.getItemsFilteredByActive();return i.forEach(function(i){i.value===e&&t._removeItem(i)}),this}},{key:"removeActiveItems",value:function(e){var t=this,i=this.store.getItemsFilteredByActive();return i.forEach(function(i){i.active&&e!==i.id&&t._removeItem(i)}),this}},{key:"removeHighlightedItems",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i=this.store.getItemsFilteredByActive();return i.forEach(function(i){i.highlighted&&i.active&&(e._removeItem(i),t&&e._triggerChange(i.value))}),this}},{key:"showDropdown",value:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0],t=document.body,i=document.documentElement,n=Math.max(t.scrollHeight,t.offsetHeight,i.clientHeight,i.scrollHeight,i.offsetHeight);this.containerOuter.classList.add(this.config.classNames.openState),this.containerOuter.setAttribute("aria-expanded","true"),this.dropdown.classList.add(this.config.classNames.activeState),this.dropdown.setAttribute("aria-expanded","true");var s=this.dropdown.getBoundingClientRect(),o=Math.ceil(s.top+window.scrollY+this.dropdown.offsetHeight),r=!1;return"auto"===this.config.position?r=o>=n:"top"===this.config.position&&(r=!0),r&&this.containerOuter.classList.add(this.config.classNames.flippedState),e&&this.canSearch&&document.activeElement!==this.input&&this.input.focus(),(0,v.triggerEvent)(this.passedElement,"showDropdown",{}),this}},{key:"hideDropdown",value:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0],t=this.containerOuter.classList.contains(this.config.classNames.flippedState);return this.containerOuter.classList.remove(this.config.classNames.openState),this.containerOuter.setAttribute("aria-expanded","false"),this.dropdown.classList.remove(this.config.classNames.activeState),this.dropdown.setAttribute("aria-expanded","false"),t&&this.containerOuter.classList.remove(this.config.classNames.flippedState),e&&this.canSearch&&document.activeElement===this.input&&this.input.blur(),(0,v.triggerEvent)(this.passedElement,"hideDropdown",{}),this}},{key:"toggleDropdown",value:function(){var e=this.dropdown.classList.contains(this.config.classNames.activeState);return e?this.hideDropdown():this.showDropdown(!0),this}},{key:"getValue",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i=this.store.getItemsFilteredByActive(),n=[];return i.forEach(function(i){e.isTextElement?n.push(t?i.value:i):i.active&&n.push(t?i.value:i)}),this.isSelectOneElement?n[0]:n}},{key:"setValue",value:function(e){var t=this;if(this.initialised===!0){var i=[].concat(o(e)),n=function(e){var i=(0,v.getType)(e);if("Object"===i){if(!e.value)return;t.isTextElement?t._addItem(e.value,e.label,e.id,void 0,e.customProperties,e.placeholder):t._addChoice(e.value,e.label,!0,!1,-1,e.customProperties,e.placeholder)}else"String"===i&&(t.isTextElement?t._addItem(e):t._addChoice(e,e,!0,!1,-1,null))};i.length>1?i.forEach(function(e){n(e)}):n(i[0])}return this}},{key:"setValueByChoice",value:function(e){var t=this;if(!this.isTextElement){var i=this.store.getChoices(),n=(0,v.isType)("Array",e)?e:[e];n.forEach(function(e){var n=i.find(function(i){return t.config.itemComparer(i.value,e)});n?n.selected?t.config.silent||console.warn("Attempting to select choice already selected"):t._addItem(n.value,n.label,n.id,n.groupId,n.customProperties,n.placeholder,n.keyCode):t.config.silent||console.warn("Attempting to select choice that does not exist")})}return this}},{key:"setChoices",value:function(e,t,i){var n=this,s=arguments.length>3&&void 0!==arguments[3]&&arguments[3];if(this.initialised===!0&&this.isSelectElement){if(!(0,v.isType)("Array",e)||!t)return this;s&&this._clearChoices(),this._setLoading(!0),e&&e.length&&(this.containerOuter.classList.remove(this.config.classNames.loadingState),e.forEach(function(e){e.choices?n._addGroup(e,e.id||null,t,i):n._addChoice(e[t],e[i],e.selected,e.disabled,void 0,e.customProperties,e.placeholder)})),this._setLoading(!1)}return this}},{key:"clearStore",value:function(){return this.store.dispatch((0,p.clearAll)()),this}},{key:"clearInput",value:function(){return this.input.value&&(this.input.value=""),this.isSelectOneElement||this._setInputWidth(),!this.isTextElement&&this.config.searchEnabled&&(this.isSearching=!1,this.store.dispatch((0,p.activateChoices)(!0))),this}},{key:"enable",value:function(){if(this.initialised){this.passedElement.disabled=!1;var e=this.containerOuter.classList.contains(this.config.classNames.disabledState);e&&(this._addEventListeners(),this.passedElement.removeAttribute("disabled"),this.input.removeAttribute("disabled"),this.containerOuter.classList.remove(this.config.classNames.disabledState),this.containerOuter.removeAttribute("aria-disabled"),this.isSelectOneElement&&this.containerOuter.setAttribute("tabindex","0"))}return this}},{key:"disable",value:function(){if(this.initialised){this.passedElement.disabled=!0;var e=!this.containerOuter.classList.contains(this.config.classNames.disabledState);e&&(this._removeEventListeners(),this.passedElement.setAttribute("disabled",""),this.input.setAttribute("disabled",""),this.containerOuter.classList.add(this.config.classNames.disabledState),this.containerOuter.setAttribute("aria-disabled","true"),this.isSelectOneElement&&this.containerOuter.setAttribute("tabindex","-1"))}return this}},{key:"ajax",value:function(e){var t=this;return this.initialised===!0&&this.isSelectElement&&(requestAnimationFrame(function(){t._handleLoadingState(!0)}),e(this._ajaxCallback())),this}},{key:"_triggerChange",value:function(e){e&&(0,v.triggerEvent)(this.passedElement,"change",{value:e})}},{key:"_handleButtonAction",value:function(e,t){if(e&&t&&this.config.removeItems&&this.config.removeItemButton){var i=t.parentNode.getAttribute("data-id"),n=e.find(function(e){return e.id===parseInt(i,10)});this._removeItem(n),this._triggerChange(n.value),this.isSelectOneElement&&this._selectPlaceholderChoice()}}},{key:"_selectPlaceholderChoice",value:function(){var e=this.store.getPlaceholderChoice();e&&(this._addItem(e.value,e.label,e.id,e.groupId,null,e.placeholder),this._triggerChange(e.value))}},{key:"_handleItemAction",value:function(e,t){var i=this,n=arguments.length>2&&void 0!==arguments[2]&&arguments[2];if(e&&t&&this.config.removeItems&&!this.isSelectOneElement){var s=t.getAttribute("data-id");e.forEach(function(e){e.id!==parseInt(s,10)||e.highlighted?n||e.highlighted&&i.unhighlightItem(e):i.highlightItem(e)}),document.activeElement!==this.input&&this.input.focus()}}},{key:"_handleChoiceAction",value:function(e,t){if(e&&t){var i=t.getAttribute("data-id"),n=this.store.getChoiceById(i),s=e[0]&&e[0].keyCode?e[0].keyCode:null,o=this.dropdown.classList.contains(this.config.classNames.activeState);if(n.keyCode=s,(0,v.triggerEvent)(this.passedElement,"choice",{choice:n}),n&&!n.selected&&!n.disabled){var r=this._canAddItem(e,n.value);r.response&&(this._addItem(n.value,n.label,n.id,n.groupId,n.customProperties,n.placeholder,n.keyCode),this._triggerChange(n.value))}this.clearInput(),o&&this.isSelectOneElement&&(this.hideDropdown(),this.containerOuter.focus())}}},{key:"_handleBackspace",value:function(e){if(this.config.removeItems&&e){var t=e[e.length-1],i=e.some(function(e){return e.highlighted});this.config.editItems&&!i&&t?(this.input.value=t.value,this._setInputWidth(),this._removeItem(t),this._triggerChange(t.value)):(i||this.highlightItem(t,!1),this.removeHighlightedItems(!0))}}},{key:"_canAddItem",value:function(e,t){var i=!0,n=(0,v.isType)("Function",this.config.addItemText)?this.config.addItemText(t):this.config.addItemText;(this.isSelectMultipleElement||this.isTextElement)&&this.config.maxItemCount>0&&this.config.maxItemCount<=e.length&&(i=!1,n=(0,v.isType)("Function",this.config.maxItemText)?this.config.maxItemText(this.config.maxItemCount):this.config.maxItemText),this.isTextElement&&this.config.addItems&&i&&this.config.regexFilter&&(i=this._regexFilter(t));var s=!e.some(function(e){return(0,v.isType)("String",t)?e.value===t.trim():e.value===t});return s||this.config.duplicateItems||this.isSelectOneElement||!i||(i=!1,n=(0,v.isType)("Function",this.config.uniqueItemText)?this.config.uniqueItemText(t):this.config.uniqueItemText),{response:i,notice:n}}},{key:"_handleLoadingState",value:function(){var e=!(arguments.length>0&&void 0!==arguments[0])||arguments[0],t=this.itemList.querySelector("."+this.config.classNames.placeholder);e?(this.containerOuter.classList.add(this.config.classNames.loadingState),this.containerOuter.setAttribute("aria-busy","true"),this.isSelectOneElement?t?t.innerHTML=this.config.loadingText:(t=this._getTemplate("placeholder",this.config.loadingText),this.itemList.appendChild(t)):this.input.placeholder=this.config.loadingText):(this.containerOuter.classList.remove(this.config.classNames.loadingState),this.isSelectOneElement?t.innerHTML=this.placeholder||"":this.input.placeholder=this.placeholder||"")}},{key:"_ajaxCallback",value:function(){var e=this;return function(t,i,n){if(t&&i){var s=(0,v.isType)("Object",t)?[t]:t;s&&(0,v.isType)("Array",s)&&s.length?(e._handleLoadingState(!1),e._setLoading(!0),s.forEach(function(t){if(t.choices){var s=t.id||null;e._addGroup(t,s,i,n)}else e._addChoice(t[i],t[n],t.selected,t.disabled,void 0,t.customProperties,t.placeholder)}),e._setLoading(!1),e.isSelectOneElement&&e._selectPlaceholderChoice()):e._handleLoadingState(!1),e.containerOuter.removeAttribute("aria-busy")}}}},{key:"_searchChoices",value:function(e){var t=(0,v.isType)("String",e)?e.trim():e,i=(0,v.isType)("String",this.currentValue)?this.currentValue.trim():this.currentValue;if(t.length>=1&&t!==i+" "){var n=this.store.getSearchableChoices(),s=t,o=(0,v.isType)("Array",this.config.searchFields)?this.config.searchFields:[this.config.searchFields],r=Object.assign(this.config.fuseOptions,{keys:o}),a=new l.default(n,r),c=a.search(s);return this.currentValue=t,this.highlightPosition=0,this.isSearching=!0,this.store.dispatch((0,p.filterChoices)(c)),c.length}return 0}},{key:"_handleSearch",value:function(e){if(e){var t=this.store.getChoices(),i=t.some(function(e){return!e.active});if(this.input===document.activeElement)if(e&&e.length>=this.config.searchFloor){var n=0;this.config.searchChoices&&(n=this._searchChoices(e)),(0,v.triggerEvent)(this.passedElement,"search",{value:e,resultCount:n})}else i&&(this.isSearching=!1,this.store.dispatch((0,p.activateChoices)(!0)))}}},{key:"_addEventListeners",value:function(){document.addEventListener("keyup",this._onKeyUp),document.addEventListener("keydown",this._onKeyDown),document.addEventListener("click",this._onClick),document.addEventListener("touchmove",this._onTouchMove),document.addEventListener("touchend",this._onTouchEnd),document.addEventListener("mousedown",this._onMouseDown),document.addEventListener("mouseover",this._onMouseOver),this.isSelectOneElement&&(this.containerOuter.addEventListener("focus",this._onFocus),this.containerOuter.addEventListener("blur",this._onBlur)),this.input.addEventListener("input",this._onInput),this.input.addEventListener("paste",this._onPaste),this.input.addEventListener("focus",this._onFocus),this.input.addEventListener("blur",this._onBlur)}},{key:"_removeEventListeners",value:function(){document.removeEventListener("keyup",this._onKeyUp),document.removeEventListener("keydown",this._onKeyDown),document.removeEventListener("click",this._onClick),document.removeEventListener("touchmove",this._onTouchMove),document.removeEventListener("touchend",this._onTouchEnd),document.removeEventListener("mousedown",this._onMouseDown),document.removeEventListener("mouseover",this._onMouseOver),this.isSelectOneElement&&(this.containerOuter.removeEventListener("focus",this._onFocus),this.containerOuter.removeEventListener("blur",this._onBlur)),this.input.removeEventListener("input",this._onInput),this.input.removeEventListener("paste",this._onPaste),this.input.removeEventListener("focus",this._onFocus),this.input.removeEventListener("blur",this._onBlur)}},{key:"_setInputWidth",value:function(){this.placeholder?this.input.value&&this.input.value.length>=this.placeholder.length/1.25&&(this.input.style.width=(0,v.getWidthOfInput)(this.input)):this.input.style.width=(0,v.getWidthOfInput)(this.input)}},{key:"_onKeyDown",value:function(e){var t,i=this;if(e.target===this.input||this.containerOuter.contains(e.target)){var n=e.target,o=this.store.getItemsFilteredByActive(),r=this.input===document.activeElement,a=this.dropdown.classList.contains(this.config.classNames.activeState),c=this.itemList&&this.itemList.children,l=String.fromCharCode(e.keyCode),h=46,u=8,d=13,f=65,p=27,m=38,g=40,y=33,b=34,E=e.ctrlKey||e.metaKey;this.isTextElement||!/[a-zA-Z0-9-_ ]/.test(l)||a||this.showDropdown(!0),this.canSearch=this.config.searchEnabled;var _=function(){E&&c&&(i.canSearch=!1,i.config.removeItems&&!i.input.value&&i.input===document.activeElement&&i.highlightAll())},S=function(){if(i.isTextElement&&n.value){var t=i.input.value,s=i._canAddItem(o,t);s.response&&(a&&i.hideDropdown(),i._addItem(t),i._triggerChange(t),i.clearInput())}if(n.hasAttribute("data-button")&&(i._handleButtonAction(o,n),e.preventDefault()),a){e.preventDefault();var r=i.dropdown.querySelector("."+i.config.classNames.highlightedState);r&&(o[0]&&(o[0].keyCode=d),i._handleChoiceAction(o,r))}else i.isSelectOneElement&&(a||(i.showDropdown(!0),e.preventDefault()))},I=function(){a&&(i.toggleDropdown(),i.containerOuter.focus())},w=function(){if(a||i.isSelectOneElement){a||i.showDropdown(!0),i.canSearch=!1;var t=e.keyCode===g||e.keyCode===b?1:-1,n=e.metaKey||e.keyCode===b||e.keyCode===y,s=void 0;if(n)s=t>0?Array.from(i.dropdown.querySelectorAll("[data-choice-selectable]")).pop():i.dropdown.querySelector("[data-choice-selectable]");else{var o=i.dropdown.querySelector("."+i.config.classNames.highlightedState);s=o?(0,v.getAdjacentEl)(o,"[data-choice-selectable]",t):i.dropdown.querySelector("[data-choice-selectable]")}s&&((0,v.isScrolledIntoView)(s,i.choiceList,t)||i._scrollToChoice(s,t),i._highlightChoice(s)),e.preventDefault()}},T=function(){!r||e.target.value||i.isSelectOneElement||(i._handleBackspace(o),e.preventDefault())},C=(t={},s(t,f,_),s(t,d,S),s(t,p,I),s(t,m,w),s(t,y,w),s(t,g,w),s(t,b,w),s(t,u,T),s(t,h,T),t);C[e.keyCode]&&C[e.keyCode]()}}},{key:"_onKeyUp",value:function(e){if(e.target===this.input){var t=this.input.value,i=this.store.getItemsFilteredByActive(),n=this._canAddItem(i,t);if(this.isTextElement){var s=this.dropdown.classList.contains(this.config.classNames.activeState);if(t){if(n.notice){var o=this._getTemplate("notice",n.notice);this.dropdown.innerHTML=o.outerHTML}n.response===!0?s||this.showDropdown():!n.notice&&s&&this.hideDropdown()}else s&&this.hideDropdown()}else{var r=46,a=8;e.keyCode!==r&&e.keyCode!==a||e.target.value?this.canSearch&&n.response&&this._handleSearch(this.input.value):!this.isTextElement&&this.isSearching&&(this.isSearching=!1,this.store.dispatch((0,p.activateChoices)(!0)))}this.canSearch=this.config.searchEnabled}}},{key:"_onInput",value:function(){this.isSelectOneElement||this._setInputWidth()}},{key:"_onTouchMove",value:function(){this.wasTap===!0&&(this.wasTap=!1)}},{key:"_onTouchEnd",value:function(e){var t=e.target||e.touches[0].target,i=this.dropdown.classList.contains(this.config.classNames.activeState);this.wasTap===!0&&this.containerOuter.contains(t)&&(t!==this.containerOuter&&t!==this.containerInner||this.isSelectOneElement||(this.isTextElement?document.activeElement!==this.input&&this.input.focus():i||this.showDropdown(!0)),e.stopPropagation()),this.wasTap=!0}},{key:"_onMouseDown",value:function(e){var t=e.target;if(t===this.choiceList&&this.isIe11&&(this.isScrollingOnIe=!0),this.containerOuter.contains(t)&&t!==this.input){var i=void 0,n=this.store.getItemsFilteredByActive(),s=e.shiftKey;(i=(0,v.findAncestorByAttrName)(t,"data-button"))?this._handleButtonAction(n,i):(i=(0,v.findAncestorByAttrName)(t,"data-item"))?this._handleItemAction(n,i,s):(i=(0,v.findAncestorByAttrName)(t,"data-choice"))&&this._handleChoiceAction(n,i),e.preventDefault()}}},{key:"_onClick",value:function(e){var t=e.target,i=this.dropdown.classList.contains(this.config.classNames.activeState),n=this.store.getItemsFilteredByActive();if(this.containerOuter.contains(t))t.hasAttribute("data-button")&&this._handleButtonAction(n,t),i?this.isSelectOneElement&&t!==this.input&&!this.dropdown.contains(t)&&this.hideDropdown(!0):this.isTextElement?document.activeElement!==this.input&&this.input.focus():this.canSearch?this.showDropdown(!0):(this.showDropdown(),this.containerOuter.focus());else{var s=n.some(function(e){return e.highlighted});s&&this.unhighlightAll(),this.containerOuter.classList.remove(this.config.classNames.focusState),i&&this.hideDropdown()}}},{key:"_onMouseOver",value:function(e){(e.target===this.dropdown||this.dropdown.contains(e.target))&&e.target.hasAttribute("data-choice")&&this._highlightChoice(e.target)}},{key:"_onPaste",value:function(e){e.target!==this.input||this.config.paste||e.preventDefault()}},{key:"_onFocus",value:function(e){var t=this,i=e.target;if(this.containerOuter.contains(i)){var n=this.dropdown.classList.contains(this.config.classNames.activeState),s={text:function(){i===t.input&&t.containerOuter.classList.add(t.config.classNames.focusState)},"select-one":function(){t.containerOuter.classList.add(t.config.classNames.focusState),i===t.input&&(n||t.showDropdown())},"select-multiple":function(){i===t.input&&(t.containerOuter.classList.add(t.config.classNames.focusState),n||t.showDropdown(!0))}};s[this.passedElement.type]()}}},{key:"_onBlur",value:function(e){var t=this,i=e.target;if(this.containerOuter.contains(i)&&!this.isScrollingOnIe){var n=this.store.getItemsFilteredByActive(),s=this.dropdown.classList.contains(this.config.classNames.activeState),o=n.some(function(e){return e.highlighted}),r={text:function(){i===t.input&&(t.containerOuter.classList.remove(t.config.classNames.focusState),o&&t.unhighlightAll(),s&&t.hideDropdown())},"select-one":function(){t.containerOuter.classList.remove(t.config.classNames.focusState),i===t.containerOuter&&s&&!t.canSearch&&t.hideDropdown(),i===t.input&&s&&t.hideDropdown()},"select-multiple":function(){i===t.input&&(t.containerOuter.classList.remove(t.config.classNames.focusState),s&&t.hideDropdown(),o&&t.unhighlightAll())}};r[this.passedElement.type]()}else this.isScrollingOnIe=!1,this.input.focus()}},{key:"_regexFilter",value:function(e){if(!e)return!1;var t=this.config.regexFilter,i=new RegExp(t.source,"i");return i.test(e)}},{key:"_scrollToChoice",value:function(e,t){var i=this;if(e){var n=this.choiceList.offsetHeight,s=e.offsetHeight,o=e.offsetTop+s,r=this.choiceList.scrollTop+n,a=t>0?this.choiceList.scrollTop+o-r:e.offsetTop,c=function e(){var n=4,s=i.choiceList.scrollTop,o=!1,r=void 0,c=void 0;t>0?(r=(a-s)/n,c=r>1?r:1,i.choiceList.scrollTop=s+c,s<a&&(o=!0)):(r=(s-a)/n,c=r>1?r:1,i.choiceList.scrollTop=s-c,s>a&&(o=!0)),o&&requestAnimationFrame(function(i){e(i,a,t)})};requestAnimationFrame(function(e){c(e,a,t)})}}},{key:"_highlightChoice",value:function(){var e=this,t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,i=Array.from(this.dropdown.querySelectorAll("[data-choice-selectable]")),n=t;if(i&&i.length){var s=Array.from(this.dropdown.querySelectorAll("."+this.config.classNames.highlightedState));s.forEach(function(t){t.classList.remove(e.config.classNames.highlightedState),t.setAttribute("aria-selected","false")}),n?this.highlightPosition=i.indexOf(n):(n=i.length>this.highlightPosition?i[this.highlightPosition]:i[i.length-1],n||(n=i[0])),n.classList.add(this.config.classNames.highlightedState),n.setAttribute("aria-selected","true"),this.containerOuter.setAttribute("aria-activedescendant",n.id)}}},{key:"_addItem",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:-1,n=arguments.length>3&&void 0!==arguments[3]?arguments[3]:-1,s=arguments.length>4&&void 0!==arguments[4]?arguments[4]:null,o=arguments.length>5&&void 0!==arguments[5]&&arguments[5],r=arguments.length>6&&void 0!==arguments[6]?arguments[6]:null,a=(0,v.isType)("String",e)?e.trim():e,c=r,l=this.store.getItems(),h=t||a,u=parseInt(i,10)||-1,d=n>=0?this.store.getGroupById(n):null,f=l?l.length+1:1;return this.config.prependValue&&(a=this.config.prependValue+a.toString()),this.config.appendValue&&(a+=this.config.appendValue.toString()),
+        this.store.dispatch((0,p.addItem)(a,h,f,u,n,s,o,c)),this.isSelectOneElement&&this.removeActiveItems(f),d&&d.value?(0,v.triggerEvent)(this.passedElement,"addItem",{id:f,value:a,label:h,groupValue:d.value,keyCode:c}):(0,v.triggerEvent)(this.passedElement,"addItem",{id:f,value:a,label:h,keyCode:c}),this}},{key:"_removeItem",value:function(e){if(!e||!(0,v.isType)("Object",e))return this;var t=e.id,i=e.value,n=e.label,s=e.choiceId,o=e.groupId,r=o>=0?this.store.getGroupById(o):null;return this.store.dispatch((0,p.removeItem)(t,s)),r&&r.value?(0,v.triggerEvent)(this.passedElement,"removeItem",{id:t,value:i,label:n,groupValue:r.value}):(0,v.triggerEvent)(this.passedElement,"removeItem",{id:t,value:i,label:n}),this}},{key:"_addChoice",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,i=arguments.length>2&&void 0!==arguments[2]&&arguments[2],n=arguments.length>3&&void 0!==arguments[3]&&arguments[3],s=arguments.length>4&&void 0!==arguments[4]?arguments[4]:-1,o=arguments.length>5&&void 0!==arguments[5]?arguments[5]:null,r=arguments.length>6&&void 0!==arguments[6]&&arguments[6],a=arguments.length>7&&void 0!==arguments[7]?arguments[7]:null;if("undefined"!=typeof e&&null!==e){var c=this.store.getChoices(),l=t||e,h=c?c.length+1:1,u=this.baseId+"-"+this.idNames.itemChoice+"-"+h;this.store.dispatch((0,p.addChoice)(e,l,h,s,n,u,o,r,a)),i&&this._addItem(e,l,h,void 0,o,r,a)}}},{key:"_clearChoices",value:function(){this.store.dispatch((0,p.clearChoices)())}},{key:"_addGroup",value:function(e,t){var i=this,n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:"value",s=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"label",o=(0,v.isType)("Object",e)?e.choices:Array.from(e.getElementsByTagName("OPTION")),r=t?t:Math.floor((new Date).valueOf()*Math.random()),a=!!e.disabled&&e.disabled;o?(this.store.dispatch((0,p.addGroup)(e.label,r,!0,a)),o.forEach(function(e){var t=e.disabled||e.parentNode&&e.parentNode.disabled;i._addChoice(e[n],(0,v.isType)("Object",e)?e[s]:e.innerHTML,e.selected,t,r,e.customProperties,e.placeholder)})):this.store.dispatch((0,p.addGroup)(e.label,e.id,!1,e.disabled))}},{key:"_getTemplate",value:function(e){if(!e)return null;for(var t=this.config.templates,i=arguments.length,n=Array(i>1?i-1:0),s=1;s<i;s++)n[s-1]=arguments[s];return t[e].apply(t,n)}},{key:"_createTemplates",value:function(){var e=this,t=this.config.classNames,i={containerOuter:function(i){return(0,v.strToEl)('\n          <div\n            class="'+t.containerOuter+'"\n            '+(e.isSelectElement?e.config.searchEnabled?'role="combobox" aria-autocomplete="list"':'role="listbox"':"")+'\n            data-type="'+e.passedElement.type+'"\n            '+(e.isSelectOneElement?'tabindex="0"':"")+'\n            aria-haspopup="true"\n            aria-expanded="false"\n            dir="'+i+'"\n            >\n          </div>\n        ')},containerInner:function(){return(0,v.strToEl)('\n          <div class="'+t.containerInner+'"></div>\n        ')},itemList:function(){var i,n=(0,u.default)(t.list,(i={},s(i,t.listSingle,e.isSelectOneElement),s(i,t.listItems,!e.isSelectOneElement),i));return(0,v.strToEl)('\n          <div class="'+n+'"></div>\n        ')},placeholder:function(e){return(0,v.strToEl)('\n          <div class="'+t.placeholder+'">\n            '+e+"\n          </div>\n        ")},item:function(i){var n,o=(0,u.default)(t.item,(n={},s(n,t.highlightedState,i.highlighted),s(n,t.itemSelectable,!i.highlighted),s(n,t.placeholder,i.placeholder),n));if(e.config.removeItemButton){var r;return o=(0,u.default)(t.item,(r={},s(r,t.highlightedState,i.highlighted),s(r,t.itemSelectable,!i.disabled),s(r,t.placeholder,i.placeholder),r)),(0,v.strToEl)('\n            <div\n              class="'+o+'"\n              data-item\n              data-id="'+i.id+'"\n              data-value="'+i.value+'"\n              data-deletable\n              '+(i.active?'aria-selected="true"':"")+"\n              "+(i.disabled?'aria-disabled="true"':"")+"\n              >\n              "+i.label+'<!--\n           --><button\n                type="button"\n                class="'+t.button+'"\n                data-button\n                aria-label="Remove item: \''+i.value+"'\"\n                >\n                Remove item\n              </button>\n            </div>\n          ")}return(0,v.strToEl)('\n          <div\n            class="'+o+'"\n            data-item\n            data-id="'+i.id+'"\n            data-value="'+i.value+'"\n            '+(i.active?'aria-selected="true"':"")+"\n            "+(i.disabled?'aria-disabled="true"':"")+"\n            >\n            "+i.label+"\n          </div>\n        ")},choiceList:function(){return(0,v.strToEl)('\n          <div\n            class="'+t.list+'"\n            dir="ltr"\n            role="listbox"\n            '+(e.isSelectOneElement?"":'aria-multiselectable="true"')+"\n            >\n          </div>\n        ")},choiceGroup:function(e){var i=(0,u.default)(t.group,s({},t.itemDisabled,e.disabled));return(0,v.strToEl)('\n          <div\n            class="'+i+'"\n            data-group\n            data-id="'+e.id+'"\n            data-value="'+e.value+'"\n            role="group"\n            '+(e.disabled?'aria-disabled="true"':"")+'\n            >\n            <div class="'+t.groupHeading+'">'+e.value+"</div>\n          </div>\n        ")},choice:function(i){var n,o=(0,u.default)(t.item,t.itemChoice,(n={},s(n,t.itemDisabled,i.disabled),s(n,t.itemSelectable,!i.disabled),s(n,t.placeholder,i.placeholder),n));return(0,v.strToEl)('\n          <div\n            class="'+o+'"\n            data-select-text="'+e.config.itemSelectText+'"\n            data-choice\n            data-id="'+i.id+'"\n            data-value="'+i.value+'"\n            '+(i.disabled?'data-choice-disabled aria-disabled="true"':"data-choice-selectable")+'\n            id="'+i.elementId+'"\n            '+(i.groupId>0?'role="treeitem"':'role="option"')+"\n            >\n            "+i.label+"\n          </div>\n        ")},input:function(){var e=(0,u.default)(t.input,t.inputCloned);return(0,v.strToEl)('\n          <input\n            type="text"\n            class="'+e+'"\n            autocomplete="off"\n            autocapitalize="off"\n            spellcheck="false"\n            role="textbox"\n            aria-autocomplete="list"\n            >\n        ')},dropdown:function(){var e=(0,u.default)(t.list,t.listDropdown);return(0,v.strToEl)('\n          <div\n            class="'+e+'"\n            aria-expanded="false"\n            >\n          </div>\n        ')},notice:function(e){var i,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"",o=(0,u.default)(t.item,t.itemChoice,(i={},s(i,t.noResults,"no-results"===n),s(i,t.noChoices,"no-choices"===n),i));return(0,v.strToEl)('\n          <div class="'+o+'">\n            '+e+"\n          </div>\n        ")},option:function(e){return(0,v.strToEl)('\n          <option value="'+e.value+'" selected>'+e.label+"</option>\n        ")}},n=this.config.callbackOnCreateTemplates,o={};n&&(0,v.isType)("Function",n)&&(o=n.call(this,v.strToEl)),this.config.templates=(0,v.extend)(i,o)}},{key:"_setLoading",value:function(e){this.store.dispatch((0,p.setIsLoading)(e))}},{key:"_createInput",value:function(){var e=this,t=this.passedElement.getAttribute("dir")||"ltr",i=this._getTemplate("containerOuter",t),n=this._getTemplate("containerInner"),s=this._getTemplate("itemList"),o=this._getTemplate("choiceList"),r=this._getTemplate("input"),a=this._getTemplate("dropdown");this.containerOuter=i,this.containerInner=n,this.input=r,this.choiceList=o,this.itemList=s,this.dropdown=a,this.passedElement.classList.add(this.config.classNames.input,this.config.classNames.hiddenState),this.passedElement.tabIndex="-1";var c=this.passedElement.getAttribute("style");if(Boolean(c)&&this.passedElement.setAttribute("data-choice-orig-style",c),this.passedElement.setAttribute("style","display:none;"),this.passedElement.setAttribute("aria-hidden","true"),this.passedElement.setAttribute("data-choice","active"),(0,v.wrap)(this.passedElement,n),(0,v.wrap)(n,i),this.isSelectOneElement?r.placeholder=this.config.searchPlaceholderValue||"":this.placeholder&&(r.placeholder=this.placeholder,r.style.width=(0,v.getWidthOfInput)(r)),this.config.addItems||this.disable(),i.appendChild(n),i.appendChild(a),n.appendChild(s),this.isTextElement||a.appendChild(o),this.isSelectMultipleElement||this.isTextElement?n.appendChild(r):this.canSearch&&a.insertBefore(r,a.firstChild),this.isSelectElement){var l=Array.from(this.passedElement.getElementsByTagName("OPTGROUP"));if(this.highlightPosition=0,this.isSearching=!1,this._setLoading(!0),l&&l.length)l.forEach(function(t){e._addGroup(t,t.id||null)});else{var h=Array.from(this.passedElement.options),u=this.config.sortFilter,d=this.presetChoices;h.forEach(function(e){d.push({value:e.value,label:e.innerHTML,selected:e.selected,disabled:e.disabled||e.parentNode.disabled,placeholder:e.hasAttribute("placeholder")})}),this.config.shouldSort&&d.sort(u);var f=d.some(function(e){return e.selected});d.forEach(function(t,i){if(e.isSelectOneElement){var n=f||!f&&i>0;e._addChoice(t.value,t.label,!n||t.selected,!!n&&t.disabled,void 0,t.customProperties,t.placeholder)}else e._addChoice(t.value,t.label,t.selected,t.disabled,void 0,t.customProperties,t.placeholder)})}this._setLoading(!1)}else this.isTextElement&&this.presetItems.forEach(function(t){var i=(0,v.getType)(t);if("Object"===i){if(!t.value)return;e._addItem(t.value,t.label,t.id,void 0,t.customProperties,t.placeholder)}else"String"===i&&e._addItem(t)})}}]),e}();e.exports=m},function(e,t,i){!function(t){"use strict";function i(){console.log.apply(console,arguments)}function n(e,t){var i;this.list=e,this.options=t=t||{};for(i in a)a.hasOwnProperty(i)&&("boolean"==typeof a[i]?this.options[i]=i in t?t[i]:a[i]:this.options[i]=t[i]||a[i])}function s(e,t,i){var n,r,a,c,l,h;if(t){if(a=t.indexOf("."),a!==-1?(n=t.slice(0,a),r=t.slice(a+1)):n=t,c=e[n],null!==c&&void 0!==c)if(r||"string"!=typeof c&&"number"!=typeof c)if(o(c))for(l=0,h=c.length;l<h;l++)s(c[l],r,i);else r&&s(c,r,i);else i.push(c)}else i.push(e);return i}function o(e){return"[object Array]"===Object.prototype.toString.call(e)}function r(e,t){t=t||{},this.options=t,this.options.location=t.location||r.defaultOptions.location,this.options.distance="distance"in t?t.distance:r.defaultOptions.distance,this.options.threshold="threshold"in t?t.threshold:r.defaultOptions.threshold,this.options.maxPatternLength=t.maxPatternLength||r.defaultOptions.maxPatternLength,this.pattern=t.caseSensitive?e:e.toLowerCase(),this.patternLen=e.length,this.patternLen<=this.options.maxPatternLength&&(this.matchmask=1<<this.patternLen-1,this.patternAlphabet=this._calculatePatternAlphabet())}var a={id:null,caseSensitive:!1,include:[],shouldSort:!0,searchFn:r,sortFn:function(e,t){return e.score-t.score},getFn:s,keys:[],verbose:!1,tokenize:!1,matchAllTokens:!1,tokenSeparator:/ +/g,minMatchCharLength:1,findAllMatches:!1};n.VERSION="2.7.3",n.prototype.set=function(e){return this.list=e,e},n.prototype.search=function(e){this.options.verbose&&i("\nSearch term:",e,"\n"),this.pattern=e,this.results=[],this.resultMap={},this._keyMap=null,this._prepareSearchers(),this._startSearch(),this._computeScore(),this._sort();var t=this._format();return t},n.prototype._prepareSearchers=function(){var e=this.options,t=this.pattern,i=e.searchFn,n=t.split(e.tokenSeparator),s=0,o=n.length;if(this.options.tokenize)for(this.tokenSearchers=[];s<o;s++)this.tokenSearchers.push(new i(n[s],e));this.fullSeacher=new i(t,e)},n.prototype._startSearch=function(){var e,t,i,n,s=this.options,o=s.getFn,r=this.list,a=r.length,c=this.options.keys,l=c.length,h=null;if("string"==typeof r[0])for(i=0;i<a;i++)this._analyze("",r[i],i,i);else for(this._keyMap={},i=0;i<a;i++)for(h=r[i],n=0;n<l;n++){if(e=c[n],"string"!=typeof e){if(t=1-e.weight||1,this._keyMap[e.name]={weight:t},e.weight<=0||e.weight>1)throw new Error("Key weight has to be > 0 and <= 1");e=e.name}else this._keyMap[e]={weight:1};this._analyze(e,o(h,e,[]),h,i)}},n.prototype._analyze=function(e,t,n,s){var r,a,c,l,h,u,d,f,p,v,m,g,y,b,E,_=this.options,S=!1;if(void 0!==t&&null!==t){a=[];var I=0;if("string"==typeof t){if(r=t.split(_.tokenSeparator),_.verbose&&i("---------\nKey:",e),this.options.tokenize){for(b=0;b<this.tokenSearchers.length;b++){for(f=this.tokenSearchers[b],_.verbose&&i("Pattern:",f.pattern),p=[],g=!1,E=0;E<r.length;E++){v=r[E],m=f.search(v);var w={};m.isMatch?(w[v]=m.score,S=!0,g=!0,a.push(m.score)):(w[v]=1,this.options.matchAllTokens||a.push(1)),p.push(w)}g&&I++,_.verbose&&i("Token scores:",p)}for(l=a[0],u=a.length,b=1;b<u;b++)l+=a[b];l/=u,_.verbose&&i("Token score average:",l)}d=this.fullSeacher.search(t),_.verbose&&i("Full text score:",d.score),h=d.score,void 0!==l&&(h=(h+l)/2),_.verbose&&i("Score average:",h),y=!this.options.tokenize||!this.options.matchAllTokens||I>=this.tokenSearchers.length,_.verbose&&i("Check Matches",y),(S||d.isMatch)&&y&&(c=this.resultMap[s],c?c.output.push({key:e,score:h,matchedIndices:d.matchedIndices}):(this.resultMap[s]={item:n,output:[{key:e,score:h,matchedIndices:d.matchedIndices}]},this.results.push(this.resultMap[s])))}else if(o(t))for(b=0;b<t.length;b++)this._analyze(e,t[b],n,s)}},n.prototype._computeScore=function(){var e,t,n,s,o,r,a,c,l,h=this._keyMap,u=this.results;for(this.options.verbose&&i("\n\nComputing score:\n"),e=0;e<u.length;e++){for(n=0,s=u[e].output,o=s.length,c=1,t=0;t<o;t++)r=s[t].score,a=h?h[s[t].key].weight:1,l=r*a,1!==a?c=Math.min(c,l):(n+=l,s[t].nScore=l);1===c?u[e].score=n/o:u[e].score=c,this.options.verbose&&i(u[e])}},n.prototype._sort=function(){var e=this.options;e.shouldSort&&(e.verbose&&i("\n\nSorting...."),this.results.sort(e.sortFn))},n.prototype._format=function(){var e,t,n,s,o=this.options,r=o.getFn,a=[],c=this.results,l=o.include;for(o.verbose&&i("\n\nOutput:\n\n",c),n=o.id?function(e){c[e].item=r(c[e].item,o.id,[])[0]}:function(){},s=function(e){var t,i,n,s,o,r=c[e];if(l.length>0){if(t={item:r.item},l.indexOf("matches")!==-1)for(n=r.output,t.matches=[],i=0;i<n.length;i++)s=n[i],o={indices:s.matchedIndices},s.key&&(o.key=s.key),t.matches.push(o);l.indexOf("score")!==-1&&(t.score=c[e].score)}else t=r.item;return t},e=0,t=c.length;e<t;e++)n(e),a.push(s(e));return a},r.defaultOptions={location:0,distance:100,threshold:.6,maxPatternLength:32},r.prototype._calculatePatternAlphabet=function(){var e={},t=0;for(t=0;t<this.patternLen;t++)e[this.pattern.charAt(t)]=0;for(t=0;t<this.patternLen;t++)e[this.pattern.charAt(t)]|=1<<this.pattern.length-t-1;return e},r.prototype._bitapScore=function(e,t){var i=e/this.patternLen,n=Math.abs(this.options.location-t);return this.options.distance?i+n/this.options.distance:n?1:i},r.prototype.search=function(e){var t,i,n,s,o,r,a,c,l,h,u,d,f,p,v,m,g,y,b,E,_,S,I,w=this.options;if(e=w.caseSensitive?e:e.toLowerCase(),this.pattern===e)return{isMatch:!0,score:0,matchedIndices:[[0,e.length-1]]};if(this.patternLen>w.maxPatternLength){if(y=e.match(new RegExp(this.pattern.replace(w.tokenSeparator,"|"))),b=!!y)for(_=[],t=0,S=y.length;t<S;t++)I=y[t],_.push([e.indexOf(I),I.length-1]);return{isMatch:b,score:b?.5:1,matchedIndices:_}}for(s=w.findAllMatches,o=w.location,n=e.length,r=w.threshold,a=e.indexOf(this.pattern,o),E=[],t=0;t<n;t++)E[t]=0;for(a!=-1&&(r=Math.min(this._bitapScore(0,a),r),a=e.lastIndexOf(this.pattern,o+this.patternLen),a!=-1&&(r=Math.min(this._bitapScore(0,a),r))),a=-1,m=1,g=[],h=this.patternLen+n,t=0;t<this.patternLen;t++){for(c=0,l=h;c<l;)this._bitapScore(t,o+l)<=r?c=l:h=l,l=Math.floor((h-c)/2+c);for(h=l,u=Math.max(1,o-l+1),d=s?n:Math.min(o+l,n)+this.patternLen,f=Array(d+2),f[d+1]=(1<<t)-1,i=d;i>=u;i--)if(v=this.patternAlphabet[e.charAt(i-1)],v&&(E[i-1]=1),f[i]=(f[i+1]<<1|1)&v,0!==t&&(f[i]|=(p[i+1]|p[i])<<1|1|p[i+1]),f[i]&this.matchmask&&(m=this._bitapScore(t,i-1),m<=r)){if(r=m,a=i-1,g.push(a),a<=o)break;u=Math.max(1,2*o-a)}if(this._bitapScore(t+1,o)>r)break;p=f}return _=this._getMatchedIndices(E),{isMatch:a>=0,score:0===m?.001:m,matchedIndices:_}},r.prototype._getMatchedIndices=function(e){for(var t,i=[],n=-1,s=-1,o=0,r=e.length;o<r;o++)t=e[o],t&&n===-1?n=o:t||n===-1||(s=o-1,s-n+1>=this.options.minMatchCharLength&&i.push([n,s]),n=-1);return e[o-1]&&o-1-n+1>=this.options.minMatchCharLength&&i.push([n,o-1]),i},e.exports=n}(this)},function(e,t,i){var n,s;!function(){"use strict";function i(){for(var e=[],t=0;t<arguments.length;t++){var n=arguments[t];if(n){var s=typeof n;if("string"===s||"number"===s)e.push(n);else if(Array.isArray(n))e.push(i.apply(null,n));else if("object"===s)for(var r in n)o.call(n,r)&&n[r]&&e.push(r)}}return e.join(" ")}var o={}.hasOwnProperty;"undefined"!=typeof e&&e.exports?e.exports=i:(n=[],s=function(){return i}.apply(t,n),!(void 0!==s&&(e.exports=s)))}()},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function s(e){if(Array.isArray(e)){for(var t=0,i=Array(e.length);t<e.length;t++)i[t]=e[t];return i}return Array.from(e)}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(t,"__esModule",{value:!0});var r=function(){function e(e,t){for(var i=0;i<t.length;i++){var n=t[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,i,n){return i&&e(t.prototype,i),n&&e(t,n),t}}(),a=i(5),c=i(26),l=n(c),h=function(){function e(){o(this,e),this.store=(0,a.createStore)(l.default,window.devToolsExtension?window.devToolsExtension():void 0)}return r(e,[{key:"getState",value:function(){return this.store.getState()}},{key:"dispatch",value:function(e){this.store.dispatch(e)}},{key:"subscribe",value:function(e){this.store.subscribe(e)}},{key:"isLoading",value:function(){var e=this.store.getState();return e.general.loading}},{key:"getItems",value:function(){var e=this.store.getState();return e.items}},{key:"getItemsFilteredByActive",value:function(){var e=this.getItems(),t=e.filter(function(e){return e.active===!0},[]);return t}},{key:"getItemsReducedToValues",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this.getItems(),t=e.reduce(function(e,t){return e.push(t.value),e},[]);return t}},{key:"getChoices",value:function(){var e=this.store.getState();return e.choices}},{key:"getChoicesFilteredByActive",value:function(){var e=this.getChoices(),t=e.filter(function(e){return e.active===!0});return t}},{key:"getChoicesFilteredBySelectable",value:function(){var e=this.getChoices(),t=e.filter(function(e){return e.disabled!==!0});return t}},{key:"getSearchableChoices",value:function(){var e=this.getChoicesFilteredBySelectable();return e.filter(function(e){return e.placeholder!==!0})}},{key:"getChoiceById",value:function(e){if(e){var t=this.getChoicesFilteredByActive(),i=t.find(function(t){return t.id===parseInt(e,10)});return i}return!1}},{key:"getGroups",value:function(){var e=this.store.getState();return e.groups}},{key:"getGroupsFilteredByActive",value:function(){var e=this.getGroups(),t=this.getChoices(),i=e.filter(function(e){var i=e.active===!0&&e.disabled===!1,n=t.some(function(e){return e.active===!0&&e.disabled===!1});return i&&n},[]);return i}},{key:"getGroupById",value:function(e){var t=this.getGroups(),i=t.find(function(t){return t.id===e});return i}},{key:"getPlaceholderChoice",value:function(){var e=this.getChoices(),t=[].concat(s(e)).reverse().find(function(e){return e.placeholder===!0});return t}}]),e}();t.default=h,e.exports=h},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}t.__esModule=!0,t.compose=t.applyMiddleware=t.bindActionCreators=t.combineReducers=t.createStore=void 0;var s=i(6),o=n(s),r=i(21),a=n(r),c=i(23),l=n(c),h=i(24),u=n(h),d=i(25),f=n(d),p=i(22);n(p);t.createStore=o.default,t.combineReducers=a.default,t.bindActionCreators=l.default,t.applyMiddleware=u.default,t.compose=f.default},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function s(e,t,i){function n(){g===m&&(g=m.slice())}function o(){return v}function a(e){if("function"!=typeof e)throw new Error("Expected listener to be a function.");var t=!0;return n(),g.push(e),function(){if(t){t=!1,n();var i=g.indexOf(e);g.splice(i,1)}}}function h(e){if(!(0,r.default)(e))throw new Error("Actions must be plain objects. Use custom middleware for async actions.");if("undefined"==typeof e.type)throw new Error('Actions may not have an undefined "type" property. Have you misspelled a constant?');if(y)throw new Error("Reducers may not dispatch actions.");try{y=!0,v=p(v,e)}finally{y=!1}for(var t=m=g,i=0;i<t.length;i++){var n=t[i];n()}return e}function u(e){if("function"!=typeof e)throw new Error("Expected the nextReducer to be a function.");p=e,h({type:l.INIT})}function d(){var e,t=a;return e={subscribe:function(e){function i(){e.next&&e.next(o())}if("object"!=typeof e)throw new TypeError("Expected the observer to be an object.");i();var n=t(i);return{unsubscribe:n}}},e[c.default]=function(){return this},e}var f;if("function"==typeof t&&"undefined"==typeof i&&(i=t,t=void 0),"undefined"!=typeof i){if("function"!=typeof i)throw new Error("Expected the enhancer to be a function.");return i(s)(e,t)}if("function"!=typeof e)throw new Error("Expected the reducer to be a function.");var p=e,v=t,m=[],g=m,y=!1;return h({type:l.INIT}),f={dispatch:h,subscribe:a,getState:o,replaceReducer:u},f[c.default]=d,f}t.__esModule=!0,t.ActionTypes=void 0,t.default=s;var o=i(7),r=n(o),a=i(17),c=n(a),l=t.ActionTypes={INIT:"@@redux/INIT"}},function(e,t,i){function n(e){if(!r(e)||s(e)!=a)return!1;var t=o(e);if(null===t)return!0;var i=u.call(t,"constructor")&&t.constructor;return"function"==typeof i&&i instanceof i&&h.call(i)==d}var s=i(8),o=i(14),r=i(16),a="[object Object]",c=Function.prototype,l=Object.prototype,h=c.toString,u=l.hasOwnProperty,d=h.call(Object);e.exports=n},function(e,t,i){function n(e){return null==e?void 0===e?c:a:l&&l in Object(e)?o(e):r(e)}var s=i(9),o=i(12),r=i(13),a="[object Null]",c="[object Undefined]",l=s?s.toStringTag:void 0;e.exports=n},function(e,t,i){var n=i(10),s=n.Symbol;e.exports=s},function(e,t,i){var n=i(11),s="object"==typeof self&&self&&self.Object===Object&&self,o=n||s||Function("return this")();e.exports=o},function(e,t){(function(t){var i="object"==typeof t&&t&&t.Object===Object&&t;e.exports=i}).call(t,function(){return this}())},function(e,t,i){function n(e){var t=r.call(e,c),i=e[c];try{e[c]=void 0;var n=!0}catch(e){}var s=a.call(e);return n&&(t?e[c]=i:delete e[c]),s}var s=i(9),o=Object.prototype,r=o.hasOwnProperty,a=o.toString,c=s?s.toStringTag:void 0;e.exports=n},function(e,t){function i(e){return s.call(e)}var n=Object.prototype,s=n.toString;e.exports=i},function(e,t,i){var n=i(15),s=n(Object.getPrototypeOf,Object);e.exports=s},function(e,t){function i(e,t){return function(i){return e(t(i))}}e.exports=i},function(e,t){function i(e){return null!=e&&"object"==typeof e}e.exports=i},function(e,t,i){e.exports=i(18)},function(e,t,i){(function(e,n){"use strict";function s(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var o,r=i(20),a=s(r);o="undefined"!=typeof self?self:"undefined"!=typeof window?window:"undefined"!=typeof e?e:n;var c=(0,a.default)(o);t.default=c}).call(t,function(){return this}(),i(19)(e))},function(e,t){e.exports=function(e){return e.webpackPolyfill||(e.deprecate=function(){},e.paths=[],e.children=[],e.webpackPolyfill=1),e}},function(e,t){"use strict";function i(e){var t,i=e.Symbol;return"function"==typeof i?i.observable?t=i.observable:(t=i("observable"),i.observable=t):t="@@observable",t}Object.defineProperty(t,"__esModule",{value:!0}),t.default=i},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function s(e,t){var i=t&&t.type,n=i&&'"'+i.toString()+'"'||"an action";return"Given action "+n+', reducer "'+e+'" returned undefined. To ignore an action, you must explicitly return the previous state. If you want this reducer to hold no value, you can return null instead of undefined.'}function o(e){Object.keys(e).forEach(function(t){var i=e[t],n=i(void 0,{type:a.ActionTypes.INIT});if("undefined"==typeof n)throw new Error('Reducer "'+t+"\" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.");var s="@@redux/PROBE_UNKNOWN_ACTION_"+Math.random().toString(36).substring(7).split("").join(".");if("undefined"==typeof i(void 0,{type:s}))throw new Error('Reducer "'+t+'" returned undefined when probed with a random type. '+("Don't try to handle "+a.ActionTypes.INIT+' or other actions in "redux/*" ')+"namespace. They are considered private. Instead, you must return the current state for any unknown actions, unless it is undefined, in which case you must return the initial state, regardless of the action type. The initial state may not be undefined, but can be null.")})}function r(e){for(var t=Object.keys(e),i={},n=0;n<t.length;n++){var r=t[n];"function"==typeof e[r]&&(i[r]=e[r])}var a=Object.keys(i),c=void 0;try{o(i)}catch(e){c=e}return function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=arguments[1];if(c)throw c;for(var n=!1,o={},r=0;r<a.length;r++){var l=a[r],h=i[l],u=e[l],d=h(u,t);if("undefined"==typeof d){var f=s(l,t);throw new Error(f)}o[l]=d,n=n||d!==u}return n?o:e}}t.__esModule=!0,t.default=r;var a=i(6),c=i(7),l=(n(c),i(22));n(l)},function(e,t){"use strict";function i(e){"undefined"!=typeof console&&"function"==typeof console.error&&console.error(e);try{throw new Error(e)}catch(e){}}t.__esModule=!0,t.default=i},function(e,t){"use strict";function i(e,t){return function(){return t(e.apply(void 0,arguments))}}function n(e,t){if("function"==typeof e)return i(e,t);if("object"!=typeof e||null===e)throw new Error("bindActionCreators expected an object or a function, instead received "+(null===e?"null":typeof e)+'. Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');for(var n=Object.keys(e),s={},o=0;o<n.length;o++){var r=n[o],a=e[r];"function"==typeof a&&(s[r]=i(a,t))}return s}t.__esModule=!0,t.default=n},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function s(){for(var e=arguments.length,t=Array(e),i=0;i<e;i++)t[i]=arguments[i];return function(e){return function(i,n,s){var r=e(i,n,s),c=r.dispatch,l=[],h={getState:r.getState,dispatch:function(e){return c(e)}};return l=t.map(function(e){return e(h)}),c=a.default.apply(void 0,l)(r.dispatch),o({},r,{dispatch:c})}}}t.__esModule=!0;var o=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var i=arguments[t];for(var n in i)Object.prototype.hasOwnProperty.call(i,n)&&(e[n]=i[n])}return e};t.default=s;var r=i(25),a=n(r)},function(e,t){"use strict";function i(){for(var e=arguments.length,t=Array(e),i=0;i<e;i++)t[i]=arguments[i];return 0===t.length?function(e){return e}:1===t.length?t[0]:t.reduce(function(e,t){return function(){return e(t.apply(void 0,arguments))}})}t.__esModule=!0,t.default=i},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var s=i(5),o=i(27),r=n(o),a=i(28),c=n(a),l=i(29),h=n(l),u=i(30),d=n(u),f=(0,s.combineReducers)({items:r.default,groups:c.default,choices:h.default,general:d.default}),p=function(e,t){var i=e;return"CLEAR_ALL"===t.type&&(i=void 0),f(i,t)};t.default=p},function(e,t){"use strict";function i(e){if(Array.isArray(e)){for(var t=0,i=Array(e.length);t<e.length;t++)i[t]=e[t];return i}return Array.from(e)}Object.defineProperty(t,"__esModule",{value:!0});var n=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments[1];switch(t.type){case"ADD_ITEM":var n=[].concat(i(e),[{id:t.id,choiceId:t.choiceId,groupId:t.groupId,value:t.value,label:t.label,active:!0,highlighted:!1,customProperties:t.customProperties,placeholder:t.placeholder||!1,keyCode:null}]);return n.map(function(e){return e.highlighted&&(e.highlighted=!1),e});case"REMOVE_ITEM":return e.map(function(e){return e.id===t.id&&(e.active=!1),e});case"HIGHLIGHT_ITEM":return e.map(function(e){return e.id===t.id&&(e.highlighted=t.highlighted),e});default:return e}};t.default=n},function(e,t){"use strict";function i(e){if(Array.isArray(e)){for(var t=0,i=Array(e.length);t<e.length;t++)i[t]=e[t];return i}return Array.from(e)}Object.defineProperty(t,"__esModule",{value:!0});var n=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments[1];switch(t.type){case"ADD_GROUP":return[].concat(i(e),[{id:t.id,value:t.value,active:t.active,disabled:t.disabled}]);case"CLEAR_CHOICES":return e.groups=[];default:return e}};t.default=n},function(e,t){"use strict";function i(e){if(Array.isArray(e)){for(var t=0,i=Array(e.length);t<e.length;t++)i[t]=e[t];return i}return Array.from(e)}Object.defineProperty(t,"__esModule",{value:!0});var n=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],t=arguments[1];switch(t.type){case"ADD_CHOICE":return[].concat(i(e),[{id:t.id,elementId:t.elementId,groupId:t.groupId,value:t.value,label:t.label||t.value,disabled:t.disabled||!1,selected:!1,active:!0,score:9999,customProperties:t.customProperties,placeholder:t.placeholder||!1,keyCode:null}]);case"ADD_ITEM":var n=e;return t.activateOptions&&(n=e.map(function(e){return e.active=t.active,e})),t.choiceId>-1&&(n=e.map(function(e){return e.id===parseInt(t.choiceId,10)&&(e.selected=!0),e})),n;case"REMOVE_ITEM":return t.choiceId>-1?e.map(function(e){return e.id===parseInt(t.choiceId,10)&&(e.selected=!1),e}):e;case"FILTER_CHOICES":var s=t.results,o=e.map(function(e){return e.active=s.some(function(t){return t.item.id===e.id&&(e.score=t.score,!0)}),e});return o;case"ACTIVATE_CHOICES":return e.map(function(e){return e.active=t.active,e});case"CLEAR_CHOICES":return e.choices=[];default:return e}};t.default=n},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{loading:!1},t=arguments[1];switch(t.type){case"LOADING":return{loading:t.isLoading};default:return e}};t.default=i},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});t.addItem=function(e,t,i,n,s,o,r,a){return{type:"ADD_ITEM",value:e,label:t,id:i,choiceId:n,groupId:s,customProperties:o,placeholder:r,keyCode:a}},t.removeItem=function(e,t){return{type:"REMOVE_ITEM",id:e,choiceId:t}},t.highlightItem=function(e,t){return{type:"HIGHLIGHT_ITEM",id:e,highlighted:t}},t.addChoice=function(e,t,i,n,s,o,r,a,c){return{type:"ADD_CHOICE",value:e,label:t,id:i,groupId:n,disabled:s,elementId:o,customProperties:r,placeholder:a,keyCode:c}},t.filterChoices=function(e){return{type:"FILTER_CHOICES",results:e}},t.activateChoices=function(){var e=!(arguments.length>0&&void 0!==arguments[0])||arguments[0];return{type:"ACTIVATE_CHOICES",active:e}},t.clearChoices=function(){return{type:"CLEAR_CHOICES"}},t.addGroup=function(e,t,i,n){return{type:"ADD_GROUP",value:e,id:t,active:i,disabled:n}},t.clearAll=function(){return{type:"CLEAR_ALL"}},t.setIsLoading=function(e){return{type:"LOADING",isLoading:e}}},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},n=(t.capitalise=function(e){return e.replace(/\w\S*/g,function(e){return e.charAt(0).toUpperCase()+e.substr(1).toLowerCase()})},t.generateChars=function(e){for(var t="",i=0;i<e;i++){var n=c(0,36);t+=n.toString(36)}return t}),s=(t.generateId=function(e,t){var i=e.id||e.name&&e.name+"-"+n(2)||n(4);return i=i.replace(/(:|\.|\[|\]|,)/g,""),i=t+i},t.getType=function(e){return Object.prototype.toString.call(e).slice(8,-1);
+}),o=t.isType=function(e,t){var i=s(t);return void 0!==t&&null!==t&&i===e},r=(t.isNode=function(e){return"object"===("undefined"==typeof Node?"undefined":i(Node))?e instanceof Node:e&&"object"===("undefined"==typeof e?"undefined":i(e))&&"number"==typeof e.nodeType&&"string"==typeof e.nodeName},t.isElement=function(e){return"object"===("undefined"==typeof HTMLElement?"undefined":i(HTMLElement))?e instanceof HTMLElement:e&&"object"===("undefined"==typeof e?"undefined":i(e))&&null!==e&&1===e.nodeType&&"string"==typeof e.nodeName},t.extend=function e(){for(var t={},i=arguments.length,n=function(i){for(var n in i)Object.prototype.hasOwnProperty.call(i,n)&&(o("Object",i[n])?t[n]=e(!0,t[n],i[n]):t[n]=i[n])},s=0;s<i;s++){var r=arguments[s];o("Object",r)&&n(r)}return t},t.whichTransitionEvent=function(){var e,t=document.createElement("fakeelement"),i={transition:"transitionend",OTransition:"oTransitionEnd",MozTransition:"transitionend",WebkitTransition:"webkitTransitionEnd"};for(e in i)if(void 0!==t.style[e])return i[e]},t.whichAnimationEvent=function(){var e,t=document.createElement("fakeelement"),i={animation:"animationend",OAnimation:"oAnimationEnd",MozAnimation:"animationend",WebkitAnimation:"webkitAnimationEnd"};for(e in i)if(void 0!==t.style[e])return i[e]}),a=(t.getParentsUntil=function(e,t,i){for(var n=[];e&&e!==document;e=e.parentNode){if(t){var s=t.charAt(0);if("."===s&&e.classList.contains(t.substr(1)))break;if("#"===s&&e.id===t.substr(1))break;if("["===s&&e.hasAttribute(t.substr(1,t.length-1)))break;if(e.tagName.toLowerCase()===t)break}if(i){var o=i.charAt(0);"."===o&&e.classList.contains(i.substr(1))&&n.push(e),"#"===o&&e.id===i.substr(1)&&n.push(e),"["===o&&e.hasAttribute(i.substr(1,i.length-1))&&n.push(e),e.tagName.toLowerCase()===i&&n.push(e)}else n.push(e)}return 0===n.length?null:n},t.wrap=function(e,t){return t=t||document.createElement("div"),e.nextSibling?e.parentNode.insertBefore(t,e.nextSibling):e.parentNode.appendChild(t),t.appendChild(e)},t.getSiblings=function(e){for(var t=[],i=e.parentNode.firstChild;i;i=i.nextSibling)1===i.nodeType&&i!==e&&t.push(i);return t},t.findAncestor=function(e,t){for(;(e=e.parentElement)&&!e.classList.contains(t););return e},t.findAncestorByAttrName=function(e,t){for(var i=e;i;){if(i.hasAttribute(t))return i;i=i.parentElement}return null},t.debounce=function(e,t,i){var n;return function(){var s=this,o=arguments,r=function(){n=null,i||e.apply(s,o)},a=i&&!n;clearTimeout(n),n=setTimeout(r,t),a&&e.apply(s,o)}},t.getElemDistance=function(e){var t=0;if(e.offsetParent)do t+=e.offsetTop,e=e.offsetParent;while(e);return t>=0?t:0},t.getElementOffset=function(e,t){var i=t;return i>1&&(i=1),i>0&&(i=0),Math.max(e.offsetHeight*i)},t.getAdjacentEl=function(e,t){var i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:1;if(e&&t){var n=e.parentNode.parentNode,s=Array.from(n.querySelectorAll(t)),o=s.indexOf(e),r=i>0?1:-1;return s[o+r]}},t.getScrollPosition=function(e){return"bottom"===e?Math.max((window.scrollY||window.pageYOffset)+(window.innerHeight||document.documentElement.clientHeight)):window.scrollY||window.pageYOffset},t.isInView=function(e,t,i){return this.getScrollPosition(t)>this.getElemDistance(e)+this.getElementOffset(e,i)},t.isScrolledIntoView=function(e,t){var i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:1;if(e){var n=void 0;return n=i>0?t.scrollTop+t.offsetHeight>=e.offsetTop+e.offsetHeight:e.offsetTop>=t.scrollTop}},t.stripHTML=function(e){return e.replace(/&/g,"&amp;").replace(/>/g,"&rt;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}),c=(t.addAnimation=function(e,t){var i=r(),n=function n(){e.classList.remove(t),e.removeEventListener(i,n,!1)};e.classList.add(t),e.addEventListener(i,n,!1)},t.getRandomNumber=function(e,t){return Math.floor(Math.random()*(t-e)+e)}),l=t.strToEl=function(){var e=document.createElement("div");return function(t){var i=t.trim(),n=void 0;for(e.innerHTML=i,n=e.children[0];e.firstChild;)e.removeChild(e.firstChild);return n}}();t.getWidthOfInput=function(e){var t=e.value||e.placeholder,i=e.offsetWidth;if(t){var n=l("<span>"+a(t)+"</span>");if(n.style.position="absolute",n.style.padding="0",n.style.top="-9999px",n.style.left="-9999px",n.style.width="auto",n.style.whiteSpace="pre",document.body.contains(e)&&window.getComputedStyle){var s=window.getComputedStyle(e);s&&(n.style.fontSize=s.fontSize,n.style.fontFamily=s.fontFamily,n.style.fontWeight=s.fontWeight,n.style.fontStyle=s.fontStyle,n.style.letterSpacing=s.letterSpacing,n.style.textTransform=s.textTransform,n.style.padding=s.padding)}document.body.appendChild(n),t&&n.offsetWidth!==e.offsetWidth&&(i=n.offsetWidth+4),document.body.removeChild(n)}return i+"px"},t.sortByAlpha=function(e,t){var i=(e.label||e.value).toLowerCase(),n=(t.label||t.value).toLowerCase();return i<n?-1:i>n?1:0},t.sortByScore=function(e,t){return e.score-t.score},t.triggerEvent=function(e,t){var i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,n=new CustomEvent(t,{detail:i,bubbles:!0,cancelable:!0});return e.dispatchEvent(n)}},function(e,t){"use strict";!function(){function e(e,t){t=t||{bubbles:!1,cancelable:!1,detail:void 0};var i=document.createEvent("CustomEvent");return i.initCustomEvent(e,t.bubbles,t.cancelable,t.detail),i}Array.from||(Array.from=function(){var e=Object.prototype.toString,t=function(t){return"function"==typeof t||"[object Function]"===e.call(t)},i=function(e){var t=Number(e);return isNaN(t)?0:0!==t&&isFinite(t)?(t>0?1:-1)*Math.floor(Math.abs(t)):t},n=Math.pow(2,53)-1,s=function(e){var t=i(e);return Math.min(Math.max(t,0),n)};return function(e){var i=this,n=Object(e);if(null==e)throw new TypeError("Array.from requires an array-like object - not null or undefined");var o,r=arguments.length>1?arguments[1]:void 0;if("undefined"!=typeof r){if(!t(r))throw new TypeError("Array.from: when provided, the second argument must be a function");arguments.length>2&&(o=arguments[2])}for(var a,c=s(n.length),l=t(i)?Object(new i(c)):new Array(c),h=0;h<c;)a=n[h],r?l[h]="undefined"==typeof o?r(a,h):r.call(o,a,h):l[h]=a,h+=1;return l.length=c,l}}()),Array.prototype.find||(Array.prototype.find=function(e){if(null==this)throw new TypeError("Array.prototype.find called on null or undefined");if("function"!=typeof e)throw new TypeError("predicate must be a function");for(var t,i=Object(this),n=i.length>>>0,s=arguments[1],o=0;o<n;o++)if(t=i[o],e.call(s,t,o,i))return t}),e.prototype=window.Event.prototype,window.CustomEvent=e}()}])});
+//# sourceMappingURL=choices.min.js.map
+
+</script>
+</body>
+</html>
