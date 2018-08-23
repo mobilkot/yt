@@ -102,24 +102,24 @@ function loadRegions(tarif, jsondata) {
 
 
 {
-    var source = ` <div class="d-table">
+    var source = ` <div class="yopta_d-table">
 
-            <div class="d-tr">
-                <div class="d-td no-p">
-                    <div class="d-table">
-                        <div class="d-tr">
-                            <div class="d-td">
-                                <textarea readonly class="b_summary_tarif_text_blablabla" id="b_tafir_summary_input" placeholder="Пока ничего не выбрано :( " onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"></textarea>
+            <div class="yopta_d-tr">
+                <div class="yopta_d-td yopta_no-p">
+                    <div class="yopta_d-table">
+                        <div class="yopta_d-tr">
+                            <div class="yopta_d-td">
+                                <textarea readonly class="yopta_b_summary_tarif_text" id="yopta_b_tafir_summary_input" placeholder="Пока ничего не выбрано :( " onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"></textarea>
                             </div>
                         </div>
-                        <div class="d-tr">
-                            <div class="d-td">
-                                <textarea readonly class="b_summary_tarif_text_blablabla" id="b_tafir_summary_input1" placeholder="  " onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"></textarea>
+                        <div class="yopta_d-tr">
+                            <div class="yopta_d-td">
+                                <textarea readonly class="yopta_b_summary_tarif_text" id="yopta_b_tafir_summary_input1" placeholder="  " onmousedown="mDown(this)" onmouseup="mUp(this)" onmouseover="mOver(this)" onmouseout="mOut(this)"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-td no-p" >
+                <div class="yopta_d-td yopta_no-p" >
                     <div  id="tapps" class="divTableCell"  >
                         <div class="divTable">
                             <div class="divTableBody">
@@ -216,7 +216,7 @@ function loadRegions(tarif, jsondata) {
 
 }
 
-document.getElementById('legoyota').innerHTML=source;
+document.getElementById('yopta_legoyota').innerHTML=source;
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -286,10 +286,10 @@ function VisibleClearBody(type) {
           /*  document.getElementById("switch-radio-off-2").checked = false;
             document.getElementById("switch-radio-on-2").checked = false;*/
 
-            document.getElementById("legoyota").style.display = "none";
+            document.getElementById("yopta_legoyota").style.display = "none";
 
-            document.getElementById("b_tafir_summary_input1").innerHTML = "";
-            document.getElementById("b_tafir_summary_input").innerHTML = "";
+            document.getElementById("yopta_b_tafir_summary_input1").innerHTML = "";
+            document.getElementById("yopta_b_tafir_summary_input").innerHTML = "";
             document.getElementById("tminute0").innerHTML = "";
             document.getElementById("tgbite0").innerHTML = "";
             document.getElementById("id-Тарифы[Тест]-СтоимостьвызововиSMS").nextElementSibling.innerHTML = "Выбери тариф и регион";
@@ -302,7 +302,7 @@ function VisibleClearBody(type) {
         case "lego":case "plaphone":case "tabt":
             VisibleClearBody("clear");
 
-            document.getElementById("legoyota").style.display = "block";
+            document.getElementById("yopta_legoyota").style.display = "block";
             document.getElementById("tminute0").style.visibility = "visible";
             document.getElementById("tgbite0").style.visibility = "visible";
 
@@ -326,7 +326,7 @@ function VisibleClearBody(type) {
     }
 
     var scale = 1;
-    var info = document.getElementById("b_tafir_summary_input");//
+    var info = document.getElementById("yopta_b_tafir_summary_input");//
     addOnWheel(info, function(e) {
         var delta = e.deltaY || e.detail || e.wheelDelta;
 
@@ -368,7 +368,7 @@ let log = document.getElementById('spans');
 var selected_items = []; //id чекнутых бмп
 var cur_mCount, cur_mPrice, cur_gCount, cur_gPrice; //Выбранные минуты,цена,трафик,цена
 
-var outputSummary = document.getElementById("b_tafir_summary_input");  // элемент, куда отдается итоговый текст о тарифе
+var outputSummary = document.getElementById("yopta_b_tafir_summary_input");  // элемент, куда отдается итоговый текст о тарифе
 
 
 //TODO Отображение условий в домашнем регионе и нет
@@ -555,7 +555,7 @@ function summaryOutput() {
 
     }
     if ( (gcheck.length + mcheck.length)  === 2 )  {
-        document.getElementById("b_tafir_summary_input").innerHTML = text;
+        document.getElementById("yopta_b_tafir_summary_input").innerHTML = text;
         summaryOutput2(selected_items, cur_mCount ,cur_gCount);
     } else {
 
@@ -594,7 +594,7 @@ function summaryOutput2(apps, cminut, cgbites) {
         });
     }
 
-    document.getElementById("b_tafir_summary_input1").innerHTML = text;
+    document.getElementById("yopta_b_tafir_summary_input1").innerHTML = text;
 }
 
 
@@ -668,11 +668,7 @@ function checkType(node) {
 
 //Функция ввода из поля "например"
 var input_MN = document.getElementById('regions_call');
-function example_region(stran){
-    input_MN.value = stran;
-    startInclude_MN();
 
-}
 
 function addRow(id, region, mins, gbites, sms, snPrice, mePrice, youtube){
 
