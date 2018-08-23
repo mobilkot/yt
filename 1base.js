@@ -286,7 +286,7 @@ function VisibleClearBody(type) {
           /*  document.getElementById("switch-radio-off-2").checked = false;
             document.getElementById("switch-radio-on-2").checked = false;*/
 
-            document.getElementById("legoyota").style.display = "none";
+            //document.getElementById("legoyota").style.display = "none";
 
             document.getElementById("b_tafir_summary_input1").innerHTML = "";
             document.getElementById("b_tafir_summary_input").innerHTML = "";
@@ -302,7 +302,7 @@ function VisibleClearBody(type) {
         case "lego":case "plaphone":case "tabt":
             VisibleClearBody("clear");
 
-            document.getElementById("legoyota").style.display = "block";
+            //document.getElementById("legoyota").style.display = "block";
             document.getElementById("tminute0").style.visibility = "visible";
             document.getElementById("tgbite0").style.visibility = "visible";
 
