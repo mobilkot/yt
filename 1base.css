@@ -331,7 +331,7 @@ input[type="checkbox"]:checked + label {
     top: -20px;
 }
 
-.b-region-search__formwrap {
+.b-region-search__formwrap_blablabla {
     position: relative;
     border: 1px solid #F3F3F3;
     width: 520px;
