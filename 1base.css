@@ -105,18 +105,18 @@
     box-sizing: border-box;
 }
 
-.d-table {
+.yopta_d-table {
     display: table;
     font-size: 11px;
     border-collapse: collapse;
 }
 
-.d-tr {
+.yopta_d-tr {
     display: table-row;
 
 }
 
-.d-td {
+.yopta_d-td {
     display: table-cell;
     text-align: center;
     border: none;
@@ -125,11 +125,11 @@
 
 }
 
-.d-td:not(.no-p) {
+.yopta_d-td:not(.yopta_no-p) {
     padding: 0px;
 }
 
-.d-td-tariff {
+.yopta_d-td-tariff {
     display: table-cell;
     text-align: left;
     border: none;
@@ -147,7 +147,7 @@
     -webkit-user-modify: read-write-plaintext-only;
 }
 
-.d-td-tariff-head {
+.yopta_d-td-tariff-head {
     display: table-cell;
     text-align: left;
     border: none;
@@ -321,17 +321,17 @@ input[type="checkbox"]:checked + label {
 / / красный
 }
 
-.search_alt_blablabla {
+.yopta_search_alt {
     margin-top: 20px;
     position: relative;
 }
 
-.legoyota {
+.yopta_legoyota {
     position: relative;
     top: 0px;
 }
 
-.b-region-search__formwrap_blablabla {
+.yopta_b-region-search__formwrap {
     position: relative;
     border: 1px solid #F3F3F3;
     width: 520px;
@@ -346,12 +346,12 @@ input[type="checkbox"]:checked + label {
     -o-box-shadow: inset 0 1px 4px -1px #d8d8d8;
 }
 
-.b_summary_tarif_form_blablabla {
+.yopta_b_summary_tarif_form {
     overflow: hidden;
 
 }
 
-.b_summary_tarif_text_blablabla {
+.yopta_b_summary_tarif_text {
 
     padding: 8px 4px;
 
@@ -776,6 +776,6 @@ table {
     box-shadow: 0 3px 8px 0 rgba(0, 0, 0, .2), 0 0 0 1px rgba(0, 0, 0, .08);
 }
 
-.legoyota {
+.yopta_legoyota {
     display: none;
 }
