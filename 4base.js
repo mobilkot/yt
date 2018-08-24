@@ -13,7 +13,7 @@ function loadJSOND() {
         if ( reqw.readyState == 4 ) {
             if ( reqw.status == 200 ) {
                  importJsond(reqw.response);
-                 console.log(reqw.response);
+
 
             }
         }
@@ -189,9 +189,8 @@ function importJsond(jsondatas) {
                                         <input id="app-vk_tabt" class="input_app-vk" type="checkbox" name="select_apps_tabt" value="1" onchange="checkAppsTabt(this)">  <label for="app-vk_tabt" class="layout-buttons"><span> <div data-name="vk" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"><div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg"><circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle><circle class="activated" fill="#5A7DA3" cx="20.5" cy="20.5" r="60"></circle> <path d="M28.8 20.4c.7-.9 1.4-1.9 2-2.8.3-.4.4-.9.7-1.4 0 0 0-.1.1-.1v-.3c-.2-.4-.5-.4-.8-.4h-3.9c-.6 0-.8.1-1 .7-.3.6-.5 1.2-.8 1.7-.4.9-.9 1.7-1.5 2.5-.3.4-.6.7-.9 1-.2.2-.5.2-.7-.1-.2-.2-.3-.5-.3-.8V19v-2.9c0-.2 0-.4-.1-.6-.1-.3-.4-.5-.8-.5H17c-.5 0-.8.2-1.1.6-.1.2-.1.3.1.3.4.1.8.3 1 .6.1.2.2.4.2.6.2 1.1.2 2.3 0 3.5 0 .2-.1.5-.2.7-.2.3-.4.4-.8.2-.2-.1-.4-.3-.5-.5-.4-.6-.9-1.2-1.3-1.9-.3-.5-.6-1.1-.9-1.7-.2-.4-.3-.7-.5-1.1-.2-.5-.6-.8-1.1-.8H8.5c-.2 0-.4.1-.5.3v.3c.3.7.6 1.4 1 2.1.6 1.1 1.2 2.3 1.8 3.4.5.9 1.1 1.7 1.7 2.6.7 1 1.5 1.8 2.4 2.5 1 .7 2.1 1.2 3.3 1.4.9.2 1.7.2 2.6.1.5 0 .7-.3.8-.8.1-.5.1-.9.2-1.4.1-.3.2-.6.4-.8.2-.2.5-.2.8 0 .3.2.6.5.9.8.4.5.9.9 1.3 1.4.5.5 1.2.8 2 .8h3.3c.6 0 .8-.2.9-.7v-.2c-.2-.8-.8-1.4-1.3-2L28 23.2c-.1-.1-.2-.2-.3-.4-.2-.4-.2-.8.1-1.1.4-.5.7-.9 1-1.3z" fill="#FFF"></path> </svg>
                                         <div class="b2c-voice-collect__app-price" data-name="app-social_tabt"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
                                     </div>
-
-                                    <div class="divTableCell">
-                                        <input id="app-ig_tabt" class="input_app-ig" type="checkbox" name="select_apps_tabt" value="4" onchange="checkAppsTabt(this)">  <label for="app-ig_tabt" class="layout-buttons"><span> <div data-name="instagram" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle><linearGradient class="enableflow1" x1="36.7393%" y1="74.3071%" x2="77.4217%" y2="-.2646%" id="a"> <stop stop-color="#F5BB58" offset="0%"></stop> <stop stop-color="#D22C78" offset="57.65%"></stop> <stop stop-color="#5959C5" offset="100%"></stop> </linearGradient> <circle class="activated" fill="url(#a)" cx="20.5" cy="20.5" r="60"></circle> <path d="M21.9 7h-3.2C12.2 7 7 12.3 7 18.7v3.1c0 6.5 5.3 11.7 11.7 11.7h3.2c6.5 0 11.7-5.3 11.7-11.7v-3.1C33.6 12.2 28.4 7 21.9 7zm9.6 14.7c0 5.3-4.3 9.6-9.6 9.6h-3.2c-5.3 0-9.6-4.3-9.6-9.6v-3.1c0-5.3 4.3-9.6 9.6-9.6h3.2c2.4 0 4.6.9 6.2 2.3-.2 0-.3-.1-.5-.1-1 0-1.8.8-1.8 1.8s.8 1.8 1.8 1.8 1.8-.8 1.8-1.8v-.3c1.3 1.6 2.1 3.7 2.1 5.9v3.1zm-11.1-8.3c-3.8 0-6.9 3.1-6.9 6.9 0 3.8 3.1 6.9 6.9 6.9 3.8 0 6.9-3.1 6.9-6.9 0-3.8-3.1-6.9-6.9-6.9zm0 11.7c-2.7 0-4.8-2.2-4.8-4.8 0-2.7 2.2-4.8 4.8-4.8 2.7 0 4.8 2.2 4.8 4.8 0 2.7-2.2 4.8-4.8 4.8z" fill="#FFF"></path> </svg>
+                                   <div class="divTableCell">
+                                        <input id="app-ig_tabt" class="input_app-ig" type="checkbox" name="select_apps_tabt" value="4" onchange="checkAppsTabt(this)">  <label for="app-ig_tabt" class="layout-buttons"><span> <div data-name="instagram1" class="b2c-voice-collect__app js-b2c-voice-collect-app b2c-voice-collect__app_active"> <div class="b2c-voice-collect__app-icon"> <svg width="35" height="40" viewBox="0 -5 40 40" xmlns="http://www.w3.org/2000/svg">  <circle class="enableflow" fill="#888888" cx="20.5" cy="20.5" r="60"></circle><linearGradient class="enableflow" x1="36.7393%" y1="74.3071%" x2="77.4217%" y2="-.2646%" id="a"> <stop stop-color="#F5BB58" offset="0%"></stop> <stop stop-color="#D22C78" offset="57.65%"></stop> <stop stop-color="#5959C5" offset="100%"></stop> </linearGradient> <circle class="activated" fill="url(#a)" cx="20.5" cy="20.5" r="60"></circle> <path d="M21.9 7h-3.2C12.2 7 7 12.3 7 18.7v3.1c0 6.5 5.3 11.7 11.7 11.7h3.2c6.5 0 11.7-5.3 11.7-11.7v-3.1C33.6 12.2 28.4 7 21.9 7zm9.6 14.7c0 5.3-4.3 9.6-9.6 9.6h-3.2c-5.3 0-9.6-4.3-9.6-9.6v-3.1c0-5.3 4.3-9.6 9.6-9.6h3.2c2.4 0 4.6.9 6.2 2.3-.2 0-.3-.1-.5-.1-1 0-1.8.8-1.8 1.8s.8 1.8 1.8 1.8 1.8-.8 1.8-1.8v-.3c1.3 1.6 2.1 3.7 2.1 5.9v3.1zm-11.1-8.3c-3.8 0-6.9 3.1-6.9 6.9 0 3.8 3.1 6.9 6.9 6.9 3.8 0 6.9-3.1 6.9-6.9 0-3.8-3.1-6.9-6.9-6.9zm0 11.7c-2.7 0-4.8-2.2-4.8-4.8 0-2.7 2.2-4.8 4.8-4.8 2.7 0 4.8 2.2 4.8 4.8 0 2.7-2.2 4.8-4.8 4.8z" fill="#FFF"></path> </svg>
                                         <div class="b2c-voice-collect__app-price" data-name="app-social_tabt"   tooltip-position='left'> 20&#8381; </div> </div> </div></span></label>
                                     </div>
                                     <div class="divTableCell">
@@ -260,18 +259,18 @@ function importJsond(jsondatas) {
 
 
 
-        <fieldset class="switch" id="switch-radio" >
-            <input type="radio" name="switch-2" id="switch-radio-off-2" class="switch-radio switch-radio-off" onchange="summaryOutput()">
-            <label for="switch-radio-off-2" class="switch-label switch-label-off">
+        <fieldset class="switch" id="switch-radio_tabt" >
+            <input type="radio" name="switch-2" id="switch-radio-off-2_tabt" class="switch-radio switch-radio-off" onchange="summaryOutputTabt()">
+            <label for="switch-radio-off-2_tabt" class="switch-label switch-label-off">
                 Выкл.
                 <span class="switch-slider"></span>
             </label>
-            <input type="radio" checked name="switch-2" id="switch-radio-on-2" class="switch-radio switch-radio-on" onchange="summaryOutput()">
-            <label for="switch-radio-on-2" class="switch-label switch-label-on">
+            <input type="radio" checked name="switch-2" id="switch-radio-on-2_tabt" class="switch-radio switch-radio-on" onchange="summaryOutputTabt()">
+            <label for="switch-radio-on-2_tabt" class="switch-label switch-label-on">
                 Вкл.
                 <span class="switch-slider"></span>
             </label>
-        </fieldset><label for="switch-radio">ToV HARD</label>`;
+        </fieldset><label for="switch-radio_tabt">ToV HARD</label>`;
 
 }
 
@@ -635,7 +634,7 @@ function summaryOutputTabt() {
 
     //VoiceTariffs();
 
-    var hardToVmode = document.getElementById("switch-radio-on-2").checked;
+    var hardToVmode = document.getElementById("switch-radio-on-2_tabt").checked;
 
 
 
