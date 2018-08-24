@@ -1,6 +1,7 @@
 {
-  "regions":[
-  {"id":"2042925" ,"name":"Алтайский край" ,"2hour":"50" ,"24hour":"150" ,"24hour":"100" ,"voice_add_100":"150" ,"sms_base":"50" ,"min_over_pack":"1,9" ,"sms_over_pack":"1,9" ,"pag_voice":"3,5" ,"pag_sms":"2,5" ,"pag_voice_inbound":"1,9"  }
+  "regions": [
+ {"id":"2042925" ,"name":"Алтайский край" ,"r2hour":"50" ,"r24hour":"150" ,"24hour":"100" ,"voice_add_100":"150" ,"sms_base":"50" ,"min_over_pack":"1,9" ,"sms_over_pack":"1,9" ,"pag_voice":"3,5" ,"pag_sms":"2,5" ,"pag_voice_inbound":"1,9"  }
+  
   ],
 "type_rate": ""
 
