@@ -1,14 +1,22 @@
-var customTemplates;
+var customTemplates; //Поисковая строка (условия в РФ)
+var searchOutRussia; //Поисковая строка МН звонков
+var searchRoaming; //Поисковая строка роуминг
+
 var jsondata;
+var jsondataOutRussia;
+
+var sampleLogin = "1099";
 
 let init_rate_russia;
-let init_rate_out_russia;
-let init_rate_roaming;
+let init_rate_outrussia;
 let init_potential_users;
 
 
 //Ссылка на JSON с тарифами РФ
 const rate_russia = "https://raw.githubusercontent.com/mobilkot/yt/master/rate_russia.json";
+
+//Ссылка на JSON с МН руомингом и международными вызовами
+const rate_outrussia = "https://raw.githubusercontent.com/mobilkot/yt/master/roaming.json";
 
 //Линейки тарифов, основанные на конструкторе
 const type_lego = ["plaphone", "tabt"];
@@ -17,6 +25,9 @@ const type_rates = ["ph_unlim", "tab_unlim", "abca", "abcb" ,"modem", "plaphone_
 function StartInit() {
     init_rate_russia = new Initialization(rate_russia); //Инициализация условий в РФ
     getJSON(rate_russia, importRateRussia); //Загрузка JSON условий в РФ, передача в обработчик
+
+    init_rate_outrussia = new Initialization(rate_outrussia); //Инициализация условий МНР и Мнзвонков
+    getJSON(rate_outrussia, importRateOutRussia); //Загрузка JSON условий, передача в обработчик
 
 
 }
@@ -83,6 +94,45 @@ function importRateRussia(jsondatas) {
     });
     customTemplates.setChoices(choices1212, 'value', 'label', 0);
 }
+
+function importRateOutRussia(jsondatas) {
+
+
+    jsondataOutRussia= this;
+
+    searchOutRussia.enable();
+    searchOutRussia.clearStore();
+    let listOutRussia= [];
+    let OutRussia = jsondataOutRussia.intervoice;
+    OutRussia.forEach(function (e) {
+        {
+            listOutRussia.push({
+                value: e.id.toString(),
+                label: e.name + " (" + e.zone + ") ",
+                disabled: false,
+                customProperties: {description: e.name + " (" + e.zone + ") "}
+            });
+        }
+    });
+    searchOutRussia.setChoices(listOutRussia, 'value', 'label', 0);
+
+    searchRoaming.enable();
+    searchRoaming.clearStore();
+    let listRoaming= [];
+    let Roaming = jsondataOutRussia.countries;
+    Roaming.forEach(function (e) {
+        {
+            listRoaming.push({
+                value: e.id.toString(),
+                label: e.name,
+                disabled: false,
+                customProperties: {description: e.name}
+            });
+        }
+    });
+    searchRoaming.setChoices(listRoaming, 'value', 'label', 0);
+}
+
 
 
  /*
@@ -403,8 +453,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     StartInit(); //Общая инициализация
 
+
     //инициализация поисковой строки
-    customTemplates = new Choices(document.getElementById('regions_call'), {
+    customTemplates =  customTemplates = new Choices(document.getElementById('regions_call'), {
         searchFields: ['customProperties.description'],
         placeholderValue: 'This is a placeholder set in the config',
         searchPlaceholderValue: 'Наверное, это поле поиска..',
@@ -448,12 +499,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //евернт на изменение региона
     customTemplates.passedElement.addEventListener('change', function(e) {
-
-
         initLegoRates(e.detail.value, initOtherRates); //Загрузка JSON условий в РФ, передача в обработчик
-
-
     });
+
+
+    searchOutRussia = new Choices(document.getElementById('countries_call'), {
+        placeholderValue: 'This is a placeholder set in the config',
+        searchPlaceholderValue: 'Наверное, это поле поиска..',
+        placeholder: true,
+        searchFields: ['label', 'value', 'customProperties.description'],
+    });
+    //евернт на изменение региона
+    searchOutRussia.passedElement.addEventListener('change', function(e) {
+        initOotRussiaRates(e.detail.value);
+    });
+
+
+    searchRoaming = new Choices(document.getElementById('roaming_call'), {
+        placeholderValue: 'This is a placeholder set in the config',
+        searchPlaceholderValue: 'Наверное, это поле поиска..',
+        placeholder: true,
+        searchFields: ['label', 'value', 'customProperties.description'],
+    });
+    //евернт на изменение региона
+    searchRoaming.passedElement.addEventListener('change', function(e) {
+        initRoamingRatesProviders(e.detail.value, initRoamingRates);
+    });
+
+
 
 
 });
@@ -955,13 +1028,11 @@ function initLegoRates(region, callback) {
                     {
                         let type = type_lego[x];
 
-/*
-
                         //TODO: Стоимость опций. Оптимизировать запись и получение в get\set
-                        init_apps = new OptionsApps(type);
+                      /*  init_apps = new OptionsApps(type);
                         init_apps.setData(cur_region_teriff.sms_base, cur_region_teriff[type].social, cur_region_teriff[type].messenger, cur_region_teriff[type].youtube);
-                        var unlimApps = OptionsApps.getData(type);
-*/
+                        var unlimApps = OptionsApps.getData(type);*/
+
 
 
                         createLegoBlock(type, function () {
@@ -1122,9 +1193,7 @@ SMS/MMS (поштучно, руб.): ${checked_region.sms_over_pack} руб.<br>
 Стоимость минуты сверх пакета (руб.): ${checked_region.min_over_pack} руб</tr><br> 
 </tr></tbody>`;
     }
-    else {
-        var text_of_yopta_old_plaphone = "";
-    }
+    else  var text_of_yopta_old_plaphone = "";
     yopta_old_plaphone.innerHTML = text_of_yopta_old_plaphone;
 
 
@@ -1158,7 +1227,7 @@ SMS/MMS — ${checked_region.sms_pag_tab} руб. за штуку.<br>
             <tr><b>Диапазон скоростей</b><br>
             ${checked_region.modem.rangespeed}</tr><br>
             <tr><b>Длинные тарифы</b><br>
-            ${checked_region.modem.year}
+            ${checked_region.modem.year}<br>
             </tr><tr>
             <b>Турбокнопки</b><br>
             ${checked_region.modem.turbo}<br>
@@ -1177,6 +1246,176 @@ SMS/MMS — ${checked_region.sms_pag_tab} руб. за штуку.<br>
 
 
 }
+
+function initOotRussiaRates(checked_contry) {
+
+    var yopta_outrussia = document.getElementById('yopta_outrussia');
+    var countries = jsondataOutRussia.intervoice;
+
+
+    countries.forEach(function (e) {
+        {
+            if (e.id.toString() === checked_contry) {
+
+                var text_of_yopta_outrussia = `    <div className="b-roaming-operators-table i-bem"> 
+                    <ul id="myTable_MN" className="b-roaming-operators-table__inner" style="font-size: 14px;"> 
+                    <li><b style="color:#00bbf2">${e.zone}</b></li>
+                    <li>Страна: ${e.name}</li>
+                    <li>Исходящие вызовы: ${e.minute} р./мин.</li>
+                    <li>SMS: ${e.sms} р./шт.</li>
+                    <li>MMS: ${e.mms} р./шт.</li>
+                    </ul>
+                </div>`;
+                yopta_outrussia.innerHTML = text_of_yopta_outrussia;
+
+            }
+        }
+    });
+
+
+//     var unlim_phone = checked_region.ph_unlim.tariffs;
+//     var list_unlim_phone = "";
+//     var list_unlim_phone_archived = "";
+// // name = current, mins
+//     unlim_phone.forEach(function (e) {
+//
+//         if (e.name === "current") {
+//             for (x in e.mins) {
+//                 list_unlim_phone += `Пакет ${e.mins[x][0]} минут - ${e.mins[x][1]} рублей<br>`;
+//             }
+//         } else if (e.name === "archived") {
+//             for (x in e.mins) {
+//                 list_unlim_phone_archived += `Пакет ${e.mins[x][0]} минут - ${e.mins[x][1]} рублей<br>`;
+//             }
+//         }
+//
+//     });
+
+
+
+
+
+
+
+
+
+}
+
+
+function initRoamingRatesProviders(checked_contry, callback) {
+    var roaming = jsondataOutRussia;
+    var providers_lte = roaming.providers_lte;
+    var countries = roaming.countries;
+    var providers = roaming.providers;
+
+    var rate = {};
+    var provider = [];
+    var provider_lte = [];
+    countries.forEach(function (e) {
+            if (e.id.toString() === checked_contry) rate = e;
+    });
+
+    providers_lte.forEach(function (e) {
+            if (e.id.toString() === checked_contry)
+                provider_lte.push(e);
+    });
+
+    providers.forEach(function (e) {
+        if (e.id.toString() === checked_contry)
+            provider.push(e);
+    });
+    var current_country_provider = {rate: rate, provider: provider, provider_lte: provider_lte};
+    callback.call(current_country_provider);
+}
+
+
+function initRoamingRates(checked_contry) {
+
+
+    var checked_contry = this;
+
+    var yopta_roaming_providers = document.getElementById('yopta_roaming_providers');
+    var yopta_roaming_providers_lte = document.getElementById('yopta_roaming_providers_lte');
+    var yopta_roaming = document.getElementById('yopta_roaming');
+
+
+                var text_of_yopta_roaming = `      <div className="b-roaming-operators-table i-bem"> 
+            <tbody> 
+            <tr><b>${checked_contry.rate.name}</b></tr><br>
+            <tr><b>Интернет.</b><br>
+            Стоимость 1 мегабайта при наличии подключенного пакета: ${checked_contry.rate.mb_price} руб. Тарификация по 100 КБ.<br>
+            После использования ${checked_contry.rate.paid_mb} платных МБ, ${checked_contry.rate.free_mb} МБ - бесплатно.</tr><br>
+            <tr><b>Звонки.</b><br>
+            <br>Стоимость входящих звонков: ${checked_contry.rate.invoice} руб./мин.<br>
+            Стоимость опции "30 минут бесплатных входящих в день": ${checked_contry.rate.m30min} руб.</tr><br>
+            <tr>Минута: <ul> 
+            <li>исходящих звонков в РФ: ${checked_contry.rate.out_rf} руб.</li>
+            <li>исходящих звонков внутри страны: ${checked_contry.rate.out_country} руб.</li>
+            <li>исходящих звонков в другие страны: ${checked_contry.rate.out_other} руб. </li>
+            </ul><b>SMS</b> (включая бесплатные в РФ номера): <ul>
+            <li>исходящие: ${checked_contry.rate.out_sms} руб.</li>
+            <li>входящие : ${checked_contry.rate.in_sms} руб.</li>
+            </ul><b>MMS</b>: <ul>
+            <li>исходящие: ${checked_contry.rate.out_mms}</li>
+            <li>входящие: Стоимость интернет-сессии.</li></ul>
+            </tr><tr><br>Стоимость 1 Мб, если не оплачен основной пакет (Базовый, Региональный, ...): ${checked_contry.rate.mb_base} руб.<br>
+            Стоимость минуты исходящих звонков на спутниковые сети (Thuraya, Inmarsat,...): 313 руб./мин.</tr></tr></tbody>
+        </table></div>`;
+                yopta_roaming.innerHTML = text_of_yopta_roaming;
+
+    var operators = "";
+    var providers = checked_contry.provider;
+
+    operators += `<tr><b>${checked_contry.rate.name}</b></tr><br> `;
+    for (var i = 0; i < providers.length; i++) {
+       var p = providers[i].providers;
+       if (providers[i].name !=="") operators += `<tr><b>${providers[i].name}</b></tr><br> `;
+          for (var x in p) {
+              operators += `<tr>${p[x]}</tr><br> `;
+          }
+    }
+
+    var text_of_yopta_roaming_providers = ` 
+            <tbody> 
+            ${operators}
+            </tbody> `;
+    yopta_roaming_providers.innerHTML = text_of_yopta_roaming_providers;
+
+
+
+    var operators_lte = "";
+    var providers_lte = checked_contry.provider_lte;
+
+
+    for (var i = 0; i < providers_lte.length; i++) {
+        operators_lte += `<tr><b>${providers_lte[i].name}</b></tr><br> `;
+        var p = providers_lte[i].providers;
+        for (var x in p) {
+            operators_lte += `<tr>${p[x]}</tr><br> `;
+        }
+    }
+
+    var text_of_yopta_roaming_providers_lte = ` 
+            <tbody> 
+            ${operators_lte}
+            </tbody> `;
+    yopta_roaming_providers_lte.innerHTML = text_of_yopta_roaming_providers_lte;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
 const phrasesInet =[
 // Название, группа, базовая стоимость, альт.название
     {id: 0, phrase: " Этого хватит для минимального использования интернета, он практически не используется (нужен редко/иногда/только для поиска информации)"},
