@@ -1,4 +1,4 @@
- /* Switch */
+/* Switch */
 .switch,
 .switch-label,
 .switch-slider {
@@ -350,7 +350,7 @@ div .panel {
     position: relative;
     border: 1px solid #F3F3F3;
     width: 520px;
-
+    z-index: 999;
     border-top-color: #D8D8D8;
     font-size: 12px;
     padding: 0 0px 0 0px;
