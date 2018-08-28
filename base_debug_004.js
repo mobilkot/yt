@@ -1404,13 +1404,13 @@ function initRoamingRates(checked_contry) {
     yopta_roaming_providers_lte.innerHTML = text_of_yopta_roaming_providers_lte;
 
     if (operators_lte === "") {
-        var element_yopta_roaming_providers_lte = document.querySelectorAll('li .menu-item bv-localtab > a[href="#roaming_providers_lte"]');
-        element_yopta_roaming_providers_lte[0].style.opacity = 0.3;
-    } else {element_yopta_roaming_providers_lte[0].style.opacity = 1;}
+        var element_yopta_roaming_providers_lte = document.querySelector('li .menu-item bv-localtab > a[href="#roaming_providers_lte"]');
+        element_yopta_roaming_providers_lte.style.opacity = 0.3;
+    } else {element_yopta_roaming_providers_lte.style.opacity = 1;}
     if (operators === "") {
-        var element_yopta_roaming_providers = document.querySelectorAll('li .menu-item bv-localtab > a[href="#roaming_providers"]');
-        element_yopta_roaming_providers[0].style.opacity = 0.3;
-    } else {element_yopta_roaming_providers[0].style.opacity = 1;}
+        var element_yopta_roaming_providers = document.querySelector('li .menu-item bv-localtab > a[href="#roaming_providers"]');
+        element_yopta_roaming_providers.style.opacity = 0.3;
+    } else {element_yopta_roaming_providers.style.opacity = 1;}
 
 
 
