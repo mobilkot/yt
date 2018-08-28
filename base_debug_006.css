@@ -1,4 +1,4 @@
-/* Switch */
+ /* Switch */
 .switch,
 .switch-label,
 .switch-slider {
@@ -332,12 +332,14 @@ input[type="checkbox"]:checked + label {
     z-index: 109;
 }
 
+/*
 #regions_call {
     z-index: 998;
 }
 #countries_call, #roaming_call {
     z-index: 999;
 }
+*/
 
 div .panel {
     background-color: LightSteelBlue;border-width: 1px;
