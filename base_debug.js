@@ -593,12 +593,12 @@ function VoiceTariffs(type, mins) {
                     <tr><td class="confluenceTd">Вызовы на Yota по РФ: </td><td class="confluenceTd">${cur_region_teriff.voice_pag_tabt} руб./мин.</td></tr> 
                     <tr><td class="confluenceTd" colspan="2">Входящие вызовы при нахождении в любом регионе, за исключением Республики Крым и города Севастополя — бесплатны. </td>
                     <tr><td class="confluenceTd">Исходящие SMS сообщения по РФ (без опции): </td><td class="confluenceTd">${cur_region_teriff.sms_pag_tabt} руб./шт.</td></tr>
-                    <tr><td class="confluenceTd" colspan="2">При подключении «дополнительных 100 минут» звонки Yota-Yota становятся бесплатными </td>  `;
+                    <tr><td class="confluenceTd" colspan="2">При подключении «дополнительных 100 минут» вся тарификация - как при активном пакете </td>  `;
         } else {
             texthtml += `
                     <tr><td class="confluenceTd">Стоимость минуты сверх пакета на всех операторов РФ: </td><td class="confluenceTd">${cur_region_teriff.voice_pag_tabt} руб./мин.</td></tr> 
                     <tr><td class="confluenceTd">Вызовы на Yota по РФ: </td><td class="confluenceTd"> Не тарифицируются </td></tr> 
-                     <tr><td class="confluenceTd" colspan="2">Входящие вызовы при нахождении в любом регионе, за исключением Республики Крым и города Севастополя — бесплатны. </td> 
+                     <tr><td class="confluenceTd" colspan="2">Входящие вызовы в любом регионе (кроме Республики Крым и г. Севастополя) — бесплатны. </td> 
                     <tr><td class="confluenceTd">Исходящие SMS сообщения по РФ (без опции): </td><td class="confluenceTd">${cur_region_teriff.sms_pag_tabt} руб./шт.</td></tr> `;
         }
     }
