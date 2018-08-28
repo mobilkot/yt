@@ -332,8 +332,15 @@ input[type="checkbox"]:checked + label {
     z-index: 109;
 }
 
+#regions_call {
+    z-index: 9999;
+}
+#countries_call, #roaming_call {
+    z-index: 9998;
+}
+
+
 .yopta_b-region-search__formwrap {
-    z-index: 600;
     position: relative;
     border: 1px solid #F3F3F3;
     width: 520px;
