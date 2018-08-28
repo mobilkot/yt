@@ -333,7 +333,7 @@ input[type="checkbox"]:checked + label {
 }
 
 .yopta_b-region-search__formwrap {
-    z-index: 999;
+    z-index: 600;
     position: relative;
     border: 1px solid #F3F3F3;
     width: 520px;
