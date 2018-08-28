@@ -20,7 +20,7 @@ const rate_outrussia = "https://raw.githubusercontent.com/mobilkot/yt/master/roa
 
 //Линейки тарифов, основанные на конструкторе
 const type_lego = ["plaphone", "tabt"];
-const type_rates = ["ph_unlim", "tab_unlim", "abca", "abcb" ,"modem", "plaphone_pld"];
+const type_rates = ["ph_unlim", "ph_unlim_archived", "tab_unlim", "abca", "abcb" ,"modem", "plaphone_pld"];
 
 function StartInit() {
     init_rate_russia = new Initialization(rate_russia); //Инициализация условий в РФ
@@ -115,6 +115,8 @@ function importRateOutRussia(jsondatas) {
         }
     });
     searchOutRussia.setChoices(listOutRussia, 'value', 'label', 0);
+    searchOutRussia.placeholderValue= 'Выберите страну';
+    searchOutRussia.searchPlaceholderValue= 'Наверное, это поле поиска..';
 
     searchRoaming.enable();
     searchRoaming.clearStore();
@@ -457,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //инициализация поисковой строки
     customTemplates =  customTemplates = new Choices(document.getElementById('regions_call'), {
         searchFields: ['customProperties.description'],
-        placeholderValue: 'This is a placeholder set in the config',
+        placeholderValue: 'Выберите страну',
         searchPlaceholderValue: 'Наверное, это поле поиска..',
         placeholder: true,
         callbackOnCreateTemplates: function(strToEl) {
@@ -504,10 +506,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     searchOutRussia = new Choices(document.getElementById('countries_call'), {
-        placeholderValue: 'This is a placeholder set in the config',
+        placeholderValue: 'Выберите страну',
         searchPlaceholderValue: 'Наверное, это поле поиска..',
         placeholder: true,
-        searchFields: ['label', 'value', 'customProperties.description'],
+        //searchFields: ['label', 'value', 'customProperties.description'],
     });
     //евернт на изменение региона
     searchOutRussia.passedElement.addEventListener('change', function(e) {
@@ -1366,8 +1368,9 @@ function initRoamingRates(checked_contry) {
     var operators = "";
     var providers = checked_contry.provider;
 
-    operators += `<tr><b>${checked_contry.rate.name}</b></tr><br> `;
+
     for (var i = 0; i < providers.length; i++) {
+        operators += `<tr><b>${checked_contry.rate.name}</b></tr><br> `;
        var p = providers[i].providers;
        if (providers[i].name !=="") operators += `<tr><b>${providers[i].name}</b></tr><br> `;
           for (var x in p) {
@@ -1380,7 +1383,6 @@ function initRoamingRates(checked_contry) {
             ${operators}
             </tbody> `;
     yopta_roaming_providers.innerHTML = text_of_yopta_roaming_providers;
-
 
 
     var operators_lte = "";
@@ -1401,7 +1403,14 @@ function initRoamingRates(checked_contry) {
             </tbody> `;
     yopta_roaming_providers_lte.innerHTML = text_of_yopta_roaming_providers_lte;
 
-
+    if (operators_lte === "") {
+        var element_yopta_roaming_providers_lte = document.querySelectorAll('li .menu-item bv-localtab > a[href="#roaming_providers_lte"]');
+        element_yopta_roaming_providers_lte[0].style.opacity = 0.3;
+    } else {element_yopta_roaming_providers_lte[0].style.opacity = 1;}
+    if (operators === "") {
+        var element_yopta_roaming_providers = document.querySelectorAll('li .menu-item bv-localtab > a[href="#roaming_providers"]');
+        element_yopta_roaming_providers[0].style.opacity = 0.3;
+    } else {element_yopta_roaming_providers[0].style.opacity = 1;}
 
 
 
