@@ -2,6 +2,7 @@ var customTemplates; //Поисковая строка (условия в РФ)
 var searchOutRussia; //Поисковая строка МН звонков
 var searchRoaming; //Поисковая строка роуминг
 
+
 var jsondata;
 var jsondataOutRussia;
 
