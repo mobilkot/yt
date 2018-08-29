@@ -1,17 +1,22 @@
-var customTemplates; //Поисковая строка (условия в РФ)
-var searchOutRussia; //Поисковая строка МН звонков
-var searchRoaming; //Поисковая строка роуминг
-
+var customTemplates;
+var searchOutRussia;
+var searchRoaming;
 
 var jsondata;
 var jsondataOutRussia;
 
-var sampleLogin = "1099";
+var rangeCheckedApps = [2, 4]; //Количество выделенных БМП на рандоме. От X до Y. [N, 0] - от N до всех, [0, N] - от ничего до N
+var favoriteCheckedApps = [1, 2, 4, 6, 7, 9]; //псевдорандом, если указаны, то выбирать рандом только из них (тут отсчет от ВК = 1)
+
+var sampleLogin = "VKoshkin";
 
 let init_rate_russia;
 let init_rate_outrussia;
 let init_potential_users;
-
+let phrases = [
+    {name:"Базовый",text:"Привет"},
+    {name:"ToV4iK",text:"Пока"}
+];
 
 //Ссылка на JSON с тарифами РФ
 const rate_russia = "https://raw.githubusercontent.com/mobilkot/yt/master/rate_russia.json";
@@ -46,9 +51,6 @@ class Initialization {
     }
 
     set data(newValue) {
-        //'https://raw.githubusercontent.com/mobilkot/yt/master/rate_russia.json'
-        //[this.firstName, this.lastName] = newValue.split(' ');
-        //this.link = newValue;
         this.jsondata = newValue;
 
     }
@@ -117,6 +119,7 @@ function importRateOutRussia(jsondatas) {
     });
     searchOutRussia.setChoices(listOutRussia, 'value', 'label', 0);
     searchOutRussia.placeholderValue= 'Выберите страну';
+
     searchOutRussia.searchPlaceholderValue= 'Наверное, это поле поиска..';
 
     searchRoaming.enable();
@@ -138,191 +141,36 @@ function importRateOutRussia(jsondatas) {
 
 
 
- /*
 
-function Machine(power) {
-    this._power = power; // (1)
 
-    this._enabled = false;
 
-    this.enable = function() {
-        this._enabled = true;
-    };
+function returnInfoBlock(type, text, title = "") {
 
-    this.disable = function() {
-        this._enabled = false;
-    };
+    var htmlcode=``;
+    var ttitle = ``;
+    if (title !== "") {ttitle = `<p className="title">${title}</p>`}
+    //<p className="title">Блаблабла</p>
+    switch (type) {
+        case "warning":
+            htmlcode=`<div className="confluence-information-macro confluence-information-macro-warning conf-macro output-block" data-hasbody="true" data-macro-name="warning">${ttitle}<span className="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"> </span><div className="confluence-information-macro-body"><p>${text}</p></div></div>`;
+            break;
+
+        case "tip":
+            htmlcode=`<div className="confluence-information-macro confluence-information-macro-tip conf-macro output-block" data-hasbody="true" data-macro-name="tip">${ttitle}<span className="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"> </span><div className="confluence-information-macro-body"><p>${text}</p></div></div>`;
+            break;
+
+        case "note":
+            htmlcode=`<div className="confluence-information-macro confluence-information-macro-note conf-macro output-block" data-hasbody="true" data-macro-name="note">${ttitle}<span className="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"> </span><div className="confluence-information-macro-body"><p>${text}</p></div></div>`;
+            break;
+
+        case "info":
+            htmlcode=`<div className="confluence-information-macro confluence-information-macro-information conf-macro output-block" data-hasbody="true" data-macro-name="info">${ttitle}<span className="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"> </span><div className="confluence-information-macro-body"><p>${text}</p></div></div>`;
+            break;
+
+    }
+
+  return htmlcode;
 }
-
-function CoffeeMachine(power, capacity) { // capacity - ёмкость кофеварки
-
-
-    Machine.apply(this, arguments); // (2)
-    Machine.call(this); // отнаследовать
-    alert( this._enabled ); // false
-    alert( this._power ); // 10000
-    var waterAmount = 0;
-
-    var parentEnable = this.enable; // (1)
-    this.enable = function() { // (2)
-        parentEnable.call(this); // (3)
-        this.run(); // (4)
-    }
-
-    var WATER_HEAT_CAPACITY = 4200;
-
-    function getTimeToBoil() {
-        return waterAmount * WATER_HEAT_CAPACITY * 80 / power;
-    }
-
-    // "умная" установка свойства
-    this.setWaterAmount = function(amount) {
-        if (amount < 0) {
-            throw new Error("Значение должно быть положительным");
-        }
-        if (amount > capacity) {
-            throw new Error("Нельзя залить воды больше, чем " + capacity);
-        }
-
-        waterAmount = amount;
-    };
-    this.getWaterAmount = function() {
-        return waterAmount;
-    };
-
-    this.waterAmount = function(amount) {
-        // вызов без параметра, значит режим геттера, возвращаем свойство
-        if (!arguments.length) return waterAmount;
-
-        // иначе режим сеттера
-        if (amount < 0) {
-            throw new Error("Значение должно быть положительным");
-        }
-        if (amount > capacity) {
-            throw new Error("Нельзя залить воды больше, чем " + capacity);
-        }
-
-        waterAmount = amount;
-    };
-
-    function onReady() {
-        alert( 'Кофе готов!' );
-    }
-
-    this.run = function() {
-        setTimeout(onReady, getTimeToBoil());
-    };
-
-}
-
-var coffeeMachine = new CoffeeMachine(1000, 500); //создать новый конструктор тарифов, внести суффикс и путь (название объекта) в json
-coffeeMachine.setWaterAmount(600); // упс, ошибка!
-coffeeMachine.enable();
-alert( coffeeMachine.getWaterAmount() ); // 450
-coffeeMachine.run();
-coffeeMachine.disable();
-
-*/
-
-
-
-class UpdateLegoClass {
-
-    constructor(firstName, lastName) {
-
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    walk() {
-        alert("I walk: " + this.firstName);
-    }
-
-
-}
-
-
-class UpdateLego extends UpdateLegoClass {
-    constructor(firstName, lastName) {
-        super();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.waterAmount = 0;
-        this.capacity = 500;
-    }
-    static createGuest() {
-        return new UpdateLego("Гость", "Сайта");
-    }
-
-    // геттер
-    get fullName() {
-        return `${this.firstName} ${this.lastName}`;
-    }
-
-    // сеттер
-    set fullName(newValue) {
-        [this.firstName, this.lastName] = newValue.split(' ');
-    }
-
-
-
-    // геттер
-    get Ot() {
-        return `${this.capacity}`;
-    }
-
-    // сеттер
-    set Ot(newValue) {
-
-        if (newValue < 0) {
-            throw new Error("Значение должно быть положительным");
-        }
-        if (newValue > this.capacity) {
-            throw new Error("Нельзя залить воды больше, чем " + this.capacity);
-        }
-
-        this.waterAmount = newValue;
-        this.capacity = 600;
-        //[this.firstName, this.lastName] = newValue.split(' ');
-        //this.waterAmount = newValue.split(' ');
-    }
-/*
-    walk() {
-        super.walk();
-        alert("...and jump!");
-    }*/
-
-
-
-
-
-    // вычисляемое название метода
-    ["test".toUpperCase()]() {
-        alert("PASSED!");
-    }
-
-}
-/*
-
-let user1 = UpdateLego.createGuest();
-alert( user1.firstName ); // Гость
-
-
-let user = new UpdateLego("Вася", "Пупков");
-alert( user.fullName ); // Вася Пупков
-user.fullName = "Иван Петров";
-
-user.Ot = "100";
-alert (user.Ot);
-alert( user.fullName ); // Иван Петров
-
-
-user.walk();
-new UpdateLego("Вася").walk();
-user.TEST(); // PASSED!
-*/
-
-
 
 
 
@@ -429,21 +277,6 @@ user.TEST(); // PASSED!
 
 
 
-
-    <fieldset class="switch" id="switch-radio_${type}" >
-        <input type="radio" name="switch-2_${type}" id="switch-radio-off-2_${type}" class="switch-radio switch-radio-off"  onchange='updateLegoInfo(this, "${type}")'">
-        <label for="switch-radio-off-2_${type}" class="switch-label switch-label-off">
-            Выкл.
-            <span class="switch-slider"></span>
-        </label>
-        <input type="radio" checked name="switch-2_${type}" id="switch-radio-on-2_${type}" class="switch-radio switch-radio-on"  onchange='updateLegoInfo(this, "${type}")'>
-        <label for="switch-radio-on-2_${type}" class="switch-label switch-label-on">
-            Вкл.
-            <span class="switch-slider"></span>
-        </label>
-    </fieldset><label for="switch-radio_${type}">ToV HARD</label>
-
-
 <h2 id="id-Тарифы[Тест]-СтоимостьвызововиSMS_${type}">Стоимость вызовов и SMS  </h2><p> </p>
 <h2 id="id-Тарифы[Тест]-Дополнительныеуслуги_${type}">Дополнительные услуги</h2><p> </p>`;
 
@@ -452,7 +285,37 @@ user.TEST(); // PASSED!
  }
 
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
+
+
+
+
+    var range = $('.input-range'),
+        value = $('.range-value');
+
+
+    range.attr('max', phrases.length - 1);
+    value.html(phrases[range.attr('value')].name);
+
+    range.on('input', function(){
+        value.html(`${phrases[this.value].name}`);
+        for (x in phrases)
+        {
+            if (this.value === x) value.html(`${phrases[x].name}`);
+        }
+        if (this.value==="3") {
+            document.getElementById("yopta_b_tafir_summary_input1").innerHTML = "Реклама Yota на странице инструмента по поиску тарифов";
+        }
+    });
+    ///////
+
+    var elem = document.getElementById('nameuserbla');
+
+
+
+
 
     StartInit(); //Общая инициализация
 
@@ -463,6 +326,19 @@ document.addEventListener('DOMContentLoaded', function() {
         placeholderValue: 'Выберите страну',
         searchPlaceholderValue: 'Наверное, это поле поиска..',
         placeholder: true,
+        loadingText: 'Loading...',
+        noResultsText: 'Не найдено вариантов. Реклама Yota в поисковой строке',
+        noChoicesText: 'Что-то пошло не так :(',
+        itemSelectText: 'Выбрать',
+        renderChoiceLimit: -1,
+        searchEnabled: true,
+        searchChoices: true,
+        searchFloor: 2,
+        searchResultLimit: 4,
+        position: 'bottom',
+        shouldSort: true,
+        prependValue: null,
+        appendValue: null,
         callbackOnCreateTemplates: function(strToEl) {
             var classNames = this.config.classNames;
             var itemSelectText = this.config.itemSelectText;
@@ -554,14 +430,9 @@ function VisibleClearBody(type) {
     document.getElementById("tminute_"+type).style.visibility = "visible";
     document.getElementById("tgbite_"+type).style.visibility = "visible";
 
-/*    document.getElementById("yopta_legoyota_plaphone").style.display = "none";
-    document.getElementById("yopta_legoyota_tabt").style.display = "none";*/
-    // document.getElementById("yopta_legoyota").style.visibility = "hidden";
-
     switch (type) {
         case "clear":
-            /*  document.getElementById("switch-radio-off-2").checked = false;
-              document.getElementById("switch-radio-on-2").checked = false;*/
+
             break;
         case "lego":case "plaphone":case "tabt":
         break;
@@ -572,31 +443,9 @@ function VisibleClearBody(type) {
 }
 
 {
- /*   function addOnWheel(elem, handler) {
-        if (elem.addEventListener) {
-            if ('onwheel' in document) {
-                // IE9+, FF17+
-                elem.addEventListener("wheel", handler);
-            }
-        }
-    }*/
-
     var scale = 1;
     var info = document.getElementById("yopta_b_tafir_summary_input");//
-   /* addOnWheel(info, function(e) {
-        var delta = e.deltaY || e.detail || e.wheelDelta;
 
-
-        if (delta=== 100) {
-            document.getElementById("switch-radio-on-2").checked = true;
-        } else if (delta === -100) {
-            document.getElementById("switch-radio-off-2").checked = true;
-        }
-        summaryOutput();
-        /!*info.innerHTML = +info.innerHTML + delta;*!/
-
-        e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-    });*/
 
     function mOver(obj) {
     }
@@ -739,10 +588,10 @@ function summaryOutput(type, cur_mCount, cur_mPrice, cur_gCount, cur_gPrice, opt
 
 
 
-    var hardToVmode = document.getElementById("switch-radio-on-2_"+type).checked;
+    var hardToVmode = document.getElementById("slider_phrase").value;
 
 
-    if (hardToVmode) {
+    if (hardToVmode === "0") {
         text = " Выбран пакет:\n  " + cur_mCount + " минут за " + cur_mPrice + " рублей\n + " + cur_gCount + " ГБ за " + cur_gPrice + " рублей";
         if (smscheck.length === 1) {
             text += "\n + " + unlimApps[10 - 1].name + ". ";
@@ -765,7 +614,7 @@ function summaryOutput(type, cur_mCount, cur_mPrice, cur_gCount, cur_gPrice, opt
         }
         if (smscheck.length === 1) { cur_sum += Number(unlimApps[10 - 1].price); }
         text += "\nОбщая стоимость " + cur_sum + " рублей ";
-    } else if (!hardToVmode)
+    } else if (hardToVmode === "1")
     {
 
         text = "";
@@ -846,6 +695,9 @@ function summaryOutput(type, cur_mCount, cur_mPrice, cur_gCount, cur_gPrice, opt
 
     }
 
+
+
+
     //TODO: Список выбранных приложений в массив. Объединить [трафик] и [минуты], [смс] [регион]
     //ToProcessText(type, sample, cur_mCount, cur_mPrice, cur_gCount, cur_gPrice, cur_sum, SmsStatus, selected_items);
 }
@@ -888,7 +740,7 @@ function summaryOutput2(type, apps, cminut, cgbites) {
 
 //Функция на обновление переменных по выбанным приложениям (plaphone)
 
-function checkApps(node, type) {
+function checkApps(node, type, apptine = null) {
     var text, appitems, appcheck, appall;
 
 
@@ -899,8 +751,17 @@ function checkApps(node, type) {
     appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps_'+type+'"]');        		//Все итемы приложжений
     appall = document.querySelector('input[type="checkbox"][name="select_apps_all_'+type+'"]'); 		//галочка "все"
 
+    if (apptine !== null ) appcheck = apptine;
 
-    ////////////// Обработчик чекбокса (все\по отдельности)
+    //////////// Обработчик чекбокса (все\по отдельности)
+    // var nodeClass = node.className;
+    if (node.className.search( /nameofclicktitle/i ) >= 0 ) { //str.search( /лю/i )
+        selected_items = [];
+        appall.checked = (appcheck.length === appitems.length) && (!appall.checked);
+        appcheck.forEach(function (item, i, arr) {
+            if (arr[i].value !== 0) selected_items[i] = arr[i].value;
+        });
+    }
     if( node.type === "checkbox") {
         if (node.value > appall.value) {
             selected_items = [];
@@ -933,6 +794,81 @@ function checkApps(node, type) {
 function updateLegoInfo(obj, types) {
      checkApps(obj, types);
      checkType(obj, types);
+
+}
+function PhraseUpdate(obj) {
+
+
+    if (obj.value <= 2) {
+        for (x in type_lego) {
+            checkApps(obj, type_lego[x]);
+            checkType(obj, type_lego[x]);
+        }
+    }
+
+}
+
+
+
+function getRandomInRange(min,max,l) {var arr = [],m = [],n = 0;
+        if (max - min < l-1) return;
+        for (var i=0; i<=(max-min); i++)m[i] = i + min;
+        for (var i=0; i<l; i++) {n = Math.floor(Math.random()*(m.length)); arr[i]=m.splice(n,1);};
+        return arr
+    }
+
+
+
+
+function randomLegoInfo(obj, types, mins, gbites) {
+
+
+    var gcheck = document.querySelectorAll('input[type="radio"][name="radio_trafic_'+types+'"]');        //Выбрано среди трафика
+    var mcheck = document.querySelectorAll('input[type="radio"][name="radio_minute_'+types+'"]');        //Выбрано среди минут
+    var appitems = document.querySelectorAll('input[type="checkbox"][name="select_apps_'+types+'"]');        		//Все итемы приложжений
+    var appall = document.querySelector('input[type="checkbox"][name="select_apps_all_'+types+'"]'); 		//галочка "все"
+
+
+    var let1 = getRandomInRange(1, (mcheck.length - 1), 1);
+    var let2 = getRandomInRange(1, (gcheck.length - 1), 1);
+
+    for(x1 in gcheck)
+    {
+        if (gcheck[x1].value === let1.toString())
+            gcheck[x1].checked = true;
+    }
+
+    for(x2 in mcheck)
+    {
+        if (mcheck[x2].value === let2.toString())
+            mcheck[x2].checked = true;
+    }
+
+
+
+    rangeCheckedApps = (rangeCheckedApps[0] > rangeCheckedApps[1]) ? [0, 0] : rangeCheckedApps;
+    var startRange  = (rangeCheckedApps[0] === 0) ? 1 : rangeCheckedApps[0];
+    var stopRange =  (rangeCheckedApps[1] === 0) ? appitems.length :
+        (rangeCheckedApps[1] >= appitems.length ) ? appitems.length  : rangeCheckedApps[1];
+
+    var favApps = (favoriteCheckedApps.length > 3) ?  favoriteCheckedApps : [1, appitems.length];
+    //TODO: пока не используется. Псевдорандом
+
+    var arr = getRandomInRange(1,appitems.length, getRandomInRange(startRange, stopRange, 1) );
+
+
+    for(x5 in appitems)  appitems[x5].checked = false;
+
+    for(x4 in appitems) {
+        for (x3 in arr) {
+
+            if (appitems[x4].value === arr[x3].toString())
+                appitems[x4].checked = true;
+        }
+    }
+    updateLegoInfo(obj, types);
+
+
 
 }
 
@@ -983,7 +919,7 @@ function addRow(type, region, mins, gbites, sms, snPrice, mePrice, youtube)
 
     //TODO: Перестать использовать таблицы, черт
     var tr1 = document.createElement('tr');
-    tr1.innerHTML = `<td nowrap id="labletd_${type}"><label class="layout-buttons_gb">Пакеты минут:  </label></td>`;
+    tr1.innerHTML = `<td nowrap id="labletd_${type}"><label class="layout-buttons_gb ${type} nameofclicktitle" onclick='randomLegoInfo(this, "${type}", "${mins.length}" , "${gbites.length}")'>Пакеты минут:  </label></td>`;
     elem.appendChild(tr1);
 
     mins.forEach(function(item,i,arr){
@@ -997,7 +933,7 @@ function addRow(type, region, mins, gbites, sms, snPrice, mePrice, youtube)
     while (elem1.firstChild) { if (elem1.firstChild) elem1.removeChild(elem1.firstChild);  }
 
     var tr2 = document.createElement('tr');
-    tr2.innerHTML = `<td nowrap id="labletd_${type}"><label class="layout-buttons_gb">Пакеты трафика:  </label></td>`;
+    tr2.innerHTML = `<td nowrap id="labletd_${type}"><label class="layout-buttons_gb ${type} nameofclicktitle" onclick='randomLegoInfo(this, "${type}", "${mins.length}" , "${gbites.length}")' >Пакеты трафика:  </label></td>`;
     elem1.appendChild(tr2);
 
     gbites.forEach(function(item,i,arr){
@@ -1056,7 +992,6 @@ function initLegoRates(region, callback) {
             }
         });
 
-
 }
 
 function initOtherRates(checked_region) {
@@ -1066,10 +1001,28 @@ function initOtherRates(checked_region) {
     var yopta_old_plaphone = document.getElementById('yopta_old_plaphone');
     var yopta_abca = document.getElementById('yopta_abca');
     var yopta_abcb = document.getElementById('yopta_abcb');
+    var yopta_legoyota_tabt = document.getElementById('yopta_legoyota_tabt');
+    var yopta_legoyota_plaphone = document.getElementById('yopta_legoyota_plaphone');
     var yopta_unlim_phone = document.getElementById('yopta_unlim_phone');
     var yopta_unlim_tab = document.getElementById('yopta_unlim_tab');
     var yopta_modem = document.getElementById('yopta_modem');
     var yopta_unlim_phone_archived = document.getElementById('yopta_unlim_phone_archived');
+
+
+    if (checked_region.have_modem ===  "false" && checked_region.have_voice ===  "false") {
+        yopta_modem.innerHTML = ` `;
+        yopta_unlim_phone.innerHTML = ` `;
+        yopta_unlim_tab.innerHTML = ` `;
+        yopta_old_plaphone.innerHTML = ` `;
+        yopta_abca.innerHTML = ` `;
+        yopta_abcb.innerHTML = ` `;
+        yopta_unlim_phone_archived.innerHTML = ` `;
+        yopta_unlim_phone.innerHTML = ` `;
+        yopta_legoyota_plaphone.innerHTML = ` `;
+        yopta_legoyota_tabt.innerHTML = ` `;
+        return;
+    }
+
 
 
     var unlim_phone = checked_region.ph_unlim.tariffs;
@@ -1241,9 +1194,10 @@ SMS/MMS — ${checked_region.sms_pag_tab} руб. за штуку.<br>
             <b>БСД и БГ</b><br>
             ${checked_region.modem.free}<br>
             </tr></tr></tbody>`;
-        yopta_modem.innerHTML = text_of_yopta_modem;
+    } else {
+        var text_of_yopta_modem = ` `;
     }
-
+    yopta_modem.innerHTML = text_of_yopta_modem;
 
 
 
@@ -1274,25 +1228,6 @@ function initOotRussiaRates(checked_contry) {
             }
         }
     });
-
-
-//     var unlim_phone = checked_region.ph_unlim.tariffs;
-//     var list_unlim_phone = "";
-//     var list_unlim_phone_archived = "";
-// // name = current, mins
-//     unlim_phone.forEach(function (e) {
-//
-//         if (e.name === "current") {
-//             for (x in e.mins) {
-//                 list_unlim_phone += `Пакет ${e.mins[x][0]} минут - ${e.mins[x][1]} рублей<br>`;
-//             }
-//         } else if (e.name === "archived") {
-//             for (x in e.mins) {
-//                 list_unlim_phone_archived += `Пакет ${e.mins[x][0]} минут - ${e.mins[x][1]} рублей<br>`;
-//             }
-//         }
-//
-//     });
 
 
 
@@ -1335,14 +1270,15 @@ function initRoamingRatesProviders(checked_contry, callback) {
 function initRoamingRates(checked_contry) {
 
 
-    var checked_contry = this;
+    checked_contry = this;
 
     var yopta_roaming_providers = document.getElementById('yopta_roaming_providers');
     var yopta_roaming_providers_lte = document.getElementById('yopta_roaming_providers_lte');
     var yopta_roaming = document.getElementById('yopta_roaming');
 
 
-                var text_of_yopta_roaming = `      <div className="b-roaming-operators-table i-bem"> 
+                var text_of_yopta_roaming = `      
+            <div className="b-roaming-operators-table i-bem"> 
             <tbody> 
             <tr><b>${checked_contry.rate.name}</b></tr><br>
             <tr><b>Интернет.</b><br>
@@ -1415,10 +1351,6 @@ function initRoamingRates(checked_contry) {
     if (operators === "") {
         element_yopta_roaming_providers.style.opacity = 0.3;
     } else {element_yopta_roaming_providers.style.opacity = 1;}
-
-
-
-
 
 }
 
@@ -1494,6 +1426,7 @@ class OptionsApps {
 
 document.onreadystatechange = function() {
     if (document.readyState === 'complete') {
+
         //fn();
     }
 };
