@@ -249,11 +249,11 @@ div .panel {
     min-height: 450px;
 }
 
-.yopta_b-region-search__formwrap > #regions_call  {
-    z-index: 999;
+#regions_call  {
+    z-index: 2000;
 }
-.yopta_b-region-search__formwrap > #countries_call, #roaming_call  {
-    z-index: 998;
+#countries_call, #roaming_call  {
+    z-index: 1998;
 }
 
 .yopta_b-region-search__formwrap {
