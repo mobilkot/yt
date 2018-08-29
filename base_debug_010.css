@@ -249,17 +249,13 @@ div .panel {
     min-height: 450px;
 }
 
-#regions_call  {
-    z-index: 2000;
-}
-#countries_call, #roaming_call  {
-    z-index: 1998;
-}
+
 
 .yopta_b-region-search__formwrap {
     position: relative;
     border: 1px solid #F3F3F3;
     width: 520px;
+    z-index: 999;
     border-top-color: #D8D8D8;
     font-size: 12px;
     padding: 0 0px 0 0px;
