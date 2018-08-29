@@ -143,7 +143,7 @@ function importRateOutRussia(jsondatas) {
 }
 
 
- 
+
 
 class UpdateLegoClass {
 
@@ -160,7 +160,7 @@ class UpdateLegoClass {
 
 }
 
- 
+
 function returnInfoBlock(type, text, title = "") {
 
     var htmlcode=``;
@@ -303,7 +303,7 @@ function createLegoBlock(type,callback) {
 
 
 
- 
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -334,80 +334,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var elem = document.getElementById('nameuserbla');
 
 
+
+
  
-
-
-
-
-    {
-        // Шаблон
-        var tmpl2 = 'За {{summary}} {{R1}} ({{R2}}) у Вас будет {{mcount}}  ' +
-            'минут для звонков на других операторов, {{n}} безлимитные звонки на ' +
-            'Yota и {{gcount}} {{gb2}} трафика для пользования интернетом';
-
-
-        var search = ["{{n}}", "{{gb1}}", "{{gb2}}", '{{R1}}', "{{", "}}"];
-        var replaceTo = ['\n', 'ГБ', "{{gb2}}", "&#8381;", '<%=', '%>'];
-        for (t = 0; t < search.length; t++) {
-            tmpl2 = tmpl2.replace(new RegExp(search[t], 'g'), replaceTo[t]);
-        }
-
-        // Шаблон
-        var tmpl = _.template(tmpl2);
-
-// Данные
-        var data = {
-            R2: "рублей", //рубля, рублей
-            summary: "200",
-            mcount: "300",
-            gcount: "6",
-            mprice: "150",
-            gprice: "150",
-            gb2: "гигабайт", //работа с числами
-            uapps1: "ВК, ОК, Instagram и Facebook", //к чему (безлимитный доступ к )
-            uapps2: "ВК (20р), ОК (20р), Instagram(20р) и Facebook(20р)", //что (Безлимитные )
-            uapps3: "ВК, ОК, Instagram по 20 рублей и Whatsapp за 10 рублей", //что (Безлимитные )
-            uapps4: "",
-            uapps5: "",
-            uapps6: "",
-            vk: "", //Все приложения, но основной шаблон для ВК
-            ok: "",
-            fb: "",
-            ig: "",
-            wh: "",
-            vi: "",
-            sk: "",
-            yt: "",
-            tw: "",
-            sm: "",
-
-        };
-        console.log(tmpl(data));
-        //alert(tmpl(data));
-        var hardToVmode = document.getElementById("test111");
-        hardToVmode.innerHTML = tmpl(data);
-// Минуты\Трафик\SMS\БМП
-        //----         if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text = `Подключи хоть что-нибудь, ну.. `; }
-        //---+         else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `только безлимитные SMS на всех операторов РФ. `; }
-        //+---         else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota без интернета.`; }
-        //+-+-         else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также безлимитные SMS без интернета.`; }
-        //--+-         else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, без дополнительного трафика.`; }
-        //--+1         else if (cur_mCount === "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${unlimpapps}, без дополнительного трафика, а также безлимитные SMS.`; }
-        //+-+-         else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, а также ${unlimpapps} без трафика.`; }
-        //+-++         else if (cur_mCount !== "0" && cur_gCount === "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов и безлимитные звонки на Yota, безлимитные SMS, а также ${unlimpapps} без трафика.`; }
-        //-+--         else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
-        //-+-+         else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_gCount} ${gbsclon} трафика для пользования интернетом, а также безлимитные SMS.`; }
-        //-++-         else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${unlimpapps}, а также ${cur_gCount} ${gbsclon} трафика для остальных целей`; }
-        //-+++         else if (cur_mCount === "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 1) { text += `безлимитные SMS, ${unlimpapps}, а также ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
-        //+++-         else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, а также ${unlimpapps}, ну и ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
-        //++++         else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length > 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, безлимитные SMS, ${unlimpapps}, ну и ${cur_gCount} ${gbsclon} трафика для остальных целей.`; }
-        //++--         else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 0) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota и ${cur_gCount} ${gbsclon} трафика для пользования интернетом`; }
-        //++-+         else if (cur_mCount !== "0" && cur_gCount !== "0" && selected_items.length === 0 && smscheck.length === 1) { text += `${cur_mCount} минут для звонков на других операторов, безлимитные звонки на Yota, безлимитные SMS и ${cur_gCount} ${gbsclon} трафика для пользования интернетом.`; }
-
-
-    }
-
-
 
     StartInit(); //Общая инициализация
 
@@ -539,7 +468,7 @@ function VisibleClearBody(type) {
 
 }
 
- 
+
 
 
 
